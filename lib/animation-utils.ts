@@ -8,7 +8,7 @@ export interface AnimateDoorOptions {
   duration?: number
 }
 
-export async function animateDoor({ direction, duration = 700 }: AnimateDoorOptions): Promise<void> {
+export async function animateDoor({ direction, duration = 1000 }: AnimateDoorOptions): Promise<void> {
   return new Promise((resolve) => {
     const footer = document.querySelector("[data-door-footer]") as HTMLElement
     if (!footer) {

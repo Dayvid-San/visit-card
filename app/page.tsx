@@ -7,28 +7,30 @@ import photoDayvid from "@/public/emBeloHorizonte.jpeg"
 
 export default function HomePage() {
   return (
-    <div className="container flex items-center justify-between px-4 py-16 md:py-24">
+    <div className="container px-4 py-16 md:py-24">
       {/* Hero Section */}
-      <Image src={photoDayvid} alt="Foto de Dayvid Santana"/>
-      <section className="mb-24 text-center">
-        <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
-          Olá, meu nome é 
-          <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">Dayvid</span>
-        </h1>
-        <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
-          Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho conhecimento em diferentes nichos, mas gosto principalmente de computadores, de automação e sinto satisfação em resolver problemas reais. Acredito que sempre existe mais de um caminho para a solução de um problema.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button size="lg" asChild>
-            <Link href="/portfolio">
-              Ver Portfolio <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link href="/programador">Conheça meu trabalho</Link>
-          </Button>
-        </div>
-      </section>
+      <div className="flex items-center justify-between">
+        <Image className="h-130 w-80" src={photoDayvid} alt="Foto de Dayvid Santana"/>
+        <section className="mb-24 text-center">
+          <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
+            Olá, meu nome é 
+            <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">Dayvid</span>
+          </h1>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
+            Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho conhecimento em diferentes nichos, mas gosto principalmente de computadores, de automação e sinto satisfação em resolver problemas reais. Acredito que sempre existe mais de um caminho para a solução de um problema.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button size="lg" asChild>
+              <Link href="/portfolio">
+                Ver Portfolio <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/programador">Conheça meu trabalho</Link>
+            </Button>
+          </div>
+        </section>
+      </div>
 
       {/* About Section */}
       <section className="mx-auto max-w-4xl">

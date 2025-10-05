@@ -9,7 +9,7 @@ export function Footer() {
     >
       <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between px-4">
         <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Dayvid. All rights reserved.</p>
-        <p className="text-sm text-muted-foreground">Built with Blood</p>
+        <p className="text-sm text-muted-foreground">Built with Blood and Code</p>
       </div>
     </footer>
   )
