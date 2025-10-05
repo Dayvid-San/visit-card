@@ -2,15 +2,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import photoDayvid from "@/public/emBeloHorizonte.jpeg"
 
 export default function HomePage() {
-  const nameUser = "Dayvid Santana"
   return (
-    <div className="container px-4 py-16 md:py-24">
+    <div className="container flex items-center justify-between px-4 py-16 md:py-24">
       {/* Hero Section */}
+      <Image src={photoDayvid} alt="Foto de Dayvid Santana"/>
       <section className="mb-24 text-center">
         <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
-          Olá, meu nome é {nameUser}
+          Olá, meu nome é 
           <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">Dayvid</span>
         </h1>
         <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
