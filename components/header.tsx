@@ -20,10 +20,10 @@ const navLinks = [
 ]
 
 const socialLinks = [
-  { href: "https://github.com/dayvid", icon: Github, label: "GitHub" },
-  { href: "https://linkedin.com/in/dayvid", icon: Linkedin, label: "LinkedIn" },
-  { href: "https://instagram.com/dayvid", icon: Instagram, label: "Instagram" },
-  { href: "mailto:dayvid@example.com", icon: Mail, label: "Email" },
+  { href: "https://github.com/Dayvid-San", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/dayvid-santana-jr/", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://instagram.com/dayvid_jr_", icon: Instagram, label: "Instagram" },
+  { href: "mailto:santana.dayvid@outlook.com", icon: Mail, label: "Email" },
 ]
 
 export function Header() {
