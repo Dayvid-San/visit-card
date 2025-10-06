@@ -29,11 +29,15 @@ export default function EmpreendedorPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Empreendedor</h1>
-        <p className="mb-12 text-lg text-muted-foreground text-pretty">
-          Transformo ideias em negócios reais. Com visão estratégica e execução prática, desenvolvo produtos e serviços
-          que resolvem problemas reais e criam impacto positivo no mercado.
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Desde cedo, sempre tive a inquietude de criar, inventar e solucionar problemas usando o que sabia, seja através da marcenaria ou da eletrônica. Quando comecei a programar, tive acesso a ferramentas mais sofisticadas e me empolguei com o que poderia criar.
         </p>
-
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Ao longo da minha jornada, acumulei experiência em diversos nichos, o que me proporcionou uma visão ampla e estratégica do mundo dos negócios. Conheci muitas pessoas que me motivaram a abrir minha própria empresa e tive a coragem de arriscar abrir uma. "Até onde eu conseguiria chegar com isso?", pensei. Um colega designer disse que um cliente precisava de um web app. Querendo deixar de ser designer gráfico, aproveitei a oportunidade. Assim nasceu a TYTO em julho de 2021.
+        </p>
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Em minha busca por uma área de especialização, explorei diversos setores para desenvolver um app que pudesse resolver problemas reais, considerando áreas como condomínios, hotelaria e corretoras de investimentos. Um dia, recebi uma sugestão inesperada de um amigo: criar uma solução para uma necessidade específica dentro da engenharia diagnóstica. A ideia não me convenceu de imediato, especialmente porque eu estava considerando outro projeto que parecia mais promissor.
+        </p>
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">Princípios Empreendedores</h2>
           <div className="grid gap-6 md:grid-cols-2">

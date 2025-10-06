@@ -34,9 +34,14 @@ export default function UniversitarioPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Universitário</h1>
-        <p className="mb-12 text-lg text-muted-foreground text-pretty">
-          Pesquisador dedicado ao avanço do conhecimento científico na área de tecnologia. Meu trabalho acadêmico
-          combina rigor metodológico com aplicação prática, buscando soluções inovadoras para desafios reais.
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Para mim, a Universidade era o caminho natural. Então, por sugestão de um amigo, escolhi Ciências da Computação. Em 2020, me matriculei no curso pela Universidade Federal de Sergipe, onde desenvolvi minhas habilidades em lógica matemática e trabalho em equipe. Liderei grupos de trabalhos e estudos, além de iniciar meu aprendizado em tecnologias importantes para o desenvolvimento das minhas aplicações atuais, como o JavaScript (ECMA6).
+        </p>
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Em julho de 2021, me juntei a três prodígios da minha faculdade: Willian Silveira, Myck Willian e Nathan Monteiro para fundar a Tyto (Taito), um grupo de estudos em que nos ajudávamos e compartilhávamos material de estudo.
+        </p>
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Na universidade, tive a oportunidade de conhecer muitos talentos. Começamos a nos reunir em projetos que considerávamos interessantes e, com o tempo, fui agregando novas pessoas ao grupo de amigos que já me acompanhavam. Dessa colaboração nasceram várias iniciativas, que inicialmente se transformaram em pesquisas acadêmicas e, mais tarde, evoluíram para startups, como EngScan e Constructor.
         </p>
 
         <div className="mb-16">

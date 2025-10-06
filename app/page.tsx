@@ -3,18 +3,18 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import photoDayvid from "@/public/emBeloHorizonte.jpeg"
+import photoDayvid from "@/public/emBeloHorizonte.jpg"
 
 export default function HomePage() {
   return (
     <div className="container px-4 py-16 md:py-24">
       {/* Hero Section */}
-      <div className="flex items-center justify-between">
-        <Image className="h-130 w-80" src={photoDayvid} alt="Foto de Dayvid Santana"/>
+      <div className="flex items-stretch justify-around">
+        <Image className="h-90 w-95 rounded-full" src={photoDayvid} alt="Foto de Dayvid Santana"/>
         <section className="mb-24 text-center">
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
-            Olá, meu nome é 
-            <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">Dayvid</span>
+            Olá, meu nome é
+            <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent"> Dayvid</span>
           </h1>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
             Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho conhecimento em diferentes nichos, mas gosto principalmente de computadores, de automação e sinto satisfação em resolver problemas reais. Acredito que sempre existe mais de um caminho para a solução de um problema.
@@ -36,7 +36,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-4xl">
         <Card>
           <CardContent className="p-8 md:p-12">
-            <h2 className="mb-6 text-3xl font-bold text-balance">Sobre Dayvid</h2>
+            <h2 className="mb-6 text-3xl font-bold text-balance">Sobre mim</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 Sou um profissional multifacetado que transita entre o mundo da programação, do empreendedorismo e da

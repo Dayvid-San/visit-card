@@ -7,19 +7,19 @@ const skills = [
     icon: Code2,
     title: "Front-end Development",
     description: "React, Angular, Java, Python, Next.js, TypeScript, Tailwind CSS",
-    tags: ["React", "Angular", "Java", "Python", "Next.js", "TypeScript", "Tailwind"],
+    tags: ["React", "Angular", "Next.js", "TypeScript", "Tailwind"],
   },
   {
     icon: Database,
     title: "Back-end Development",
-    description: "Node.js, PostgreSQL, MongoDB, Redis",
-    tags: ["Node.js", "PostgreSQL", "MongoDB", "Redis"],
+    description: "Node.js, Java, Python, Springboot PostgreSQL, MongoDB, Redis",
+    tags: ["Node.js", "Java", "Python", "Springboot", "PostgreSQL", "MongoDB", "Redis"],
   },
   {
     icon: Globe,
     title: "Web Technologies",
-    description: "REST APIs, GraphQL, WebSockets, PWA",
-    tags: ["REST", "GraphQL", "WebSockets", "PWA"],
+    description: "REST APIs, GraphQL, WebSockets",
+    tags: ["REST", "GraphQL", "WebSockets",],
   },
   {
     icon: Smartphone,
@@ -34,9 +34,8 @@ export default function ProgramadorPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Programador</h1>
-        <p className="mb-12 text-lg text-muted-foreground text-pretty">
-          Desenvolvedor full-stack especializado em criar experiências web modernas, performáticas e acessíveis.
-          Apaixonado por código limpo, arquitetura escalável e as melhores práticas de desenvolvimento.
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
+          Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor.
         </p>
 
         <div className="mb-16">
