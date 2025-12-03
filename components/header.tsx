@@ -1,10 +1,10 @@
 "use client"
 
 import type React from "react"
-
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Github, Linkedin, Instagram, Mail, Moon, Sun, Volume2, VolumeX } from "lucide-react"
+import { Github, Linkedin, Instagram, Mail, Moon, Sun, Volume2, VolumeX, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { useAudio } from "@/components/audio-provider"
@@ -31,17 +31,24 @@ export function Header() {
   const { theme, toggleTheme } = useTheme()
   const { isMuted, toggleMute } = useAudio()
   const { navigateWithDoor, isTransitioning } = useDoorTransition()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     if (pathname !== href) {
       navigateWithDoor(href)
     }
+    setIsMenuOpen(false)
   }
 
   const handleSocialClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
     navigateWithDoor(href, true)
+    setIsMenuOpen(false)
+  }
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
   }
 
   return (
@@ -58,7 +65,7 @@ export function Header() {
           <span className="text-lg font-bold">Dayvid</span>
         </Link>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
@@ -75,8 +82,8 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Social Icons & Controls */}
-        <div className="flex items-center space-x-2">
+        {/* Desktop Social Icons & Controls */}
+        <div className="hidden md:flex items-center space-x-2">
           {socialLinks.map((social) => (
             <Button
               key={social.href}
@@ -110,29 +117,85 @@ export function Header() {
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
         </div>
+
+        {/* Hamburger Button for Mobile */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
       </div>
 
-      {/* Mobile Navigation */}
-      <nav
-        className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur"
-        aria-label="Mobile navigation"
-      >
-        <div className="container flex items-center justify-around px-4 py-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`text-xs font-medium transition-colors hover:text-primary ${
-                pathname === link.href ? "text-foreground" : "text-muted-foreground"
-              }`}
-              aria-current={pathname === link.href ? "page" : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      {/* Mobile Hamburger Menu */}
+      {isMenuOpen && (
+        <nav
+          className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur"
+          aria-label="Mobile navigation"
+        >
+          <div className="container flex flex-col items-start space-y-4 px-4 py-4">
+            {/* Navigation Links */}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`text-sm font-medium transition-colors hover:text-primary w-full py-2 ${
+                  pathname === link.href ? "text-foreground" : "text-muted-foreground"
+                }`}
+                aria-current={pathname === link.href ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <hr className="w-full border-t border-border/40" />
+            {/* Social Links */}
+            <div className="flex flex-col space-y-4 w-full">
+              <span className="text-sm font-medium text-muted-foreground">Redes Sociais</span>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  onClick={(e) => handleSocialClick(e, social.href)}
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                  aria-label={social.label}
+                >
+                  <social.icon className="h-4 w-4" />
+                  <span>{social.label}</span>
+                </a>
+              ))}
+            </div>
+            <hr className="w-full border-t border-border/40" />
+            {/* Theme and Audio Controls */}
+            <div className="flex items-center justify-between w-full">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="flex items-center space-x-2"
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              >
+                {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+                <span>{theme === "light" ? "Modo Escuro" : "Modo Claro"}</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMute}
+                className="flex items-center space-x-2"
+                aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
+              >
+                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                <span>{isMuted ? "Ativar Som" : "Desativar Som"}</span>
+              </Button>
+            </div>
+          </div>
+        </nav>
+      )}
     </header>
   )
 }

@@ -6,48 +6,59 @@ import Image from "next/image"
 
 const programmerProjects = [
   {
-    title: "E-commerce Platform",
-    description: "Full-stack e-commerce solution with payment integration, inventory management, and admin dashboard.",
+    title: "EngScan",
+    description: "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
     image: "/modern-ecommerce-dashboard.png",
-    tags: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
-    date: "2024",
-    role: "Lead Developer",
-    github: "https://github.com/dayvid/ecommerce",
-    demo: "https://ecommerce-demo.example.com",
-  },
-  {
-    title: "Real-time Chat Application",
-    description: "Scalable chat application with WebSocket support, file sharing, and end-to-end encryption.",
-    image: "/chat-application-interface.png",
-    tags: ["React", "Node.js", "Socket.io", "Redis"],
-    date: "2023",
+    tags: ["Nest.js", "Angular", "Python", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
+    date: "2024-2025",
     role: "Full-stack Developer",
-    github: "https://github.com/dayvid/chat-app",
-    demo: "https://chat-demo.example.com",
+    github: "/protfolio/engscan",
+    demo: "https://engscan.com",
   },
   {
-    title: "Task Management System",
-    description: "Collaborative task management tool with real-time updates, team workspaces, and analytics.",
+    title: "TYTO.club",
+    description: "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
     image: "/task-management-kanban.png",
-    tags: ["Next.js", "GraphQL", "MongoDB", "Tailwind"],
-    date: "2023",
-    role: "Frontend Lead",
-    github: "https://github.com/dayvid/task-manager",
-    demo: "https://tasks-demo.example.com",
+    tags: ["Next.JS", "Springboot", "Java", "Typescript", "Python", "Postgres"],
+    date: "2025",
+    role: "Full-stack Developer",
+    github: "https://github.com/Dayvid-San/tyto-server",
+    demo: "https://tytocode.com.br/tytoclub",
+  },
+  {
+    title: "Atena",
+    description: "Athena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
+    image: "/chat-application-interface.png",
+    tags: ["Python", "SQLite", "Tailwind"],
+    date: "2025",
+    role: "Full",
+    github: "https://github.com/Dayvid-San/Bot-XP-Discord",
+    demo: "https://tytocode.com.br/tytoclub/bot",
+  },
+  {
+    title: "Owlcoin",
+    description: "Owlcoin (OWL) é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
+    image: "/modern-ecommerce-dashboard.png",
+    tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
+    date: "2025",
+    role: "Full",
+    github: "https://github.com/Dayvid-San",
+    demo: "https://tytocode.com.br/tytoclub/coin",
   },
 ]
 
 const researchProjects = [
   {
-    title: "Machine Learning for Medical Diagnosis",
-    description: "Deep learning model for early detection of diseases from medical imaging data with 94% accuracy.",
+    title: "Machine Learning na Engenharia Civil Diagnóstica",
+    description: "Deep learning model para avaliação de .",
     image: "/medical-ai-neural-network.jpg",
     tags: ["Python", "TensorFlow", "Computer Vision", "Healthcare"],
     date: "2024",
     role: "Lead Researcher",
-    paper: "https://doi.org/10.1234/example",
-    dataset: "https://dataset.example.com",
+    paper: "https://medium.com/@dayvid-san",
+    dataset: "",
   },
+  /*
   {
     title: "Natural Language Processing for Sentiment Analysis",
     description: "NLP system for analyzing sentiment in social media posts with multilingual support.",
@@ -67,6 +78,7 @@ const researchProjects = [
     role: "Principal Investigator",
     paper: "https://doi.org/10.1234/example3",
   },
+  */
 ]
 
 export default function PortfolioPage() {
@@ -76,14 +88,13 @@ export default function PortfolioPage() {
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Portfolio</h1>
         <p className="mb-16 text-lg text-muted-foreground text-pretty">
           Uma seleção dos meus projetos como programador e pesquisador, demonstrando a aplicação prática de tecnologias
-          modernas e contribuições científicas.
+          modernas e contribuições científicas e acadêmicas.
         </p>
 
         {/* Programmer Section */}
         <section className="mb-24">
           <div className="mb-8 flex items-center gap-3">
-            <div className="h-1 w-12 bg-primary" />
-            <h2 className="text-3xl font-bold">Programmer</h2>
+            <h2 className="text-3xl font-bold">Programador</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {programmerProjects.map((project) => (
@@ -139,15 +150,14 @@ export default function PortfolioPage() {
         {/* Researcher Section */}
         <section>
           <div className="mb-8 flex items-center gap-3">
-            <div className="h-1 w-12 bg-chart-1" />
-            <h2 className="text-3xl font-bold">Researcher</h2>
+            <h2 className="text-3xl font-bold">Pesquisador</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {researchProjects.map((project) => (
               <Card key={project.title} className="flex flex-col overflow-hidden">
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
-                    src={project.image || "/placeholder.svg"}
+                    src={project.image || "/placeholderSe quiser, eu posso montar ￼￼um diagrama arquitetural completo￼￼ mostrando como Owncoin se conecta ao Clube, ao MMORPG, ao Banco do Clube e às carteiras dos usuários. Quer essa versão diagramada?.svg"}
                     alt={project.title}
                     fill
                     className="object-cover transition-transform hover:scale-105"

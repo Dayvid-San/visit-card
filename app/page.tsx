@@ -3,14 +3,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import photoDayvid from "@/public/emBeloHorizonte.jpg"
+
 
 export default function HomePage() {
+  const photoDayvid = 'https://github.com/user-attachments/assets/cc3f329a-9149-4405-9f7f-2e5e8129929b'
   return (
     <div className="container px-4 py-16 md:py-24">
       {/* Hero Section */}
       <div className="flex items-stretch justify-around">
-        <Image className="h-90 w-95 rounded-full" src={photoDayvid} alt="Foto de Dayvid Santana"/>
         <section className="mb-24 text-center">
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
             Olá, meu nome é
