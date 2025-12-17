@@ -3,24 +3,24 @@ import { Lightbulb, Target, Users, TrendingUp } from "lucide-react"
 
 const principles = [
   {
-    icon: Lightbulb,
-    title: "Inovação",
-    description: "Busco constantemente novas formas de resolver problemas e criar valor para os usuários.",
+    icon: TrendingUp,
+    title: "Visão de longo prazo",
+    description: "Metas além do próximo trimestre com sustentabilidade. Faço uso de roadmap público, projetos em curso, decisões que priorizam durabilidade.",
   },
   {
-    icon: Target,
-    title: "Foco no Cliente",
-    description: "Entendo profundamente as necessidades dos clientes antes de desenvolver soluções.",
+    icon: Lightbulb,
+    title: "Curiosidade e aprendizagem contínua",
+    description: "Sempre estudando coisas novas e validando ideias. Procuro entender todo o nicho em que trabalho.",
   },
   {
     icon: Users,
     title: "Colaboração",
-    description: "Acredito no poder de equipes multidisciplinares trabalhando juntas por um objetivo comum.",
+    description: "Faço uso de multíplas equipes, seja de desenvolvimento ou de pesquisa, orientadas a resolver problemas reais com decisões concretas usando tecnologias modernas que realmente resolvem o problema, não apenas por estar no hype.",
   },
   {
-    icon: TrendingUp,
-    title: "Crescimento Sustentável",
-    description: "Construo negócios pensando no longo prazo, com bases sólidas e escaláveis.",
+    icon: Target,
+    title: "Foco no cliente/usuário",
+    description: "Priorizo valor real com estudos de caso e feedback de usuários, métricas de uso e uma verificação do antes e depois.",
   },
 ]
 
@@ -54,7 +54,7 @@ export default function EmpreendedorPage() {
             ))}
           </div>
         </div>
-
+	{/*
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">Abordagem</h2>
           <Card>
@@ -92,16 +92,13 @@ export default function EmpreendedorPage() {
             </CardContent>
           </Card>
         </div>
-
+	*/}
         <div>
           <h2 className="mb-6 text-2xl font-bold">Visão</h2>
           <Card>
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                Acredito que a tecnologia é uma ferramenta poderosa para democratizar acesso, criar oportunidades e
-                melhorar a qualidade de vida das pessoas. Meu objetivo como empreendedor é construir negócios que não
-                apenas gerem valor econômico, mas também contribuam positivamente para a sociedade, promovendo inclusão,
-                sustentabilidade e inovação responsável.
+                Acredito que sempre existe mais de um caminho para a solução de um problema.
               </p>
             </CardContent>
           </Card>

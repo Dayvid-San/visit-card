@@ -4,25 +4,25 @@ import { BookOpen, GraduationCap, FlaskConical, Award } from "lucide-react"
 
 const researchAreas = [
   {
-    icon: FlaskConical,
-    title: "Inteligência Artificial",
+    icon: Award,
+    title: "Redes Neurais aplicadas a Engenharia Civil Diagnóstica",
     description: "Machine Learning, Deep Learning, NLP",
-    tags: ["ML", "Deep Learning", "NLP", "Computer Vision"],
+    tags: ["ML", "Deep Learning", "NLP", "CNN", "Python"],
   },
   {
     icon: BookOpen,
-    title: "Ciência de Dados",
+    title: "Blockchain",
     description: "Análise de dados, visualização, estatística",
-    tags: ["Python", "R", "Data Analysis", "Statistics"],
+    tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
+  },
+  {
+    icon: FlaskConical,
+    title: "Mapeamento animal na agropecuária",
+    description: "Arquitetura, padrões, metodologias",
+    tags: ["Microcontroladores", "Python", "C"],
   },
   {
     icon: GraduationCap,
-    title: "Engenharia de Software",
-    description: "Arquitetura, padrões, metodologias",
-    tags: ["Architecture", "Design Patterns", "Agile"],
-  },
-  {
-    icon: Award,
     title: "Pesquisa Aplicada",
     description: "Soluções práticas para problemas reais",
     tags: ["Applied Research", "Innovation", "Impact"],
@@ -69,7 +69,7 @@ export default function UniversitarioPage() {
             ))}
           </div>
         </div>
-
+	{/*
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">Metodologia de Pesquisa</h2>
           <Card>
@@ -114,19 +114,16 @@ export default function UniversitarioPage() {
             </CardContent>
           </Card>
         </div>
-
+	*/}
         <div>
           <h2 className="mb-6 text-2xl font-bold">Contribuições Acadêmicas</h2>
           <Card>
             <CardContent className="p-8">
               <p className="mb-4 text-muted-foreground leading-relaxed">
-                Minha pesquisa foca na interseção entre teoria e prática, buscando não apenas avançar o conhecimento
-                científico, mas também criar soluções que possam ser aplicadas em contextos reais.
+                Fundador do clube de tecnologia e computação (TYTO.club) e também cofundador da Liga Acadêmica de Desenvolvimento Web da UFS, tenho atuado na interseção entre ensino, pesquisa e aplicação prática. Ao longo dos anos, ensinei muitos estudantes de diferentes cursos a programar, criando pontes entre teoria e prática.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Participo ativamente da comunidade acadêmica através de publicações em conferências e periódicos,
-                colaborações com outros pesquisadores, e orientação de estudantes. Acredito que a ciência deve ser
-                acessível e que o conhecimento gerado na universidade deve beneficiar a sociedade como um todo.
+                Iniciei pesquisas acadêmicas autônomas e, dentro do TYTO.club, estruturei um laboratório de pesquisa e um fluxo claro de transformação: da investigação, prototipagem e implementação social. Esse processo permitiu estender o clube para outros estados e garantir que os resultados acadêmicos gerem impacto real na comunidade, seja por ferramentas, parcerias ou projetos aplicados.
               </p>
             </CardContent>
           </Card>
