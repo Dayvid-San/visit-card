@@ -4,7 +4,32 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, FileText } from "lucide-react"
 import Image from "next/image"
 
-const programmerProjects = [
+
+interface ProgrammerProject {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  date: string;
+  role: string;
+  github: string; 
+  demo?: string;  
+}
+
+interface ResearchProject {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  date: string;
+  role: string;
+  paper?: string;  
+  dataset?: string; 
+  github?: string; 
+}
+
+
+const programmerProjects: ProgrammerProject[] = [
   {
     title: "EngScan",
     description: "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
@@ -47,7 +72,7 @@ const programmerProjects = [
   },
 ]
 
-const researchProjects = [
+const researchProjects: ResearchProject[] = [
   {
     title: "Machine Learning na Engenharia Civil Diagnóstica",
     description: "Deep learning model para avaliação de .",

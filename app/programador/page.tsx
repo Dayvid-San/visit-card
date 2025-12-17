@@ -5,27 +5,27 @@ import { Code2, Database, Globe, Smartphone } from "lucide-react"
 const skills = [
   {
     icon: Code2,
-    title: "Front-end Development",
+    title: "Front-end",
     description: "React, Angular, Java, Python, Next.js, TypeScript, Tailwind CSS",
     tags: ["React", "Angular", "Next.js", "TypeScript", "Tailwind"],
   },
   {
     icon: Database,
-    title: "Back-end Development",
+    title: "Back-end",
     description: "Node.js, Java, Python, Springboot PostgreSQL, MongoDB, Redis",
-    tags: ["Node.js", "Java", "Python", "Springboot", "PostgreSQL", "MongoDB", "Redis"],
+    tags: ["Node.js", "Java", "Python,", "Springboot", "PostgreSQL", "MongoDB", "Redis"],
   },
   {
     icon: Globe,
-    title: "Web Technologies",
+    title: "Outras tecnologias Web",
     description: "REST APIs, GraphQL, WebSockets",
     tags: ["REST", "GraphQL", "WebSockets",],
   },
   {
-    icon: Smartphone,
-    title: "Mobile & Responsive",
-    description: "Mobile-first design, responsive layouts",
-    tags: ["Mobile-first", "Responsive", "Accessibility"],
+    icon: FlaskConical,
+    title: "Inteligencia Artificial",
+    description: "Uso, adaptações e desenvolvimento de modelos de acordo com a necessidade da aplicação",
+    tags: ["ML", "DL", "CNN"],
   },
 ]
 
@@ -63,7 +63,8 @@ export default function ProgramadorPage() {
             ))}
           </div>
         </div>
-
+        
+	{/*
         <div>
           <h2 className="mb-6 text-2xl font-bold">Filosofia de Desenvolvimento</h2>
           <Card>
@@ -101,6 +102,7 @@ export default function ProgramadorPage() {
             </CardContent>
           </Card>
         </div>
+        */}
       </div>
     </div>
   )
