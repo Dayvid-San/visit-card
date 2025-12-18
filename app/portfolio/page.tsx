@@ -37,7 +37,7 @@ const programmerProjects: ProgrammerProject[] = [
     tags: ["Nest.js", "Angular", "Python", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
     date: "2024-2025",
     role: "Full-stack Developer",
-    github: "/protfolio/engscan",
+    github: "/portfolio/engscan",
     demo: "https://engscan.com",
   },
   {
