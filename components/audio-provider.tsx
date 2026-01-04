@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useEffect, useState, useRef } from "react"
 
 interface AudioContextType {
@@ -24,19 +23,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsMuted(stored === "true")
     }
 
-    // Preload audio
-    const audio = new Audio()
-
-    // Try .mp3 first, fallback to .ogg
-    audio.src = "/assets/sounds/door-close-futuristic.mp3"
-    audio.preload = "auto"
-    audio.volume = 0.5
-
-    audio.addEventListener("error", () => {
-      console.log("[v0] MP3 failed, trying OGG fallback")
-      audio.src = "/assets/sounds/door-close-futuristic.ogg"
-      audio.load()
-    })
+    // Criando o áudio apenas uma vez e apontando direto para o .ogg
+    const audio = new Audio("/assets/sounds/door-close-futuristic.ogg");
+    audio.preload = "auto";
+    audio.volume = 0.5;
 
     audioRef.current = audio
 
@@ -64,11 +54,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioRef.current.currentTime = 0
       await audioRef.current.play()
     } catch (error) {
-      console.log("[v0] Audio playback blocked or failed:", error)
+      console.log("[Audio] Playback blocked or failed:", error)
     }
   }
 
-  return <AudioContext.Provider value={{ isMuted, toggleMute, playDoorSound }}>{children}</AudioContext.Provider>
+  return (
+    <AudioContext.Provider value={{ isMuted, toggleMute, playDoorSound }}>
+      {children}
+    </AudioContext.Provider>
+  )
 }
 
 export function useAudio() {
