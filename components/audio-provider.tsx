@@ -23,7 +23,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsMuted(stored === "true")
     }
 
-    // Criando o áudio apenas uma vez e apontando direto para o .ogg
     const audio = new Audio("/assets/sounds/door-close-futuristic.ogg");
     audio.preload = "auto";
     audio.volume = 0.5;
@@ -51,12 +50,33 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (isMuted || !audioRef.current) return
 
     try {
-      audioRef.current.currentTime = 0
-      await audioRef.current.play()
+      const audio = audioRef.current;
+      audio.volume = 0.5; // Garante o volume inicial
+      audio.currentTime = 0; // Reinicia o áudio
+      await audio.play();
+
+      // Inicia o processo de encerramento aos 1.2 segundos (1200ms)
+      // para completar o ciclo total em 1.5 segundos
+      setTimeout(() => {
+        if (!audio) return;
+
+        const fadeInterval = setInterval(() => {
+          // Se o volume ainda for maior que 0.05, diminui gradualmente
+          if (audio.volume > 0.05) {
+            audio.volume = Math.max(0, audio.volume - 0.05);
+          } else {
+            // Quando o volume estiver quase no zero, pausa e limpa o intervalo
+            audio.pause();
+            clearInterval(fadeInterval);
+            audio.volume = 0.5; // Reseta o volume para a próxima execução
+          }
+        }, 30); // Frequência do fade (mais rápido = mais suave)
+      }, 1200);
+
     } catch (error) {
-      console.log("[Audio] Playback blocked or failed:", error)
+      console.log("[Audio] Playback blocked or failed:", error);
     }
-  }
+  };
 
   return (
     <AudioContext.Provider value={{ isMuted, toggleMute, playDoorSound }}>
