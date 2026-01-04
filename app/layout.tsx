@@ -9,7 +9,7 @@ import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Dayvid Santana",
-  description: "Personal website of Dayvid - Programmer, Entrepreneur, and University Researcher",
+  description: "Programador, pesquisador e empreendedor",
   generator: "v0.app",
 }
 

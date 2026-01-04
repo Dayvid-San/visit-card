@@ -107,7 +107,7 @@ const researchProjects: ResearchProject[] = [
     tags: ["Python", "TensorFlow", "Computer Vision", "Healthcare"],
     date: "2024",
     role: "Lead Researcher",
-    paper: "https://medium.com/@dayvid-san",
+    paper: "https://medium.com/@dayvidsan/aplica%C3%A7%C3%A3o-da-computa%C3%A7%C3%A3o-na-engenharia-civil-diagn%C3%B3stica-64a0efb464dc",
     dataset: "",
   },
   /*
