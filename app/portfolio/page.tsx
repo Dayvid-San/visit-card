@@ -1,9 +1,14 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, FileText } from "lucide-react"
-import Image from "next/image"
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, Github, FileText } from "lucide-react";
+import Image from "next/image";
 
 interface ProgrammerProject {
   title: string;
@@ -12,8 +17,8 @@ interface ProgrammerProject {
   tags: string[];
   date: string;
   role: string;
-  github: string; 
-  demo?: string;  
+  github: string;
+  demo?: string;
 }
 
 interface ResearchProject {
@@ -23,18 +28,26 @@ interface ResearchProject {
   tags: string[];
   date: string;
   role: string;
-  paper?: string;  
-  dataset?: string; 
-  github?: string; 
+  paper?: string;
+  dataset?: string;
+  github?: string;
 }
-
 
 const programmerProjects: ProgrammerProject[] = [
   {
     title: "EngScan",
-    description: "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
+    description:
+      "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
     image: "/modern-ecommerce-dashboard.png",
-    tags: ["Nest.js", "Angular", "Python", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
+    tags: [
+      "Nest.js",
+      "Angular",
+      "Python",
+      "TypeScript",
+      "Tailwind",
+      "PostgreSQL",
+      "Stripe",
+    ],
     date: "2024-2025",
     role: "Full-stack Developer",
     github: "/portfolio/engscan",
@@ -42,7 +55,8 @@ const programmerProjects: ProgrammerProject[] = [
   },
   {
     title: "TYTO.club",
-    description: "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
+    description:
+      "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
     image: "/task-management-kanban.png",
     tags: ["Next.JS", "Springboot", "Java", "Typescript", "Python", "Postgres"],
     date: "2025",
@@ -52,7 +66,8 @@ const programmerProjects: ProgrammerProject[] = [
   },
   {
     title: "Atena",
-    description: "Athena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
+    description:
+      "Athena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
     image: "/chat-application-interface.png",
     tags: ["Python", "SQLite", "Tailwind"],
     date: "2025",
@@ -62,7 +77,8 @@ const programmerProjects: ProgrammerProject[] = [
   },
   {
     title: "Owlcoin",
-    description: "Owlcoin (OWL) é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
+    description:
+      "Owlcoin (OWL) é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
     image: "/modern-ecommerce-dashboard.png",
     tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
     date: "2025",
@@ -70,7 +86,18 @@ const programmerProjects: ProgrammerProject[] = [
     github: "https://github.com/Dayvid-San",
     demo: "https://tytocode.com.br/tytoclub/coin",
   },
-]
+  {
+    title: "Collis delus Angelus",
+    description:
+      "Jogo MMORPG de estratégia e investigação. Os jogadores podem tanto lutar em grupos quanto sozinhos assim também fazem trocas comerciais, investem em guildas e investigam a história do jogo",
+    image: "/modern-ecommerce-dashboard.png",
+    tags: ["Typescript", "NextJS", "Spring Boot", "PostgreSQL", "Java"],
+    date: "2025-2026",
+    role: "Desenvolvedor Web e roteirista",
+    github: "https://github.com/Dayvid-San",
+    demo: "https://collisangelus.vercel.app/",
+  },
+];
 
 const researchProjects: ResearchProject[] = [
   {
@@ -104,16 +131,19 @@ const researchProjects: ResearchProject[] = [
     paper: "https://doi.org/10.1234/example3",
   },
   */
-]
+];
 
 export default function PortfolioPage() {
   return (
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-6xl">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Portfolio</h1>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">
+          Portfolio
+        </h1>
         <p className="mb-16 text-lg text-muted-foreground text-pretty">
-          Uma seleção dos meus projetos como programador e pesquisador, demonstrando a aplicação prática de tecnologias
-          modernas e contribuições científicas e acadêmicas.
+          Uma seleção dos meus projetos como programador e pesquisador,
+          demonstrando a aplicação prática de tecnologias modernas e
+          contribuições científicas e acadêmicas.
         </p>
 
         {/* Programmer Section */}
@@ -123,7 +153,10 @@ export default function PortfolioPage() {
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {programmerProjects.map((project) => (
-              <Card key={project.title} className="flex flex-col overflow-hidden">
+              <Card
+                key={project.title}
+                className="flex flex-col overflow-hidden"
+              >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
                     src={project.image || "/placeholder.svg"}
@@ -135,10 +168,14 @@ export default function PortfolioPage() {
                 <CardHeader>
                   <div className="mb-2 flex items-center justify-between">
                     <Badge variant="outline">{project.date}</Badge>
-                    <span className="text-xs text-muted-foreground">{project.role}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {project.role}
+                    </span>
                   </div>
                   <CardTitle className="text-xl">{project.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">{project.description}</CardDescription>
+                  <CardDescription className="line-clamp-2">
+                    {project.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1">
                   <div className="mb-4 flex flex-wrap gap-2">
@@ -151,7 +188,11 @@ export default function PortfolioPage() {
                   <div className="flex gap-2">
                     {project.github && (
                       <Button size="sm" variant="outline" asChild>
-                        <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <Github className="mr-2 h-4 w-4" />
                           Code
                         </a>
@@ -159,7 +200,11 @@ export default function PortfolioPage() {
                     )}
                     {project.demo && (
                       <Button size="sm" asChild>
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Demo
                         </a>
@@ -179,10 +224,16 @@ export default function PortfolioPage() {
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {researchProjects.map((project) => (
-              <Card key={project.title} className="flex flex-col overflow-hidden">
+              <Card
+                key={project.title}
+                className="flex flex-col overflow-hidden"
+              >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
-                    src={project.image || "/placeholderSe quiser, eu posso montar ￼￼um diagrama arquitetural completo￼￼ mostrando como Owncoin se conecta ao Clube, ao MMORPG, ao Banco do Clube e às carteiras dos usuários. Quer essa versão diagramada?.svg"}
+                    src={
+                      project.image ||
+                      "/placeholder.svg"
+                    }
                     alt={project.title}
                     fill
                     className="object-cover transition-transform hover:scale-105"
@@ -191,10 +242,14 @@ export default function PortfolioPage() {
                 <CardHeader>
                   <div className="mb-2 flex items-center justify-between">
                     <Badge variant="outline">{project.date}</Badge>
-                    <span className="text-xs text-muted-foreground">{project.role}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {project.role}
+                    </span>
                   </div>
                   <CardTitle className="text-xl">{project.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">{project.description}</CardDescription>
+                  <CardDescription className="line-clamp-2">
+                    {project.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1">
                   <div className="mb-4 flex flex-wrap gap-2">
@@ -207,7 +262,11 @@ export default function PortfolioPage() {
                   <div className="flex flex-wrap gap-2">
                     {project.paper && (
                       <Button size="sm" variant="outline" asChild>
-                        <a href={project.paper} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.paper}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <FileText className="mr-2 h-4 w-4" />
                           Paper
                         </a>
@@ -215,7 +274,11 @@ export default function PortfolioPage() {
                     )}
                     {project.github && (
                       <Button size="sm" variant="outline" asChild>
-                        <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <Github className="mr-2 h-4 w-4" />
                           Code
                         </a>
@@ -223,7 +286,11 @@ export default function PortfolioPage() {
                     )}
                     {project.dataset && (
                       <Button size="sm" variant="outline" asChild>
-                        <a href={project.dataset} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={project.dataset}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Dataset
                         </a>
@@ -237,5 +304,5 @@ export default function PortfolioPage() {
         </section>
       </div>
     </div>
-  )
+  );
 }
