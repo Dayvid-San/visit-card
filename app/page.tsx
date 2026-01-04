@@ -3,12 +3,69 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import React, { CSSProperties } from 'react';
+
+interface TransparentPhotoProps {
+  /**
+   * Path to your photo
+   */
+  imageUrl: string;
+  
+  /**
+   * Opacity value between 0 and 1 (default: 0.5)
+   */
+  opacity?: number;
+  
+  /**
+   * Width of the photo (default: 100px)
+   */
+  width?: string;
+  
+  /**
+   * Height of the photo (default: 100px)
+   */
+  height?: string;
+  
+  
+  customStyles?: CSSProperties;
+}
+
+const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
+  imageUrl,
+  opacity = 0.5,
+  width = '100px',
+  height = '100px',
+  customStyles = {}
+}) => {
+  const photoStyles: CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width,
+    height,
+    opacity,
+    zIndex: 1000, // Ensures it stays on top of other elements
+    objectFit: 'cover', // or 'contain' based on your preference
+    ...customStyles,
+  };
+
+
+};
+
 
 
 export default function HomePage() {
   const photoDayvid = 'https://github.com/user-attachments/assets/cc3f329a-9149-4405-9f7f-2e5e8129929b'
+
+  
   return (
     <div className="container px-4 py-16 md:py-24">
+      <img
+      src={PhotoDayvid}
+      alt="Profile"
+      className="transparent-photo"
+      style={photoStyles}
+    />
       {/* Hero Section */}
       <div className="flex items-stretch justify-around">
         <section className="mb-24 text-center">

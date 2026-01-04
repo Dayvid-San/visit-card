@@ -230,10 +230,7 @@ export default function PortfolioPage() {
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
-                    src={
-                      project.image ||
-                      "/placeholder.svg"
-                    }
+                    src={project.image || "/placeholder.svg"}
                     alt={project.title}
                     fill
                     className="object-cover transition-transform hover:scale-105"
