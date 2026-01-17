@@ -82,6 +82,16 @@ export default function HomePage() {
           height="600px"
         />
       </div>
+      {/* Character in bottom-left corner */}
+      <div className="absolute bottom-90 right-0 z-10">
+        <Image
+          src="/1768628437181-removebg-preview.png"
+          alt="Character"
+          width={300}
+          height={300}
+          className="object-contain"
+        />
+      </div>
       {/* Hero Section */}
       <div className="relative z-20 flex items-stretch justify-around">
         <section className="mb-24 text-center">
