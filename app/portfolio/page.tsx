@@ -38,7 +38,7 @@ const programmerProjects: ProgrammerProject[] = [
     title: "EngScan",
     description:
       "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
-    image: "/modern-ecommerce-dashboard.png",
+    image: "/1745068914878.png",
     tags: [
       "Nest.js",
       "Angular",
@@ -57,7 +57,7 @@ const programmerProjects: ProgrammerProject[] = [
     title: "TYTO.club",
     description:
       "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
-    image: "/task-management-kanban.png",
+    image: "/logotipo_simples_1.png",
     tags: ["Next.JS", "Springboot", "Java", "Typescript", "Python", "Postgres"],
     date: "2025",
     role: "Full-stack Developer",
@@ -67,8 +67,8 @@ const programmerProjects: ProgrammerProject[] = [
   {
     title: "Atena",
     description:
-      "Athena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
-    image: "/chat-application-interface.png",
+      "Atena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
+    image: "/simbolo.png",
     tags: ["Python", "SQLite", "Tailwind"],
     date: "2025",
     role: "Full",
@@ -79,7 +79,7 @@ const programmerProjects: ProgrammerProject[] = [
     title: "Owlcoin",
     description:
       "Owlcoin (OWL) é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
-    image: "/modern-ecommerce-dashboard.png",
+    image: "/tytocoin.png",
     tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
     date: "2025",
     role: "Full",
@@ -90,7 +90,7 @@ const programmerProjects: ProgrammerProject[] = [
     title: "Collis delus Angelus",
     description:
       "Jogo MMORPG de estratégia e investigação. Os jogadores podem tanto lutar em grupos quanto sozinhos assim também fazem trocas comerciais, investem em guildas e investigam a história do jogo",
-    image: "/modern-ecommerce-dashboard.png",
+    image: "/alexander.png",
     tags: ["Typescript", "NextJS", "Spring Boot", "PostgreSQL", "Java"],
     date: "2025-2026",
     role: "Desenvolvedor Web e roteirista",
