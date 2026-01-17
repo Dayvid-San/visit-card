@@ -55,7 +55,7 @@ export default function ContactPage() {
       icon: Linkedin,
       label: "LinkedIn",
       value: "/dayvid-santana-jr",
-      href: "linkedin.com/in/dayvid-santana-jr/",
+      href: "https://www.linkedin.com/in/dayvid-santana-jr/",
       description: "Respondo em até 42 horas"
     },
     {
