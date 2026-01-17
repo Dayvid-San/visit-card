@@ -3,47 +3,49 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-// Mapeamento de rotas para anúncios
 const routeAnnouncements: Record<string, string> = {
-  "/": "...Olá! Meu nome é Ártemes e vou lhe guiar por aqui. Caso queira desativar minha voz, clique no botão com para desligar o som da página!",
-  "/portfolio": "...Essa é uma seleção dos projetos de Dayvid como programador e pesquisador. Aqui você verá tanto projetos acadêmicos de pesquisa quanto projetos pessoais que contruiram de forma signícativa na vida das pessoas. Por questão de contrato, Dayvid não pode dar detalhes sobre os seus projetos.",
+  //"/": "...Olá! Meu nome é Ártemes e vou lhe guiar por aqui. Caso queira desativar minha voz, clique no botão com para desligar o som da página!",
+  //"/portfolio": "...Essa é uma seleção dos projetos de Dayvid como programador e pesquisador. Aqui você verá tanto projetos acadêmicos de pesquisa quanto projetos pessoais que contruiram de forma signícativa na vida das pessoas. Por questão de contrato, Dayvid não pode dar detalhes sobre os seus projetos.",
 };
 
 export function useVoiceAnnouncement() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Verifica se o navegador suporta a API de síntese de voz
     if ("speechSynthesis" in window) {
-      const announcement =
-        routeAnnouncements[pathname] || `Bem-vindo à página ${pathname}`;
+      // 1. Buscamos o texto específico da rota
+      const announcement = routeAnnouncements[pathname];
 
-      // Pequeno delay para garantir que a página carregou
-      const timer = setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(announcement);
+      // 2. Só prosseguimos se houver um texto definido para esta rota
+      if (announcement) {
+        const timer = setTimeout(() => {
+          // Cancela falas anteriores antes de começar uma nova
+          speechSynthesis.cancel();
 
-        // Configurações da voz
-        utterance.lang = "pt-BR"; // Português do Brasil
-        utterance.rate = 1.2; // Velocidade (0.1 a 10)
-        utterance.pitch = 1; // Tom (0 a 2)
-        utterance.volume = 0.8; // Volume (0 a 1)
+          const utterance = new SpeechSynthesisUtterance(announcement);
 
-        // Tenta encontrar uma voz em português
-        const voices = speechSynthesis.getVoices();
-        const portugueseVoice = voices.find((voice) =>
-          voice.lang.startsWith("pt"),
-        );
-        if (portugueseVoice) {
-          utterance.voice = portugueseVoice;
-        }
+          utterance.lang = "pt-BR";
+          utterance.rate = 1.2;
+          utterance.pitch = 1;
+          utterance.volume = 0.8;
 
-        speechSynthesis.speak(utterance);
-      }, 500); // Delay de 500ms
+          const voices = speechSynthesis.getVoices();
+          const portugueseVoice = voices.find((voice) =>
+            voice.lang.startsWith("pt")
+          );
+          
+          if (portugueseVoice) {
+            utterance.voice = portugueseVoice;
+          }
 
-      return () => {
-        clearTimeout(timer);
-        speechSynthesis.cancel(); // Cancela qualquer fala em andamento
-      };
+          speechSynthesis.speak(utterance);
+        }, 500);
+
+        return () => {
+          clearTimeout(timer);
+          speechSynthesis.cancel();
+        };
+      }
     }
   }, [pathname]);
 }

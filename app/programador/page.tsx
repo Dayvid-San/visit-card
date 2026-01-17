@@ -1,9 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Code2, Database, Globe, Smartphone } from "lucide-react"
+import { Code2, Database, FlaskConical, Globe, Smartphone } from "lucide-react"
 
+const mainText = "Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor."
 const skills = [
-  const mainText = "Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor."
   {
     icon: Code2,
     title: "Front-end",
