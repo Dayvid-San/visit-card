@@ -62,7 +62,7 @@ const programmerProjects: ProgrammerProject[] = [
     date: "2025",
     role: "Full-stack Developer",
     github: "https://github.com/Dayvid-San/tyto-server",
-    demo: "https://tytocode.com.br/tytoclub",
+    demo: "https://tytocode.com.br",
   },
   {
     title: "Atena",
@@ -190,7 +190,7 @@ export default function PortfolioPage() {
                       <Button size="sm" variant="outline" asChild>
                         <a
                           href={project.github}
-                          target="_blank"
+                          target=""
                           rel="noopener noreferrer"
                         >
                           <Github className="mr-2 h-4 w-4" />

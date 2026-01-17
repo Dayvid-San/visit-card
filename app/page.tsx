@@ -97,7 +97,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button size="lg" asChild>
-              <Link href="/portfolio">
+              <Link href="/portfolio-">
                 Projetos Recentes <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
