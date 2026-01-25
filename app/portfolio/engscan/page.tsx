@@ -31,7 +31,7 @@ const projectData: ProjectDetail = {
   subtitle: "Solução baseada em microsserviços para análise de imagens e laudos automáticos",
   date: "2024 - 2025",
   role: "Lead Full-stack Developer & ML Engineer",
-  heroImage: "/modern-ecommerce-dashboard.png", // Sua imagem existente
+  heroImage: "/Captura de tela_2025-08-26_12-17-41.png", // Sua imagem existente
   tags: ["Nest.js", "Angular", "Python", "TensorFlow", "Tailwind", "PostgreSQL", "RabbitMQ", "Docker"],
   links: {
     demo: "https://engscan.com",
