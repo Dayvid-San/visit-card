@@ -48,9 +48,9 @@ const programmerProjects: ProgrammerProject[] = [
       "PostgreSQL",
       "Stripe",
     ],
-    date: "2024-2025",
+    date: "2024-2026",
     role: "Full-stack Developer",
-    github: "/portfolio/engscan",
+    github: "/engscan",
     demo: "https://engscan.com",
   },
   {
@@ -193,8 +193,7 @@ export default function PortfolioPage() {
                           target=""
                           rel="noopener noreferrer"
                         >
-                          <Github className="mr-2 h-4 w-4" />
-                          Code
+                          Detalhes
                         </a>
                       </Button>
                     )}
@@ -277,7 +276,7 @@ export default function PortfolioPage() {
                           rel="noopener noreferrer"
                         >
                           <Github className="mr-2 h-4 w-4" />
-                          Code
+                          Detalhes
                         </a>
                       </Button>
                     )}

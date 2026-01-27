@@ -29,13 +29,13 @@ interface ProjectDetail {
 const projectData: ProjectDetail = {
   title: "EngScan",
   subtitle: "Solução baseada em microsserviços para análise de imagens e laudos automáticos",
-  date: "2024 - 2025",
+  date: "2024 - 2026",
   role: "Lead Full-stack Developer & ML Engineer",
   heroImage: "/Captura de tela_2025-08-26_12-17-41.png", // Sua imagem existente
   tags: ["Nest.js", "Angular", "Python", "TensorFlow", "Tailwind", "PostgreSQL", "RabbitMQ", "Docker"],
   links: {
     demo: "https://engscan.com",
-    github: "/portfolio/engscan",
+    github: "https://github.com/EngScan",
   },
   overview:
     "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
@@ -178,7 +178,7 @@ export default function EngScan() {
               <Button variant="outline" size="lg" className="w-full" asChild>
                 <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" />
-                  Ver Código Fonte
+                  Mais Sobre
                 </a>
               </Button>
             )}
