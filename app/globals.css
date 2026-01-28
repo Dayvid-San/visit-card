@@ -141,3 +141,10 @@
   white-space: nowrap;
   border-width: 0;
 }
+
+/* CSS to hide character on mobile */
+@media (max-width: 600px) {
+ .object-contain{
+  display: none;
+ }
+}
