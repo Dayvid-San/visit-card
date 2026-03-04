@@ -54,6 +54,20 @@ const programmerProjects: ProgrammerProject[] = [
     demo: "https://engscan.com",
   },
   {
+    title: "Flugo",
+    description:
+      "Formulário de cadastro de colaboradores da empresa Flugo",
+    image: "/FlugoPrint.png",
+    tags: [
+      "Vite",
+      "Firebase",
+    ],
+    date: "2026",
+    role: "Full-stack Developer",
+    github: "https://github.com/Dayvid-San/Formulario-Flugo",
+    demo: "https://formulario-flugo.vercel.app",
+  },
+  {
     title: "TYTO.club",
     description:
       "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
@@ -76,10 +90,10 @@ const programmerProjects: ProgrammerProject[] = [
     demo: "https://tytocode.com.br/tytoclub/bot",
   },
   {
-    title: "Owlcoin",
+    title: "Dracma",
     description:
-      "Owlcoin (OWL) é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
-    image: "/tytocoin.png",
+      "Dracma é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
+    image: "/dracma.png",
     tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
     date: "2025",
     role: "Full",
