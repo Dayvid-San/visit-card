@@ -64,7 +64,7 @@ const programmerProjects: ProgrammerProject[] = [
     ],
     date: "2026",
     role: "Full-stack Developer",
-    github: "https://github.com/Dayvid-San/Formulario-Flugo",
+    github: "flugoform",
     demo: "https://formulario-flugo.vercel.app",
   },
   {
