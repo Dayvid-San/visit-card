@@ -135,16 +135,16 @@ const researchProjects: ResearchProject[] = [
     paper: "https://doi.org/10.1234/example2",
     github: "https://github.com/dayvid/sentiment-analysis",
   },
+  */
   {
-    title: "Optimization Algorithms for Resource Allocation",
+    title: "Computação de borda com inferência em cascata",
     description: "Novel algorithms for efficient resource allocation in distributed systems with improved performance.",
     image: "/algorithm-optimization-graph.jpg",
     tags: ["Algorithms", "Optimization", "Distributed Systems"],
-    date: "2023",
+    date: "2026",
     role: "Principal Investigator",
-    paper: "https://doi.org/10.1234/example3",
+    paper: "/",
   },
-  */
 ];
 
 export default function PortfolioPage() {
