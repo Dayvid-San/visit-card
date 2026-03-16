@@ -11,8 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 interface FormData {
   title: string;
   description: string;
-  image: string;
-  tags: string; // Will be split by comma later
+  image: string; // Voltamos para string simples
+  tags: string;
   date: string;
   role: string;
   github: string;
@@ -34,14 +34,10 @@ export default function AdminDashboard() {
   const [statusMessage, setStatusMessage] = useState("");
   const router = useRouter();
 
-  // Route Protection
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) {
-        router.push("/admin");
-      } else {
-        setUser(currentUser);
-      }
+      if (!currentUser) router.push("/admin");
+      else setUser(currentUser);
       setLoading(false);
     });
     return () => unsubscribe();
@@ -57,14 +53,12 @@ export default function AdminDashboard() {
     setStatusMessage("Saving...");
 
     try {
-      // Process tags from string to array
       const tagsArray = formData.tags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
-      // Create payload based on category
       const payload: any = {
         title: formData.title,
         description: formData.description,
-        image: formData.image,
+        image: formData.image, // Pega o link da imagem direto do form
         tags: tagsArray,
         date: formData.date,
         role: formData.role,
@@ -82,12 +76,13 @@ export default function AdminDashboard() {
       }
 
       setStatusMessage("Project added successfully!");
-      setFormData(initialFormState); // Reset form
+      setFormData(initialFormState);
       setTimeout(() => setStatusMessage(""), 3000);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding document: ", error);
-      setStatusMessage("Error saving project.");
+      // Agora, se o texto for muito grande, ele avisa aqui em vermelho!
+      setStatusMessage(`Error: ${error.message}`); 
     }
   };
 
@@ -137,9 +132,17 @@ export default function AdminDashboard() {
               <textarea required name="description" value={formData.description} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" rows={3} />
             </div>
 
+            {/* Campo de Imagem em Texto Restaurado */}
             <div>
               <label className="text-sm">Image URL / Path *</label>
-              <input required name="image" value={formData.image} onChange={handleInputChange} placeholder="/image.png or https://..." className="w-full p-2 border rounded bg-background" />
+              <input 
+                required 
+                name="image" 
+                value={formData.image} 
+                onChange={handleInputChange} 
+                placeholder="https://... ou /image.png" 
+                className="w-full p-2 border rounded bg-background" 
+              />
             </div>
 
             <div>
@@ -157,7 +160,6 @@ export default function AdminDashboard() {
               <input required name="role" value={formData.role} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
             </div>
 
-            {/* Conditional Fields based on Category */}
             <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t mt-2">
               {projectCategory === "programmer" ? (
                 <>
@@ -190,7 +192,11 @@ export default function AdminDashboard() {
 
             <div className="col-span-1 md:col-span-2 flex items-center gap-4 mt-4">
               <Button type="submit" className="w-full md:w-auto">Save Project</Button>
-              {statusMessage && <span className="text-sm font-medium">{statusMessage}</span>}
+              {statusMessage && (
+                <span className={`text-sm font-medium ${statusMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+                  {statusMessage}
+                </span>
+              )}
             </div>
           </form>
         </CardContent>
