@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { CSSProperties } from "react";
 import Image from "next/image";
 
-// --- Componente Reutilizável ---
 interface TransparentPhotoProps {
   imageUrl: any;
   opacity?: number;
@@ -59,7 +58,6 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
   );
 };
 
-// --- Página Principal ---
 export default function HomePage() {
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
   const date = new Date();
@@ -69,11 +67,10 @@ export default function HomePage() {
             conhecimento em diferentes nichos, mas gosto principalmente de
             computadores, de automação e sinto satisfação em resolver problemas
             reais.`;
-  const aboutMeText = `Programador, pesquisador, estudante de Ciência da Computação e enxadrista. Tenho ${date.getFullYear() - 2000} anos. Nascido em Aracaju, Sergipe, sou responsável por muitos projetos de inovação e ciência no estado. Hoje, moro no Paraná onde tenho como base exportação desses projetos para o resto do Brasil.`;
+  const aboutMeText = `Programador, pesquisador, estudante de Ciência da Computação e enxadrista. Tenho ${date.getFullYear() - 2000} anos. Nascido em Aracaju, Sergipe, sou responsável por muitos projetos de inovação e ciência no estado. Hoje, moro no Paraná onde tenho como base para a exportação desses projetos no Brasil e no mundo. Fundei um clube de computação que está presente em Sergipe, Piauí, São Paulo, Rio de janeiro, Paraná e Santa Catarina, além do Marrocos e Irlanda.`;
 
   return (
     <div className="container relative px-4 py-16 md:py-24">
-      {/* Photo pinned to viewport top-left */}
       <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 10 }}>
         <TransparentPhoto
           imageUrl={photoDayvid}
@@ -82,7 +79,6 @@ export default function HomePage() {
           height="600px"
         />
       </div>
-      {/* Character in bottom-left corner */}
       <div className="absolute bottom-90 right-0 z-10">
         <Image
           src="/1768628437181-removebg-preview.png"
@@ -105,16 +101,6 @@ export default function HomePage() {
           <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
             {presentationText}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button size="lg" asChild>
-              <Link href="/portfolio-">
-                Projetos Recentes <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/contato">Vamos Conversar</Link>
-            </Button>
-          </div>
         </section>
       </div>
       {/* About Section */}

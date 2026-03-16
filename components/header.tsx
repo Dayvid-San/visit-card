@@ -17,6 +17,7 @@ const navLinks = [
   { href: "/empreendedor", label: "Empreendedor" },
   { href: "/universitario", label: "Universitário" },
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/contato", label: "Contato" },
 ]
 
 const socialLinks = [
