@@ -2,46 +2,28 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react";
 import Link from "next/link";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { useForm } from "@formspree/react";
+import SuccessModal from "../../components/sucessModal";
 
 
-interface TransparentPhotoProps {
-  imageUrl: string;
-  opacity?: number;
-  width?: string;
-  height?: string;
-  customStyles?: CSSProperties;
-}
-
-const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
-  imageUrl,
-  opacity = 0.5,
-  width = "100px",
-  height = "100px",
-  customStyles = {},
-}) => {
-  const photoStyles: CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width,
-    height,
-    opacity,
-    zIndex: 10,
-    objectFit: "cover",
-    pointerEvents: "none",
-    ...customStyles,
-  };
-  return <img src={imageUrl} style={photoStyles} alt="Transparent Overlay" />;
-};
-
-// --- Página de Contato ---
 export default function ContactPage() {
-  const photoDayvid =
-    "https://github.com/user-attachments/assets/cc3f329a-9149-4405-9f7f-2e5e8129929b";
   
   const contactTitle = "Vamos Conversar";
   const contactSubtitle = "Estou sempre aberto a novas oportunidades e colaborações. Entre em contato comigo através dos canais abaixo.";
+
+  const [state, handleSubmit] = useForm("mlgpprer");
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    if (state.succeeded) {
+      setShowModal(true);
+    }
+  }, [state.succeeded]);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    window.location.reload(); 
+  };
 
   const contactInfo = [
     {
@@ -76,23 +58,7 @@ export default function ContactPage() {
 
   return (
     <div className="container relative px-4 py-16 md:py-24">
-      <TransparentPhoto
-        imageUrl={photoDayvid}
-        opacity={0.2}
-        width="400px"
-        height="400px"
-        customStyles={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-      />
 
-      {/* Hero Section */}
-      <div className="relative z-20 mb-16 text-center">
-        <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
-          {contactTitle}
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
-          {contactSubtitle}
-        </p>
-      </div>
 
       {/* Contact Cards Section */}
       <section className="relative z-20 mx-auto max-w-4xl mb-16">
@@ -138,7 +104,11 @@ export default function ContactPage() {
             <h2 className="mb-6 text-3xl font-bold text-balance">
               Envie uma Mensagem
             </h2>
-            <form className="space-y-6">
+            <form 
+              className="space-y-6"
+              action="https://formspree.io/f/mlgpprer"
+              method="POST"
+              >
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
                   Nome
@@ -195,13 +165,22 @@ export default function ContactPage() {
                 />
               </div>
               
-              <Button type="submit" size="lg" className="w-full">
-                Enviar Mensagem <Send className="ml-2 h-4 w-4" />
-              </Button>
+              <Button 
+              type="submit" 
+              size="lg" 
+              className="w-full" 
+              disabled={state.submitting}
+            >
+              {state.submitting ? "Enviando..." : "Enviar Mensagem"}
+            </Button>
             </form>
           </CardContent>
         </Card>
       </section>
+      <SuccessModal 
+        isOpen={showModal} 
+        onClose={handleCloseModal} 
+      />
     </div>
   );
 }
