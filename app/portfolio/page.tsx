@@ -1,3 +1,8 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "@/lib/firebase"; // Certifique-se de que o caminho está correto
 import {
   Card,
   CardContent,
@@ -11,6 +16,7 @@ import { ExternalLink, Github, FileText } from "lucide-react";
 import Image from "next/image";
 
 interface ProgrammerProject {
+  id?: string;
   title: string;
   description: string;
   image: string;
@@ -22,6 +28,7 @@ interface ProgrammerProject {
 }
 
 interface ResearchProject {
+  id?: string;
   title: string;
   description: string;
   image: string;
@@ -33,121 +40,50 @@ interface ResearchProject {
   github?: string;
 }
 
-const programmerProjects: ProgrammerProject[] = [
-  {
-    title: "EngScan",
-    description:
-      "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens.",
-    image: "/1745068914878.png",
-    tags: [
-      "Nest.js",
-      "Angular",
-      "Python",
-      "TypeScript",
-      "Tailwind",
-      "PostgreSQL",
-      "Stripe",
-    ],
-    date: "2024-2026",
-    role: "Full-stack Developer",
-    github: "/engscan",
-    demo: "https://engscan.com",
-  },
-  {
-    title: "Flugo",
-    description:
-      "Formulário de cadastro de colaboradores da empresa Flugo",
-    image: "/FlugoPrint.png",
-    tags: [
-      "Vite",
-      "Firebase",
-    ],
-    date: "2026",
-    role: "Full-stack Developer",
-    github: "flugoform",
-    demo: "https://formulario-flugo.vercel.app",
-  },
-  {
-    title: "TYTO.club",
-    description:
-      "O site do clube reúne projetos, colaboração e gamificação em um único lugar. Cada membro acessa um dashboard com os projetos ativos, organiza tarefas via cards estilo Trello, acumula XP e moedas internas (criptomoeda do clube) e escreve notas em Markdown que podem ser compartilhadas com outros clubistas.",
-    image: "/logotipo_simples_1.png",
-    tags: ["Next.JS", "Springboot", "Java", "Typescript", "Python", "Postgres"],
-    date: "2025",
-    role: "Full-stack Developer",
-    github: "https://github.com/Dayvid-San/tyto-server",
-    demo: "https://tytocode.com.br",
-  },
-  {
-    title: "Atena",
-    description:
-      "Atena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
-    image: "/simbolo.png",
-    tags: ["Python", "SQLite", "Tailwind"],
-    date: "2025",
-    role: "Full",
-    github: "https://github.com/Dayvid-San/Bot-XP-Discord",
-    demo: "https://tytocode.com.br/tytoclub/bot",
-  },
-  {
-    title: "Dracma",
-    description:
-      "Dracma é o token nativo do ecossistema do Clube e do MMORPG associado. Projetado como um BEP-20 (Binance Smart Chain), o OWL unifica recompensas, comércio e governança entre a plataforma do Clube e o jogo, suportando tanto fluxo econômico interno quanto trocas dentro do jogo.",
-    image: "/dracma.png",
-    tags: ["BEP-20", "Solidity", "Spring Boot", "Web3j", "PostgreSQL", "IPFS"],
-    date: "2025",
-    role: "Full",
-    github: "https://github.com/Dayvid-San",
-    demo: "https://tytocode.com.br/tytoclub/coin",
-  },
-  {
-    title: "Collis delus Angelus",
-    description:
-      "Jogo MMORPG de estratégia e investigação. Os jogadores podem tanto lutar em grupos quanto sozinhos assim também fazem trocas comerciais, investem em guildas e investigam a história do jogo",
-    image: "/alexander.png",
-    tags: ["Typescript", "NextJS", "Spring Boot", "PostgreSQL", "Java"],
-    date: "2025-2026",
-    role: "Desenvolvedor Web e roteirista",
-    github: "https://github.com/Dayvid-San",
-    demo: "https://collisangelus.vercel.app/",
-  },
-];
-
-const researchProjects: ResearchProject[] = [
-  {
-    title: "Machine Learning na Engenharia Civil Diagnóstica",
-    description: "Deep learning model para avaliação de .",
-    image: "/medical-ai-neural-network.jpg",
-    tags: ["Python", "TensorFlow", "Computer Vision", "Healthcare"],
-    date: "2024",
-    role: "Lead Researcher",
-    paper: "https://medium.com/@dayvidsan/aplica%C3%A7%C3%A3o-da-computa%C3%A7%C3%A3o-na-engenharia-civil-diagn%C3%B3stica-64a0efb464dc",
-    dataset: "",
-  },
-  /*
-  {
-    title: "Natural Language Processing for Sentiment Analysis",
-    description: "NLP system for analyzing sentiment in social media posts with multilingual support.",
-    image: "/nlp-sentiment-analysis-visualization.jpg",
-    tags: ["Python", "NLP", "BERT", "Data Science"],
-    date: "2023",
-    role: "Co-researcher",
-    paper: "https://doi.org/10.1234/example2",
-    github: "https://github.com/dayvid/sentiment-analysis",
-  },
-  */
-  {
-    title: "Computação de borda com inferência em cascata",
-    description: "Novel algorithms for efficient resource allocation in distributed systems with improved performance.",
-    image: "/algorithm-optimization-graph.jpg",
-    tags: ["Algorithms", "Optimization", "Distributed Systems"],
-    date: "2026",
-    role: "Principal Investigator",
-    paper: "/",
-  },
-];
-
 export default function PortfolioPage() {
+  const [programmerProjects, setProgrammerProjects] = useState<ProgrammerProject[]>([]);
+  const [researchProjects, setResearchProjects] = useState<ResearchProject[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        // Busca projetos de programação (ordenados por data decrescente se desejar)
+        const progQuery = query(collection(db, "programmerProjects"));
+        const progSnapshot = await getDocs(progQuery);
+        const progList = progSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as ProgrammerProject[];
+
+        // Busca projetos de pesquisa
+        const researchQuery = query(collection(db, "researchProjects"));
+        const researchSnapshot = await getDocs(researchQuery);
+        const researchList = researchSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as ResearchProject[];
+
+        setProgrammerProjects(progList);
+        setResearchProjects(researchList);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg animate-pulse">Carregando portfólio...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-6xl">
@@ -160,7 +96,6 @@ export default function PortfolioPage() {
           contribuições científicas e acadêmicas.
         </p>
 
-        {/* Programmer Section */}
         <section className="mb-24">
           <div className="mb-8 flex items-center gap-3">
             <h2 className="text-3xl font-bold">Programador</h2>
@@ -168,7 +103,7 @@ export default function PortfolioPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {programmerProjects.map((project) => (
               <Card
-                key={project.title}
+                key={project.id || project.title}
                 className="flex flex-col overflow-hidden"
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
@@ -204,7 +139,7 @@ export default function PortfolioPage() {
                       <Button size="sm" variant="outline" asChild>
                         <a
                           href={project.github}
-                          target=""
+                          target="_blank"
                           rel="noopener noreferrer"
                         >
                           Detalhes
@@ -238,7 +173,7 @@ export default function PortfolioPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {researchProjects.map((project) => (
               <Card
-                key={project.title}
+                key={project.id || project.title}
                 className="flex flex-col overflow-hidden"
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
