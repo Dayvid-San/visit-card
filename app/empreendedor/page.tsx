@@ -4,23 +4,23 @@ import { Lightbulb, Target, Users, TrendingUp } from "lucide-react"
 const principles = [
   {
     icon: TrendingUp,
-    title: "Visão de longo prazo",
-    description: "Metas além do próximo trimestre com sustentabilidade. Faço uso de roadmap público, projetos em curso, decisões que priorizam durabilidade.",
+    title: "Mais dinheiro com menos trabalho",
+    description: "Trabalhei para que pequenas e médias empresas tenham o ferramental necessário para fazer mais com menos.",
   },
   {
     icon: Lightbulb,
-    title: "Curiosidade e aprendizagem contínua",
-    description: "Sempre estudando coisas novas e validando ideias. Procuro entender todo o nicho em que trabalho.",
+    title: "incentivo ao ensino e aprendizado",
+    description: "Acredito que a educação é um dos poucos recursos que não nos podem ser tirados. Por isso promovi eventos, comunidades, ligas e editais para que as pessoas que eu pudesse ajudar tivessem as mesmas oportunidades que eu tive com a educa.",
   },
   {
     icon: Users,
-    title: "Colaboração",
-    description: "Faço uso de multíplas equipes, seja de desenvolvimento ou de pesquisa, orientadas a resolver problemas reais com decisões concretas usando tecnologias modernas que realmente resolvem o problema, não apenas por estar no hype.",
+    title: "Comunidades e cooperação",
+    description: "Fundei uma comunidade de computação chamada TYTO.code com o propósito de unir profissionais para a aplicação do desenvolvimento acadêmico indenpendete na sociedade civil. Também fundei e incetivei a criação de ligas academicas e clubes de computação e inovação.",
   },
   {
-    icon: Target,
-    title: "Foco no cliente/usuário",
-    description: "Priorizo valor real com estudos de caso e feedback de usuários, métricas de uso e uma verificação do antes e depois.",
+    icon: Target, 
+    title: "Empresas e Startups",
+    description: "Junto a comunidade, fundei empresas e startups para atender necessidades reais. Desde pessoas comuns até grandes empresas. Ganhamos prêmios, reputação e seguimos presentes no mercado em áreas como engenharia civil, saúde, finanças, agronomia",
   },
 ]
 

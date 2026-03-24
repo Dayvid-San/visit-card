@@ -1,5 +1,8 @@
 import Link from 'next/link'
  
+
+export const dynamic = 'force-dynamic';
+
 export default function NotFound() {
   return (
     <div className="container px-4 py-16">
