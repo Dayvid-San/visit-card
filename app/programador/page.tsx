@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Code2, Database, Globe, Smartphone } from "lucide-react"
+import { Code2, Database, FlaskConical, Globe, Smartphone } from "lucide-react"
 
 const skills = [
   {

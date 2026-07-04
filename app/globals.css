@@ -129,6 +129,56 @@
   }
 }
 
+@layer utilities {
+  .fantasy-shell {
+    position: relative;
+    isolation: isolate;
+    border-radius: 2.4rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(112, 72, 25, 0.95), rgba(35, 20, 10, 0.96));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+      0 32px 80px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(179, 118, 42, 0.55);
+  }
+
+  .fantasy-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0.7rem;
+    border-radius: 1.95rem;
+    border: 2px solid rgba(224, 180, 99, 0.2);
+    pointer-events: none;
+  }
+
+  .fantasy-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 2.3rem;
+    background-image:
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+    mix-blend-mode: screen;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .parchment-panel {
+    background: linear-gradient(140deg, rgba(255, 242, 200, 0.96), rgba(228, 195, 134, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -6px 20px rgba(124, 69, 16, 0.14);
+  }
+
+  .gothic-title {
+    font-family: "Cinzel", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-shadow: 0 2px 0 rgba(255, 248, 200, 0.15), 0 10px 24px rgba(0, 0, 0, 0.28);
+  }
+}
+
 /* Screen reader only utility */
 .sr-only {
   position: absolute;
