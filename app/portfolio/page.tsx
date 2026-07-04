@@ -37,7 +37,7 @@ const programmerProjects: ProgrammerProject[] = [
     tags: ["Nest.js", "Angular", "Python", "TypeScript", "Tailwind", "PostgreSQL", "Stripe"],
     date: "2024-2025",
     role: "Full-stack Developer",
-    github: "/protfolio/engscan",
+    github: "/portfolio/engscan",
     demo: "https://engscan.com",
   },
   {
@@ -48,11 +48,11 @@ const programmerProjects: ProgrammerProject[] = [
     date: "2025",
     role: "Full-stack Developer",
     github: "https://github.com/Dayvid-San/tyto-server",
-    demo: "https://tytocode.com.br/tytoclub",
+    demo: "https://club.tytocode.com.br",
   },
   {
     title: "Atena",
-    description: "Athena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
+    description: "Atena é o assistente inteligente do TYTO.club: centraliza a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em Discord e WhatsApp, agenda reuniões e propõe desafios práticos, inclusive avalia as soluções de código. Tudo com respostas instantâneas quando um clubista pergunta ao Oráculo.",
     image: "/chat-application-interface.png",
     tags: ["Python", "SQLite", "Tailwind"],
     date: "2025",
@@ -83,17 +83,18 @@ const researchProjects: ResearchProject[] = [
     paper: "https://medium.com/@dayvid-san",
     dataset: "",
   },
-  /*
+  
   {
     title: "Natural Language Processing for Sentiment Analysis",
     description: "NLP system for analyzing sentiment in social media posts with multilingual support.",
-    image: "/nlp-sentiment-analysis-visualization.jpg",
+    image: "https://github.com/Dayvid-San/visit-card/blob/main/public/edgeIA.png?raw=true",
     tags: ["Python", "NLP", "BERT", "Data Science"],
     date: "2023",
     role: "Co-researcher",
-    paper: "https://doi.org/10.1234/example2",
-    github: "https://github.com/dayvid/sentiment-analysis",
+    paper: "https://www.linkedin.com/posts/dayvid-santana-jr_infer%C3%AAncia-em-computa%C3%A7%C3%A3o-de-borda-m%C3%AAs-passado-activity-7439342395437252608-ml60",
+    github: "https://github.com/Dayvid-San",
   },
+  /*
   {
     title: "Optimization Algorithms for Resource Allocation",
     description: "Novel algorithms for efficient resource allocation in distributed systems with improved performance.",
@@ -112,7 +113,7 @@ export default function PortfolioPage() {
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Portfolio</h1>
         <p className="mb-16 text-lg text-muted-foreground text-pretty">
-          Uma seleção dos meus projetos como programador e pesquisador, demonstrando a aplicação prática de tecnologias
+          Meus projetos como programador e pesquisador, demonstrando a aplicação prática de tecnologias
           modernas e contribuições científicas e acadêmicas.
         </p>
 
