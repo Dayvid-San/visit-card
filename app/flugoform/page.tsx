@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, ExternalLink, Github, Layers, Cpu, CheckCircle2 } from "lucide-react"
+import { ArrowLeft, ExternalLink, Github, Layers, Cpu, CheckCircle2, UserPlus } from "lucide-react"
 
-// Interface estendida para detalhes profundos
+// Interface para detalhes do projeto Flugo
 interface ProjectDetail {
   title: string
   subtitle: string
@@ -17,41 +17,38 @@ interface ProjectDetail {
   links: {
     demo?: string
     github?: string
-    paper?: string
   }
   overview: string
   challenges: string[]
   solutions: string[]
-  architectureUrl?: string // URL para o diagrama de arquitetura
 }
 
-// Dados do Projeto (EngScan) - Isso viria de um banco de dados ou CMS em produção
 const projectData: ProjectDetail = {
-  title: "EngScan",
-  subtitle: "Solução baseada em microsserviços para análise de imagens e laudos automáticos",
-  date: "2024 - 2025",
-  role: "Lead Full-stack Developer & ML Engineer",
-  heroImage: "/modern-ecommerce-dashboard.png", // Sua imagem existente
-  tags: ["Nest.js", "Angular", "Python", "TensorFlow", "Tailwind", "PostgreSQL", "RabbitMQ", "Docker"],
+  title: "Flugo",
+  subtitle: "Sistema inteligente de onboarding e cadastro de colaboradores",
+  date: "2026",
+  role: "Full-stack Developer",
+  heroImage: "/FlugoPrint.png", 
+  tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Zod", "React Hook Form"],
   links: {
-    demo: "https://engscan.com",
-    github: "/portfolio/engscan",
+    demo: "https://formulario-flugo.vercel.app",
+    github: "https://github.com/Dayvid-San/Formulario-Flugo",
   },
   overview:
-    "O EngScan moderniza o fluxo de trabalho de engenheiros civis diagnósticos. Tradicionalmente, a análise de patologias em estruturas exige horas de inspeção manual e redação de relatórios. O EngScan automatiza esse processo utilizando Computer Vision para identificar falhas em fotos enviadas e gera laudos técnicos formatados instantaneamente.",
+    "O Flugo é uma plataforma centralizada para o gerenciamento do fluxo de entrada de novos talentos. O projeto foca em oferecer um formulário de cadastro dinâmico, garantindo que a coleta de dados sensíveis e documentos dos colaboradores seja feita de forma segura, validada e com uma experiência de usuário fluida (UX), eliminando processos manuais em papel.",
   challenges: [
-    "Processamento de imagens de alta resolução causava gargalos na API principal.",
-    "Necessidade de isolar o ambiente Python (ML) do núcleo da aplicação em Node.js.",
-    "Gerar PDFs complexos com layout técnico exigido pelas normas ABNT."
+    "Validar fluxos complexos de dados (CPF, CEP, PIS) em tempo real sem perder performance.",
+    "Gerenciar o upload e armazenamento seguro de documentos digitalizados.",
+    "Criar uma interface responsiva que guie o usuário por múltiplas etapas sem causar fadiga."
   ],
   solutions: [
-    "Arquitetura de microsserviços orientada a eventos usando RabbitMQ para comunicação assíncrona.",
-    "Serviço dedicado de GPU em Python para rodar os modelos CNN (Redes Neurais Convolucionais).",
-    "Fila de processamento em background (BullMQ) para geração de relatórios sem travar a interface do usuário."
+    "Implementação de formulários multi-step com persistência de estado local para evitar perda de dados.",
+    "Validação rigorosa de esquemas utilizando Zod integrada ao React Hook Form.",
+    "Integração com APIs externas (como ViaCEP) para preenchimento automático de endereços e redução de erros digitais."
   ]
 }
 
-export default function EngScan() {
+export default function FlugoProject() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-5xl">
       {/* Botão Voltar */}
@@ -72,18 +69,18 @@ export default function EngScan() {
             <p className="text-xl text-muted-foreground">{projectData.subtitle}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-sm py-1 px-3">
+            <Badge variant="default" className="bg-blue-600 hover:bg-blue-700 text-sm py-1 px-3">
               {projectData.date}
             </Badge>
           </div>
         </div>
       </div>
 
-      {/* Imagem Principal / Hero */}
+      {/* Imagem Principal */}
       <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
         <Image
           src={projectData.heroImage}
-          alt={`Capa do projeto ${projectData.title}`}
+          alt={`Interface do projeto ${projectData.title}`}
           fill
           className="object-cover"
           priority
@@ -92,14 +89,14 @@ export default function EngScan() {
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
         
-        {/* Coluna Principal (Conteúdo) */}
+        {/* Coluna Principal */}
         <div className="space-y-12">
           
           {/* Visão Geral */}
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
-              <Layers className="mr-2 h-6 w-6 text-primary" />
-              Visão Geral
+              <UserPlus className="mr-2 h-6 w-6 text-primary" />
+              Sobre o Projeto
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground text-pretty">
               {projectData.overview}
@@ -111,22 +108,22 @@ export default function EngScan() {
           {/* Desafios e Soluções */}
           <section className="grid gap-8 md:grid-cols-2">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-red-500/80">O Desafio</h3>
+              <h3 className="text-xl font-semibold text-orange-500/90">O Desafio</h3>
               <ul className="space-y-3">
                 {projectData.challenges.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-muted-foreground">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-green-500/80">A Solução</h3>
+              <h3 className="text-xl font-semibold text-blue-500/90">A Solução</h3>
               <ul className="space-y-3">
                 {projectData.solutions.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-muted-foreground">
-                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-green-500" />
+                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-blue-500" />
                     {item}
                   </li>
                 ))}
@@ -136,24 +133,21 @@ export default function EngScan() {
 
           <Separator />
 
-          {/* Arquitetura Técnica */}
+          {/* Fluxo de Dados */}
           <section className="space-y-6">
              <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Cpu className="mr-2 h-6 w-6 text-primary" />
-              Arquitetura do Sistema
+              Arquitetura de Dados
             </h2>
             <p className="text-muted-foreground">
-              O sistema utiliza uma abordagem desacoplada. O Frontend em Angular comunica-se com um Gateway API em NestJS. 
-              Processos pesados (IA e Geração de PDF) são delegados a filas (RabbitMQ) e consumidos por workers especializados em Python.
+              O formulário foi construído utilizando uma arquitetura orientada a estados, onde cada etapa é validada de forma independente antes de permitir o avanço. Os dados são processados por um servidor Next.js (API Routes) e persistidos de forma segura no banco de dados através do Prisma ORM.
             </p>
             
-            {/* Placeholder para Diagrama de Arquitetura */}
             <Card className="overflow-hidden border-dashed bg-slate-50 dark:bg-slate-950/50">
               <CardContent className="flex aspect-[16/9] flex-col items-center justify-center p-6 text-center text-muted-foreground">
                 <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
-                   {/* Aqui você colocaria a imagem real do diagrama */}
                    <span className="text-sm italic">
-                    [Diagrama de Arquitetura de Microsserviços: Angular → NestJS Gateway → RabbitMQ → Python Workers]
+                    [Diagrama de Fluxo: Usuário → React Hook Form (Zod) → Next.js API → Prisma → PostgreSQL]
                    </span>
                 </div>
               </CardContent>
@@ -161,16 +155,15 @@ export default function EngScan() {
           </section>
         </div>
 
-        {/* Coluna Lateral (Metadados) */}
+        {/* Coluna Lateral */}
         <aside className="space-y-8">
           
-          {/* Links de Ação */}
           <div className="flex flex-col gap-3">
             {projectData.links.demo && (
-              <Button size="lg" className="w-full font-semibold" asChild>
+              <Button size="lg" className="w-full font-semibold bg-primary hover:bg-primary/90" asChild>
                 <a href={projectData.links.demo} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  Acessar Demo Online
+                  Ver Formulário Vivo
                 </a>
               </Button>
             )}
@@ -178,30 +171,28 @@ export default function EngScan() {
               <Button variant="outline" size="lg" className="w-full" asChild>
                 <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" />
-                  Ver Código Fonte
+                  Repositório
                 </a>
               </Button>
             )}
           </div>
 
-          {/* Tecnologias */}
           <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-            <h3 className="font-semibold">Stack Tecnológica</h3>
+            <h3 className="font-semibold">Tecnologias Utilizadas</h3>
             <div className="flex flex-wrap gap-2">
               {projectData.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
+                <Badge key={tag} variant="secondary" className="font-medium">
                   {tag}
                 </Badge>
               ))}
             </div>
           </div>
 
-          {/* Info Adicional */}
-          <div className="space-y-4 rounded-lg border bg-muted/50 p-6">
+          <div className="space-y-4 rounded-lg border bg-muted/30 p-6">
             <h3 className="font-semibold">Ficha Técnica</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Função</span>
+                <span className="text-muted-foreground">Papel</span>
                 <span className="font-medium text-right">{projectData.role}</span>
               </div>
               <Separator />
@@ -212,7 +203,7 @@ export default function EngScan() {
               <Separator />
                <div className="flex justify-between">
                 <span className="text-muted-foreground">Status</span>
-                <span className="font-medium text-green-600">Em Produção</span>
+                <span className="font-medium text-blue-600">Finalizado</span>
               </div>
             </div>
           </div>

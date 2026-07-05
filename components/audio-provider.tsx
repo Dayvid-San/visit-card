@@ -1,80 +1,93 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { createContext, useContext, useEffect, useState, useRef } from "react"
+import type React from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 
 interface AudioContextType {
-  isMuted: boolean
-  toggleMute: () => void
-  playDoorSound: () => Promise<void>
+  isMuted: boolean;
+  toggleMute: () => void;
+  playDoorSound: () => Promise<void>;
 }
 
-const AudioContext = createContext<AudioContextType | undefined>(undefined)
+const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [isMuted, setIsMuted] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [isMuted, setIsMuted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    setMounted(true)
-    const stored = localStorage.getItem("audioMuted")
+    setMounted(true);
+    const stored = localStorage.getItem("audioMuted");
     if (stored !== null) {
-      setIsMuted(stored === "true")
+      setIsMuted(stored === "true");
     }
 
-    // Preload audio
-    const audio = new Audio()
+    const audio = new Audio("/assets/sounds/door-close-futuristic.ogg");
+    audio.preload = "auto";
+    audio.volume = 0.5;
 
-    // Try .mp3 first, fallback to .ogg
-    audio.src = "/assets/sounds/door-close-futuristic.mp3"
-    audio.preload = "auto"
-    audio.volume = 0.5
-
-    audio.addEventListener("error", () => {
-      console.log("[v0] MP3 failed, trying OGG fallback")
-      audio.src = "/assets/sounds/door-close-futuristic.ogg"
-      audio.load()
-    })
-
-    audioRef.current = audio
+    audioRef.current = audio;
 
     return () => {
       if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
+        audioRef.current.pause();
+        audioRef.current = null;
       }
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
-    if (!mounted) return
-    localStorage.setItem("audioMuted", String(isMuted))
-  }, [isMuted, mounted])
+    if (!mounted) return;
+    localStorage.setItem("audioMuted", String(isMuted));
+  }, [isMuted, mounted]);
 
   const toggleMute = () => {
-    setIsMuted((prev) => !prev)
-  }
+    setIsMuted((prev) => !prev);
+  };
 
   const playDoorSound = async () => {
-    if (isMuted || !audioRef.current) return
+    if (isMuted || !audioRef.current) return;
 
     try {
-      audioRef.current.currentTime = 0
-      await audioRef.current.play()
-    } catch (error) {
-      console.log("[v0] Audio playback blocked or failed:", error)
-    }
-  }
+      const audio = audioRef.current;
+      audio.volume = 0.5; // Garante o volume inicial
+      audio.currentTime = 0; // Reinicia o áudio
+      await audio.play();
 
-  return <AudioContext.Provider value={{ isMuted, toggleMute, playDoorSound }}>{children}</AudioContext.Provider>
+      // Inicia o processo de encerramento aos 1.2 segundos (1200ms)
+      // para completar o ciclo total em 1.5 segundos
+      setTimeout(() => {
+        if (!audio) return;
+
+        const fadeInterval = setInterval(() => {
+          // Se o volume ainda for maior que 0.05, diminui gradualmente
+          if (audio.volume > 0.05) {
+            audio.volume = Math.max(0, audio.volume - 0.05);
+          } else {
+            // Quando o volume estiver quase no zero, pausa e limpa o intervalo
+            audio.pause();
+            clearInterval(fadeInterval);
+            audio.volume = 0.5; // Reseta o volume para a próxima execução
+          }
+        }, 30); // Frequência do fade (mais rápido = mais suave)
+      }, 1200);
+    } catch (error) {
+      console.log("[Audio] Playback blocked or failed:", error);
+    }
+  };
+
+  return (
+    <AudioContext.Provider value={{ isMuted, toggleMute, playDoorSound }}>
+      {children}
+    </AudioContext.Provider>
+  );
 }
 
 export function useAudio() {
-  const context = useContext(AudioContext)
+  const context = useContext(AudioContext);
   if (!context) {
-    throw new Error("useAudio must be used within AudioProvider")
+    throw new Error("useAudio must be used within AudioProvider");
   }
-  return context
+  return context;
 }

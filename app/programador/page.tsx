@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Code2, Database, FlaskConical, Globe, Smartphone } from "lucide-react"
 
+const mainText = "Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor."
 const skills = [
   {
     icon: Code2,
@@ -35,7 +36,7 @@ export default function ProgramadorPage() {
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Programador</h1>
         <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor.
+          {mainText}
         </p>
 
         <div className="mb-16">
