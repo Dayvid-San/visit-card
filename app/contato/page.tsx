@@ -2,29 +2,54 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react";
+import { Mail, Linkedin, Github, MapPin } from "lucide-react";
 import Link from "next/link";
-import React, { CSSProperties, useEffect, useState } from "react";
-import { useForm } from "@formspree/react";
+import React, { useState } from "react";
 import SuccessModal from "../../components/sucessModal";
 
-
 export default function ContactPage() {
-  
-  const contactTitle = "Vamos Conversar";
-  const contactSubtitle = "Estou sempre aberto a novas oportunidades e colaborações. Entre em contato comigo através dos canais abaixo.";
-
-  const [state, handleSubmit] = useForm("mlgpprer");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    if (state.succeeded) {
-      setShowModal(true);
-    }
-  }, [state.succeeded]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
     window.location.reload(); 
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setShowModal(true);
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || "Ocorreu um erro ao enviar.");
+      }
+    } catch (error) {
+      setErrorMessage("Erro de conexão com o servidor.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -60,8 +85,6 @@ export default function ContactPage() {
 
   return (
     <div className="container relative px-4 py-16 md:py-24">
-
-
       {/* Contact Cards Section */}
       <section className="relative z-20 mx-auto max-w-4xl mb-16">
         <div className="grid gap-6 md:grid-cols-2">
@@ -106,11 +129,8 @@ export default function ContactPage() {
             <h2 className="mb-6 text-3xl font-bold text-balance">
               Envie uma Mensagem
             </h2>
-            <form 
-              className="space-y-6"
-              action="https://formspree.io/f/mlgpprer"
-              method="POST"
-              >
+            
+            <form onSubmit={onSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
                   Nome
@@ -166,19 +186,24 @@ export default function ContactPage() {
                   required
                 />
               </div>
+
+              {errorMessage && (
+                <p className="text-sm font-medium text-destructive">{errorMessage}</p>
+              )}
               
               <Button 
-              type="submit" 
-              size="lg" 
-              className="w-full" 
-              disabled={state.submitting}
-            >
-              {state.submitting ? "Enviando..." : "Enviar Mensagem"}
-            </Button>
+                type="submit" 
+                size="lg" 
+                className="w-full" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
+              </Button>
             </form>
           </CardContent>
         </Card>
       </section>
+
       <SuccessModal 
         isOpen={showModal} 
         onClose={handleCloseModal} 
