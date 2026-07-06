@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // ADICIONE ISSO para gerar a pasta /out
+  output: 'export',
   reactStrictMode: false,
   images: {
     unoptimized: true,
