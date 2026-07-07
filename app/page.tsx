@@ -54,8 +54,8 @@ const projects = [
     highlight: "🏆 RECONHECIMENTO EM UNIVERSIDADES",
   },
   {
-    title: "O GUARDIÃO DO CONHECIMENTO",
-    description: "Arquitetura de conhecimento, pesquisa e tradução de ideias complexas em ecos claros.",
+    title: "Atenas",
+    description: "Bot para gerenciamento de rotinas, criação de documentos altomaticos para reunições e administração da comunidade TYTO.",
     icon: "📚",
   },
   {
