@@ -4,9 +4,8 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Github, Linkedin, Instagram, Mail, Moon, Sun, Volume2, VolumeX, Menu, X } from "lucide-react"
+import { Github, Linkedin, Instagram, Mail, Volume2, VolumeX, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useTheme } from "@/components/theme-provider"
 import { useAudio } from "@/components/audio-provider"
 import { useDoorTransition } from "@/components/door-transition-provider"
 import { DayvidLogo } from "@/components/dayvid-logo"
@@ -29,7 +28,6 @@ const socialLinks = [
 
 export function Header() {
   const pathname = usePathname()
-  const { theme, toggleTheme } = useTheme()
   const { isMuted, toggleMute } = useAudio()
   const { navigateWithDoor, isTransitioning } = useDoorTransition()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -101,15 +99,6 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-          >
-            {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
             onClick={toggleMute}
             aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
           >
@@ -169,18 +158,8 @@ export function Header() {
               ))}
             </div>
             <hr className="w-full border-t border-border/40" />
-            {/* Theme and Audio Controls */}
+            {/* Audio Control Only */}
             <div className="flex items-center justify-between w-full">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleTheme}
-                className="flex items-center space-x-2"
-                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-              >
-                {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                <span>{theme === "light" ? "Modo Escuro" : "Modo Claro"}</span>
-              </Button>
               <Button
                 variant="ghost"
                 size="sm"
