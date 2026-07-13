@@ -9,6 +9,8 @@ interface TransparentPhotoProps {
   customStyles?: CSSProperties;
 }
 
+const currentYear = new Date().getFullYear();
+
 const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
   imageUrl,
   opacity = 0.3,
@@ -43,32 +45,36 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 const projects = [
   {
     title: "ENGSCAN",
+    link: "/portfolio/engscan",
     description: "Solução que reduz o tempo nas vistória e inspeções de meses para algumas horas.",
     icon: "⚒️",
     highlight: "🏆 1º LUGAR EM COMPETIÇÕES",
   },
   {
     title: "TYTO",
+    link: "portfolio/tyto",
     description: "Comunidade internacional de computação e ciência. Estudamos, testamos e criamos produtos com base científica usados em diversos países.",
     icon: "🏰",
     highlight: "🏆 RECONHECIMENTO EM UNIVERSIDADES",
   },
   {
     title: "Atenas",
+    link: "portfolio/atenas",
     description: "Bot para gerenciamento de rotinas, criação de documentos altomaticos para reunições e administração da comunidade TYTO.",
     icon: "📚",
   },
   {
     title: "Ágora",
+    link:"portfolio/agora",
     description: "Aplicação capaz de predizer os valores de imóveis em determinadas regiões automaticamente.",
     icon: "🛍️",
   },
 ];
 
 const skills = [
-  "15 anos de experiência com código e eletrônica",
+  `${currentYear - 2015} anos de experiência com código e eletrônica`,
   "Boa comunicação",
-  "Visão do negócio",
+  "Visão total de negócio",
   "Dedicação em entregar resultados",
   "Dedicação ao time e a entrega"
 ];
@@ -77,7 +83,6 @@ const skills = [
 
 export default function HomePage() {
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
-  const currentYear = new Date().getFullYear();
   const age = currentYear - 2000;
 
   const presentationText = `Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho conhecimento em diferentes nichos, mas gosto principalmente de computadores, de automação e sinto satisfação em resolver problemas reais.`;
@@ -160,38 +165,40 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-950/30 pb-4">
               <div>
                 <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Artefatos criados</span>
-                <h2 className="text-2xl font-bold text-purple-300">Grandes Projetos</h2>
+                <h2 className="text-2xl font-bold text-purple-300">Principais Projetos</h2>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               {projects.map((project) => (
-                <article
-                  key={project.title}
-                  className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">Projeto</span>
-                      <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
-                        {project.title}
-                      </h3>
+                <a href={project.link}>
+                  <article
+                    key={project.title}
+                    className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">Projeto</span>
+                        <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
+                        {project.icon}
+                      </div>
                     </div>
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
-                      {project.icon}
-                    </div>
-                  </div>
-                  
-                  <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
-                    {project.description}
-                  </p>
+                    
+                    <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
+                      {project.description}
+                    </p>
 
-                  {project.highlight ? (
-                    <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
-                      {project.highlight}
-                    </div>
-                  ) : null}
-                </article>
+                    {project.highlight ? (
+                      <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
+                        {project.highlight}
+                      </div>
+                    ) : null}
+                  </article>
+                </a>
               ))}
             </div>
           </section>

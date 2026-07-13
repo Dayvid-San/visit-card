@@ -122,7 +122,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form Section */}
+      {/* Contact Form Section 
       <section className="relative z-20 mx-auto max-w-2xl">
         <Card>
           <CardContent className="p-8 md:p-12">
@@ -208,6 +208,7 @@ export default function ContactPage() {
         isOpen={showModal} 
         onClose={handleCloseModal} 
       />
+      */}
     </div>
   );
 }
