@@ -60,7 +60,7 @@ const projects = [
   {
     title: "Atenas",
     link: "portfolio/atenas",
-    description: "Bot para gerenciamento de rotinas, criação de documentos altomaticos para reunições e administração da comunidade TYTO.",
+    description: "Bot para gerenciamento de rotinas, criação de documentos automáticos para reunições e administração da comunidade TYTO.",
     icon: "📚",
   },
   {
@@ -76,7 +76,7 @@ const skills = [
   "Boa comunicação",
   "Visão total de negócio",
   "Dedicação em entregar resultados",
-  "Dedicação ao time e a entrega"
+  "Dedicação ao time"
 ];
 
 // --- Componente Principal ---
