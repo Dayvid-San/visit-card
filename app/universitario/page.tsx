@@ -34,16 +34,28 @@ export default function UniversitarioPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Universitário</h1>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Para mim, a Universidade era o caminho natural. Então, por sugestão de um amigo, escolhi Ciências da Computação. Em 2020, me matriculei no curso pela Universidade Federal de Sergipe, onde desenvolvi minhas habilidades em lógica matemática e trabalho em equipe. Liderei grupos de trabalhos e estudos, além de iniciar meu aprendizado em tecnologias importantes para o desenvolvimento das minhas aplicações atuais, como o JavaScript (ECMA6).
-        </p>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Em julho de 2021, me juntei a três prodígios da minha faculdade: Willian Silveira, Myck Willian e Nathan Monteiro para fundar a Tyto (Taito), um grupo de estudos em que nos ajudávamos e compartilhávamos material de estudo.
-        </p>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Na universidade, tive a oportunidade de conhecer muitos talentos. Começamos a nos reunir em projetos que considerávamos interessantes e, com o tempo, fui agregando novas pessoas ao grupo de amigos que já me acompanhavam. Dessa colaboração nasceram várias iniciativas, que inicialmente se transformaram em pesquisas acadêmicas e, mais tarde, evoluíram para startups, como EngScan e Constructor.
-        </p>
+        
+        {/* Universidade e Construção de Comunidades */}
+        <div className="space-y-6 mb-12 text-lg text-muted-foreground text-pretty leading-relaxed">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Universidade e construção de comunidades</h2>
+          <p>
+            Ao ingressar na Universidade Federal de Sergipe em 2020, escolhi Ciência da Computação como uma forma de aprofundar uma paixão que já fazia parte da minha trajetória: transformar ideias em soluções através da tecnologia.
+          </p>
+          <p>
+            Durante a graduação, desenvolvi minha base em fundamentos de computação, lógica matemática e desenvolvimento de software, enquanto buscava aplicar esse conhecimento em projetos práticos. Além do aprendizado técnico, comecei a atuar na organização de grupos de estudo e projetos colaborativos, reunindo pessoas com interesses semelhantes para compartilhar conhecimento e construir soluções em conjunto.
+          </p>
+          <p>
+            Em 2021, junto com outros estudantes da área de computação, fundei a TYTO, inicialmente como uma comunidade de estudos voltada para troca de conhecimento, desenvolvimento técnico e colaboração entre alunos. O grupo cresceu a partir da ideia de que aprender tecnologia de forma colaborativa acelera a evolução de todos os envolvidos.
+          </p>
+          <p>
+            A partir dessas conexões, começamos a transformar ideias e experimentos em projetos mais estruturados. Algumas iniciativas nasceram inicialmente como pesquisas e protótipos acadêmicos e, posteriormente, evoluíram para produtos e startups, como a EngScan e a Constructor.
+          </p>
+          <p>
+            Essa experiência foi fundamental para minha formação como engenheiro: aprendi que construir software não envolve apenas tecnologia, mas também comunicação, liderança, colaboração e a capacidade de transformar conhecimento coletivo em soluções aplicáveis.
+          </p>
+        </div>
 
+        {/* Áreas de Pesquisa */}
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">Áreas de Pesquisa</h2>
           <div className="grid gap-6 md:grid-cols-2">
@@ -69,52 +81,8 @@ export default function UniversitarioPage() {
             ))}
           </div>
         </div>
-	{/*
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold">Metodologia de Pesquisa</h2>
-          <Card>
-            <CardContent className="p-8">
-              <ul className="space-y-4 text-muted-foreground leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong className="text-foreground">Revisão bibliográfica rigorosa:</strong> Fundamento minha
-                    pesquisa em literatura científica consolidada.
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong className="text-foreground">Experimentação controlada:</strong> Conduzo experimentos com
-                    metodologia científica robusta.
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong className="text-foreground">Análise estatística:</strong> Utilizo métodos estatísticos
-                    apropriados para validar resultados.
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong className="text-foreground">Reprodutibilidade:</strong> Documento processos detalhadamente
-                    para garantir reprodutibilidade.
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="text-primary">•</span>
-                  <span>
-                    <strong className="text-foreground">Publicação e compartilhamento:</strong> Contribuo para a
-                    comunidade científica através de publicações e código aberto.
-                  </span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-	*/}
+
+        {/* Contribuições Acadêmicas */}
         <div>
           <h2 className="mb-6 text-2xl font-bold">Contribuições Acadêmicas</h2>
           <Card>

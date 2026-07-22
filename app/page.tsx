@@ -45,7 +45,7 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 
 const projects = [
   {
-    title: "ENGSCAN",
+    title: "EngScan",
     link: "/portfolio/engscan",
     description: "Solução que reduz o tempo nas vistória e inspeções de meses para algumas horas.",
     icon: "⚒️",
@@ -86,9 +86,14 @@ export default function HomePage() {
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
   const age = currentYear - 2000;
 
-  const presentationText = `Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho conhecimento em diferentes nichos, mas gosto principalmente de computadores, de automação e sinto satisfação em resolver problemas reais.`;
+  const presentationText = `Acredito que software existe para resolver problemas reais. Gosto de entender sistemas complexos, questionar processos e construir soluções que gerem impacto mensurável. Seja por meio de engenharia de software, automação ou inteligência artificial, meu objetivo é transformar desafios em resultados.
+`;
   
-  const aboutMeText = `Programador, pesquisador, estudante de Ciência da Computação e enxadrista. Tenho ${age} anos. Nascido em Aracaju, Sergipe, sou responsável por muitos projetos de inovação e ciência no estado. Hoje, moro no Paraná onde tenho como base para a exportação desses projetos no Brasil e no mundo. Fundei um clube de computação que está presente em Sergipe, Piauí, São Paulo, Rio de janeiro, Paraná e Santa Catarina, além do Marrocos e Irlanda.`;
+  const aboutMeText = `Sou engenheiro de software, pesquisador em inteligência artificial e estudante de Ciência da Computação. Comecei a programar de forma independente aos 15 anos e, desde então, desenvolvo soluções que combinam engenharia, ciência e software para resolver problemas reais.
+
+Fundei uma comunidade internacional de computação aplicada, participei da criação de produtos utilizados globalmente e desenvolvi sistemas envolvendo automação, modelagem matemática, aprendizado de máquina e engenharia de software.
+
+Minha experiência transita entre pesquisa e desenvolvimento, transformando problemas complexos em soluções funcionais e escaláveis. Tenho interesse em desafios que envolvam inteligência artificial, automação e sistemas distribuídos, contribuindo com equipes que buscam criar produtos de alto impacto.`;
 
   return (
     <main className="relative min-h-screen bg-[#000000] text-[#f3eade] font-sans antialiased overflow-x-hidden selection:bg-purple-700 selection:text-white">
@@ -120,7 +125,7 @@ export default function HomePage() {
             </h1>
             <div className="mx-auto mt-4 max-w-xl border-y border-purple-950/40 py-2">
               <p className="text-xs font-medium uppercase tracking-[0.25em] text-purple-300/60">
-                Programador • Pesquisador • Nerd
+                Software Engineer • AI Researcher • Systems Builder
               </p>
             </div>
           </header>
