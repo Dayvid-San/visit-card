@@ -1,5 +1,6 @@
 import React, { CSSProperties } from "react";
 import Image from "next/image";
+import { TypewriterStatus } from "@/components/typeWriterStatus";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -145,18 +146,7 @@ export default function HomePage() {
                 </p>
               </div>
               
-              {/* Mini Mini-Mapa Simbólico Técnico */}
-              <div className="mt-6 border border-purple-950/50 rounded-xl bg-black/40 p-3 font-mono text-[11px] text-purple-400/80 space-y-1">
-                <div className="flex justify-between border-b border-purple-950/30 pb-1">
-                  <span>🗺️ MAP</span>
-                  <span className="text-purple-500">v2.0</span>
-                </div>
-                <div className="pt-1 text-[#a69a8a]">
-                  <p>📍 Base: Paraná, BR</p>
-                  <p>🔮 Node: ENGSCAN</p>
-                  <p>🛡️ Hub: TYTO Village</p>
-                </div>
-              </div>
+              <TypewriterStatus />
             </div>
           </section>
 
