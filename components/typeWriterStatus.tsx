@@ -10,7 +10,7 @@ const STATUS_ITEMS: StatusLine[] = [
   { id: "role", text: "👑 Cargo: Senhor da Guerra" },
   { id: "location", text: "📍 Polis: Maringá, BR" },
   { id: "squad", text: "🛡️ Esquadrão: EngScan" },
-  { id: "hub", text: "🏙️ Hub: TYTO" },
+  { id: "hub", text: "🏙️ Título: Conselheiro" },
 ];
 
 export const TypewriterStatus: React.FC = () => {
@@ -69,7 +69,7 @@ export const TypewriterStatus: React.FC = () => {
       className="mt-6 border border-purple-950/50 rounded-xl bg-black/40 p-3 font-mono text-[11px] text-purple-400/80 space-y-1"
     >
       <div className="flex justify-between border-b border-purple-950/30 pb-1">
-        <span>🗺️ Status</span>
+        <span>Status na TYTO</span>
         <span className="text-purple-500">v2.0</span>
       </div>
 

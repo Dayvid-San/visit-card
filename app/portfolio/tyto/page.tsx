@@ -41,7 +41,7 @@ const projectData: ProjectDetail = {
     "Discord Bot"
   ],
   links: {
-    demo: "https://club.tytoclub.com.br",
+    demo: "https://club.tytocode.com.br",
     github: "https://github.com/TYTO-club",
   },
   overview:

@@ -80,6 +80,14 @@ const skills = [
   "Dedicação ao time"
 ];
 
+const languages = [
+  "Português",
+  "Inglês",
+  "Russo",
+  "Sergipanês",
+  "Alto Valiriano",
+];
+
 // --- Componente Principal ---
 
 export default function HomePage() {
@@ -107,8 +115,8 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
         <TransparentPhoto
           imageUrl={photoDayvid}
           opacity={0.15}
-          width="240px"
-          height="450px"
+          width="23em"
+          height="30em"
         />
       </div>
 
@@ -166,9 +174,8 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
 
             <div className="grid gap-4 sm:grid-cols-2">
               {projects.map((project) => (
-                <a href={project.link}>
+                <a href={project.link} key={project.title}>
                   <article
-                    key={project.title}
                     className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -218,10 +225,30 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
             </div>
           </section>
 
+          {/* Idiomas / Domínio Linguístico */}
+          <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Comunicação & Dialetos</span>
+                <h3 className="text-xl font-bold text-purple-300">Domínio Linguístico</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {languages.map((language) => (
+                  <span
+                    key={language}
+                    className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Footer */}
           <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
             <p className="font-mono text-purple-400/60 tracking-wider">
-              Entre em contato com o meu senhor!
+              {'() => human ? Conecte-se com os botões ao lado : "???"'}
             </p>
             <div className="flex flex-wrap gap-2">
               <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
