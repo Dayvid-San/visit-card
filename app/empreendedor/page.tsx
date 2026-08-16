@@ -9,18 +9,18 @@ const principles = [
   },
   {
     icon: Lightbulb,
-    title: "incentivo ao ensino e aprendizado",
-    description: "Acredito que a educação é um dos poucos recursos que não nos podem ser tirados. Por isso promovi eventos, comunidades, ligas e editais para que as pessoas que eu pudesse ajudar tivessem as mesmas oportunidades que eu tive com a educa.",
+    title: "Incentivo ao ensino e aprendizado",
+    description: "Acredito que a educação é um dos poucos recursos que não nos podem ser tirados. Por isso promovi eventos, comunidades, ligas e editais para que as pessoas que eu pudesse ajudar tivessem as mesmas oportunidades que eu tive com a educação.",
   },
   {
     icon: Users,
     title: "Comunidades e cooperação",
-    description: "Fundei uma comunidade de computação chamada TYTO.code com o propósito de unir profissionais para a aplicação do desenvolvimento acadêmico indenpendete na sociedade civil. Também fundei e incetivei a criação de ligas academicas e clubes de computação e inovação.",
+    description: "Fundei uma comunidade de computação chamada TYTO.code com o propósito de unir profissionais para a aplicação do desenvolvimento acadêmico independente na sociedade civil. Também fundei e incentivei a criação de ligas acadêmicas e clubes de computação e inovação.",
   },
   {
     icon: Target, 
     title: "Empresas e Startups",
-    description: "Junto a comunidade, fundei empresas e startups para atender necessidades reais. Desde pessoas comuns até grandes empresas. Ganhamos prêmios, reputação e seguimos presentes no mercado em áreas como engenharia civil, saúde, finanças, agronomia",
+    description: "Junto à comunidade, fundei empresas e startups para atender necessidades reais — desde pessoas comuns até grandes empresas. Ganhamos prêmios, reputação e seguimos presentes no mercado em áreas como engenharia civil, saúde, finanças e agronomia.",
   },
 ]
 
@@ -29,15 +29,30 @@ export default function EmpreendedorPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Empreendedor</h1>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Desde cedo, sempre tive a inquietude de criar, inventar e solucionar problemas usando o que sabia, seja através da marcenaria ou da eletrônica. Quando comecei a programar, tive acesso a ferramentas mais sofisticadas e me empolguei com o que poderia criar.
-        </p>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Ao longo da minha jornada, acumulei experiência em diversos nichos, o que me proporcionou uma visão ampla e estratégica do mundo dos negócios. Conheci muitas pessoas que me motivaram a abrir minha própria empresa e tive a coragem de arriscar abrir uma. "Até onde eu conseguiria chegar com isso?", pensei. Um colega designer disse que um cliente precisava de um web app. Querendo deixar de ser designer gráfico, aproveitei a oportunidade. Assim nasceu a TYTO em julho de 2021.
-        </p>
-        <p className="mb-8 text-lg text-muted-foreground text-pretty">
-          Em minha busca por uma área de especialização, explorei diversos setores para desenvolver um app que pudesse resolver problemas reais, considerando áreas como condomínios, hotelaria e corretoras de investimentos. Um dia, recebi uma sugestão inesperada de um amigo: criar uma solução para uma necessidade específica dentro da engenharia diagnóstica. A ideia não me convenceu de imediato, especialmente porque eu estava considerando outro projeto que parecia mais promissor.
-        </p>
+        
+        {/* História & Trajetória */}
+        <div className="space-y-6 mb-12 text-lg text-muted-foreground text-pretty leading-relaxed">
+          <p>
+            Minha trajetória empreendedora nasceu do mesmo propósito que me levou à tecnologia: a vontade de criar, experimentar e transformar ideias em soluções reais. Antes mesmo da programação, eu já explorava diferentes formas de construir e resolver problemas, através de atividades como marcenaria e eletrônica.
+          </p>
+          <p>
+            Quando comecei a programar, encontrei uma nova forma de criar: em vez de construir apenas objetos físicos, passei a desenvolver sistemas capazes de automatizar processos, organizar informações e resolver necessidades de pessoas e negócios.
+          </p>
+          <p>
+            Ao longo da minha jornada, tive contato com diferentes áreas e profissionais, desenvolvendo uma visão ampla sobre como problemas reais surgem e como soluções digitais podem gerar valor. Essa experiência me levou a criar minha própria empresa, a TYTO, em julho de 2021.
+          </p>
+          <p>
+            A oportunidade surgiu a partir de uma demanda real de um cliente que precisava de um web app. O projeto marcou minha transição de desenvolvedor e designer para alguém responsável por entender problemas de negócio, definir soluções, construir produtos e entregar resultados.
+          </p>
+          <p>
+            Durante essa fase, explorei diferentes mercados em busca de problemas relevantes que pudessem ser resolvidos através de software, incluindo setores como condomínios, hotelaria e investimentos. Esse processo me ensinou uma das principais lições da engenharia de software aplicada a negócios: a tecnologia só tem valor quando resolve problemas reais.
+          </p>
+          <p>
+            Essa busca me levou posteriormente a uma oportunidade inesperada no setor de engenharia diagnóstica, onde comecei a desenvolver uma solução envolvendo análise estrutural, modelos matemáticos e inteligência artificial.
+          </p>
+        </div>
+
+        {/* Princípios Empreendedores */}
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">Princípios Empreendedores</h2>
           <div className="grid gap-6 md:grid-cols-2">
@@ -54,51 +69,14 @@ export default function EmpreendedorPage() {
             ))}
           </div>
         </div>
-	{/*
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold">Abordagem</h2>
-          <Card>
-            <CardContent className="p-8">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold">1. Identificação de Oportunidades</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Analiso tendências de mercado, comportamento do consumidor e gaps tecnológicos para identificar
-                    oportunidades de negócio viáveis.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold">2. Validação Rápida</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Utilizo metodologias ágeis e lean startup para validar hipóteses rapidamente, minimizando riscos e
-                    otimizando recursos.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold">3. Desenvolvimento Iterativo</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Construo MVPs (Minimum Viable Products) e itero baseado em feedback real de usuários, garantindo
-                    product-market fit.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold">4. Escalabilidade</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Projeto soluções com arquitetura escalável desde o início, preparadas para crescer conforme a
-                    demanda aumenta.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-	*/}
+
+        {/* Visão */}
         <div>
-          <h2 className="mb-6 text-2xl font-bold">Visão</h2>
+          <h2 className="mb-6 text-2xl font-bold">Visão de mundo</h2>
           <Card>
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                Acredito que sempre existe mais de um caminho para a solução de um problema.
+                Sempre existe mais de um caminho para a solução de um problema.
               </p>
             </CardContent>
           </Card>

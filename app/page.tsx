@@ -1,198 +1,20 @@
-const projects = [
-  {
-    title: "O GUARDIÃO DO CONHECIMENTO",
-    description: "Arquitetura de conhecimento, pesquisa e tradução de ideias complexas em ecos claros.",
-    icon: "📚",
-  },
-  {
-    title: "FORJANDO MASTERPIECES",
-    description: "Produtos digitais com precisão artesanal, foco em experiência e evolução contínua.",
-    icon: "⚒️",
-  },
-  {
-    title: "ENGSCAN: ALQUIMISTA DE IMAGENS",
-    description: "Soluções visuais inteligentes que transformam imagens em narrativas acionáveis.",
-    icon: "🏰",
-    highlight: "🏆 1º LUGAR NO PICS",
-  },
-  {
-    title: "FLUGO: O ESTANDARTE DO GESTOR",
-    description: "Estratégia, visão de mercado e execução para marcas que desejam crescer com clareza.",
-    icon: "🛍️",
-  },
-]
-
-const skills = [
-  "CÓDIGO (JavaScript / React / Node.js)",
-  "INOVAÇÃO (IA / Pesquisa)",
-  "EMPREENDEDORISMO (SaaS / TYTO.club)",
-]
-
-export default function HomePage() {
-  return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(120,78,27,0.3),_transparent_45%),linear-gradient(135deg,_#150f0c_0%,_#070403_100%)] px-4 py-6 text-[#f6e6bf] sm:px-6 lg:px-8 lg:py-10">
-      <div className="mx-auto flex max-w-7xl justify-center">
-        <section className="fantasy-shell w-full max-w-7xl p-4 sm:p-6 lg:p-8">
-          <div className="relative z-10 overflow-hidden rounded-[2rem] border border-[#7b4b22]/60 bg-[#160f0a]/90 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] sm:p-8 lg:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(246,188,65,0.12),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(34,65,132,0.16),_transparent_25%)]" />
-
-            <div className="relative space-y-8 lg:space-y-10">
-              <header className="text-center">
-                <p className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.45em] text-[#b68742] sm:text-xs">
-                  Conselho do Guardião
-                </p>
-                <h1 className="gothic-title text-4xl leading-none sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.4rem]">
-                  DAYVID SANTANA
-                </h1>
-                <div className="parchment-panel mx-auto mt-5 max-w-3xl rounded-full border border-[#8c6034]/40 px-5 py-3 shadow-[0_12px_24px_rgba(0,0,0,0.15)] sm:px-7">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#5b3a1c] sm:text-base">
-                    PROGRAMADOR, PESQUISADOR E EMPREENDEDOR DA TYTO.CLUB
-                  </p>
-                </div>
-              </header>
-
-              <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-stretch">
-                <div className="parchment-panel rounded-[2rem] border border-[#8c6034]/35 p-4 sm:p-6 lg:p-8">
-                  <div className="mb-5 flex items-center justify-between border-b border-[#8c6034]/20 pb-3">
-                    <div>
-                      <p className="text-[0.62rem] uppercase tracking-[0.4em] text-[#8b5e2e]">Mapa do Reino</p>
-                      <h2 className="text-lg font-semibold text-[#4f3114]">Terras do conhecimento</h2>
-                    </div>
-                    <div className="rounded-full border border-[#8c6034]/30 bg-[#fff1cb]/70 px-3 py-1 text-[0.68rem] uppercase tracking-[0.3em] text-[#7c4a1e]">
-                      Compass rose
-                    </div>
-                  </div>
-
-                  <div className="rounded-[1.6rem] border border-[#8c6034]/25 bg-[#24170d]/90 p-4 sm:p-6">
-                    <svg viewBox="0 0 640 420" className="h-full w-full" role="img" aria-label="Mapa estilizado do reino com marcos para Engscan Keep e Flugo Village">
-                      <rect x="36" y="42" width="568" height="336" rx="28" fill="#1f140a" stroke="#7e5225" strokeWidth="2" />
-                      <path d="M96 134C166 88 219 90 275 124C334 159 348 242 397 257C447 272 501 248 553 204" stroke="#5d3922" strokeWidth="3" fill="none" />
-                      <path d="M142 206C190 176 240 164 286 178C332 192 358 246 414 274C460 297 506 328 550 320" stroke="#6f4425" strokeWidth="2" fill="none" strokeDasharray="8 8" />
-                      <path d="M160 300C228 274 266 274 314 292C362 310 440 300 500 246" stroke="#8a5b2e" strokeWidth="2" fill="none" opacity="0.75" />
-                      <circle cx="318" cy="206" r="78" fill="none" stroke="#dcb65a" strokeWidth="2" opacity="0.85" />
-                      <circle cx="318" cy="206" r="58" fill="none" stroke="#f6de87" strokeWidth="1.5" opacity="0.8" />
-                      <circle cx="318" cy="206" r="10" fill="#ffd36d" />
-                      <circle cx="318" cy="206" r="3" fill="#fff7d4" />
-                      <path d="M318 138L318 206L272 176" fill="none" stroke="#f0c764" strokeWidth="4" strokeLinecap="round" />
-                      <path d="M318 206L366 242" stroke="#f0c764" strokeWidth="4" strokeLinecap="round" />
-                      <circle cx="430" cy="144" r="12" fill="#d8a44b" />
-                      <path d="M426 144H434" stroke="#1f140a" strokeWidth="2" />
-                      <circle cx="214" cy="274" r="12" fill="#d8a44b" />
-                      <path d="M210 274H218" stroke="#1f140a" strokeWidth="2" />
-                      <rect x="408" y="120" width="88" height="44" rx="8" fill="#21150d" stroke="#8f6637" />
-                      <text x="452" y="149" textAnchor="middle" fill="#f7e5b2" fontSize="12" fontFamily="Georgia, serif">ENGSCAN</text>
-                      <rect x="178" y="250" width="92" height="44" rx="8" fill="#21150d" stroke="#8f6637" />
-                      <text x="224" y="279" textAnchor="middle" fill="#f7e5b2" fontSize="12" fontFamily="Georgia, serif">FLUGO</text>
-                      <path d="M312 118L318 104L324 118" stroke="#f2c96d" strokeWidth="3" fill="none" />
-                    </svg>
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-between gap-4">
-                  <div className="parchment-panel rounded-[1.6rem] border border-[#8c6034]/35 p-5 sm:p-6">
-                    <p className="text-[0.62rem] uppercase tracking-[0.4em] text-[#8b5e2e]">Selo do ofício</p>
-                    <h3 className="mt-2 text-xl font-semibold text-[#4f3114]">Construo soluções com erudição e visão.</h3>
-                    <p className="mt-3 text-sm leading-7 text-[#5e4024] sm:text-base">
-                      Entre pesquisa, software e empreendedorismo, minha missão é transformar complexidade em produtos claros, elegantes e úteis.
-                    </p>
-                  </div>
-                  <div className="rounded-[1.6rem] border border-[#7f5225]/35 bg-[linear-gradient(135deg,_rgba(36,23,13,0.9),_rgba(16,10,7,0.95))] p-5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] sm:p-6">
-                    <p className="text-[0.62rem] uppercase tracking-[0.4em] text-[#d5ad64]">Presença em campo</p>
-                    <div className="mt-3 space-y-3 text-sm leading-7 text-[#f2e0b7]">
-                      <p>• Pesquisador em IA, automação e comunicação visual.</p>
-                      <p>• Desenvolvedor de produtos com foco em clareza e escala.</p>
-                      <p>• Fundador de iniciativas que conectam tecnologia e impacto.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                {projects.map((project) => (
-                  <article
-                    key={project.title}
-                    className="group relative overflow-hidden rounded-[1.6rem] border border-[#8c6034]/35 bg-[linear-gradient(135deg,_rgba(255,239,199,0.95),_rgba(232,209,156,0.92))] p-5 text-[#4d3216] shadow-[0_16px_40px_rgba(0,0,0,0.16)] transition-transform duration-300 hover:-translate-y-1"
-                  >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(114,68,14,0.1),_transparent_35%)]" />
-                    <div className="relative flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-[0.62rem] uppercase tracking-[0.4em] text-[#7d4c21]">Projeto</p>
-                        <h3 className="mt-2 text-lg font-semibold leading-tight">{project.title}</h3>
-                      </div>
-                      <div className="rounded-full border border-[#8c6034]/30 bg-[#fff3d3]/80 p-2 text-xl shadow-inner">
-                        {project.icon}
-                      </div>
-                    </div>
-                    <p className="relative mt-4 text-sm leading-7 text-[#5b4024] sm:text-[0.95rem]">{project.description}</p>
-                    {project.highlight ? (
-                      <div className="relative mt-4 inline-flex rounded-full border border-[#a06f2d]/30 bg-[#f8df9a] px-3 py-1 text-sm font-semibold text-[#7b4313] shadow-sm">
-                        {project.highlight}
-                      </div>
-                    ) : null}
-                  </article>
-                ))}
-              </div>
-
-              <div className="parchment-panel rounded-[1.8rem] border border-[#8c6034]/35 px-5 py-5 sm:px-7">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div>
-                    <p className="text-[0.62rem] uppercase tracking-[0.42em] text-[#8b5e2e]">Habilidades arquetípicas</p>
-                    <h3 className="mt-2 text-xl font-semibold text-[#4f3114]">HABILIDADES ARQUETÍPICAS</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="rounded-full border border-[#8c6034]/25 bg-[#fff9e9]/70 px-3 py-2 text-sm font-medium text-[#5f3d1f] shadow-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <footer className="flex flex-col gap-4 rounded-[1.6rem] border border-[#7d5022]/35 bg-[#20140b]/80 px-5 py-5 text-sm text-[#f5e5b6] shadow-[0_16px_40px_rgba(0,0,0,0.2)] sm:flex-row sm:items-center sm:justify-between sm:px-7">
-                <p className="font-semibold uppercase tracking-[0.24em] text-[#d5ad64]">
-                  Firme um acordo com o Guardião
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="rounded-full border border-[#8c6034]/35 px-3 py-2 transition hover:bg-[#8c6034]/20">
-                    LinkedIn
-                  </a>
-                  <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="rounded-full border border-[#8c6034]/35 px-3 py-2 transition hover:bg-[#8c6034]/20">
-                    GitHub
-                  </a>
-                  <a href="mailto:dayvid@example.com" className="rounded-full border border-[#8c6034]/35 px-3 py-2 transition hover:bg-[#8c6034]/20">
-                    Email
-                  </a>
-                </div>
-              </footer>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-  )
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import React, { CSSProperties } from "react";
 import Image from "next/image";
+import { TypewriterStatus } from "@/components/typeWriterStatus";
 
 interface TransparentPhotoProps {
-  imageUrl: any;
+  imageUrl: string;
   opacity?: number;
   width?: string;
   height?: string;
-  background?: string;
   customStyles?: CSSProperties;
 }
 
+const currentYear = new Date().getFullYear();
+
 const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
   imageUrl,
-  opacity = 0.5,
+  opacity = 0.3,
   width = "300px",
   height = "300px",
   customStyles = {},
@@ -206,22 +28,8 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
     ...customStyles,
   };
 
-  const gradientOverlayStyles: CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: 10,
-    width: "100%",
-    height: "100%",
-    background: `
-      linear-gradient(to right, transparent 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, transparent 100%),
-      linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, transparent 100%)
-    `,
-    zIndex: 1,
-    pointerEvents: "none",
-  };
-
   return (
-    <div style={containerStyles}>
+    <div style={containerStyles} className="transition-opacity duration-700 gray-scale hover:opacity-40">
       <Image
         src={imageUrl}
         alt=""
@@ -229,67 +37,247 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
         style={{ objectFit: "cover" }}
         priority
       />
-      <div style={gradientOverlayStyles} />
     </div>
   );
 };
 
+// --- Dados Fixos ---
+
+const projects = [
+  {
+    title: "EngScan",
+    link: "/portfolio/engscan",
+    description: "Solução que reduz o tempo nas vistória e inspeções de meses para algumas horas.",
+    icon: "⚒️",
+    highlight: "🏆 1º LUGAR EM COMPETIÇÕES",
+  },
+  {
+    title: "TYTO",
+    link: "portfolio/tyto",
+    description: "Comunidade internacional de computação e ciência. Estudamos, testamos e criamos produtos com base científica usados em diversos países.",
+    icon: "🏰",
+    highlight: "🏆 RECONHECIMENTO EM UNIVERSIDADES",
+  },
+  {
+    title: "Atenas",
+    link: "portfolio/atenas",
+    description: "Bot para gerenciamento de rotinas, criação de documentos automáticos para reunições e administração da comunidade TYTO.",
+    icon: "📚",
+  },
+  {
+    title: "Ágora",
+    link:"portfolio/agora",
+    description: "Aplicação capaz de predizer os valores de imóveis em determinadas regiões automaticamente.",
+    icon: "🛍️",
+  },
+];
+
+const skills = [
+  `${currentYear - 2015} anos de experiência com código e eletrônica`,
+  "Boa comunicação",
+  "Visão total de negócio",
+  "Dedicação em entregar resultados",
+  "Dedicação ao time"
+];
+
+const languages = [
+  "Português",
+  "Inglês",
+  "Russo",
+  "Sergipanês",
+  "Alto Valiriano",
+];
+
+// --- Componente Principal ---
+
 export default function HomePage() {
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
-  const date = new Date();
-  const titlePresentation = "Olá, meu nome é";
-  const namePresentation = "Dayvid";
-  const presentationText = `Sou Programador e pesquisador em Redes Neurais Artificiais. Tenho
-            conhecimento em diferentes nichos, mas gosto principalmente de
-            computadores, de automação e sinto satisfação em resolver problemas
-            reais.`;
-  const aboutMeText = `Programador, pesquisador, estudante de Ciência da Computação e enxadrista. Tenho ${date.getFullYear() - 2000} anos. Nascido em Aracaju, Sergipe, sou responsável por muitos projetos de inovação e ciência no estado. Hoje, moro no Paraná onde tenho como base para a exportação desses projetos no Brasil e no mundo. Fundei um clube de computação que está presente em Sergipe, Piauí, São Paulo, Rio de janeiro, Paraná e Santa Catarina, além do Marrocos e Irlanda.`;
+  const age = currentYear - 2000;
+
+  const presentationText = `Acredito que software existe para resolver problemas reais. Gosto de entender sistemas complexos, questionar processos e construir soluções que gerem impacto mensurável. Seja por meio de engenharia de software, automação ou inteligência artificial, meu objetivo é transformar desafios em resultados.
+`;
+  
+  const aboutMeText = `Sou engenheiro de software, pesquisador em inteligência artificial e estudante de Ciência da Computação. Comecei a programar de forma independente aos 15 anos e, desde então, desenvolvo soluções que combinam engenharia, ciência e software para resolver problemas reais.
+
+Fundei uma comunidade internacional de computação aplicada, participei da criação de produtos utilizados globalmente e desenvolvi sistemas envolvendo automação, modelagem matemática, aprendizado de máquina e engenharia de software.
+
+Minha experiência transita entre pesquisa e desenvolvimento, transformando problemas complexos em soluções funcionais e escaláveis. Tenho interesse em desafios que envolvam inteligência artificial, automação e sistemas distribuídos, contribuindo com equipes que buscam criar produtos de alto impacto.`;
 
   return (
-    <div className="container relative px-4 py-16 md:py-24">
-      <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 10 }}>
+    <main className="relative min-h-screen bg-[#000000] text-[#f3eade] font-sans antialiased overflow-x-hidden selection:bg-purple-700 selection:text-white">
+      
+      {/* Background Orbs de Iluminação Sutil */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-950/40 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-sky-900/40 rounded-full blur-[150px] pointer-events-none" />
+      
+      {/* Foto de Fundo Flutuante Lateral */}
+      <div className="fixed left-6 top-12 z-0 hidden lg:block border border-purple-950/40 rounded-2xl overflow-hidden shadow-2xl">
         <TransparentPhoto
           imageUrl={photoDayvid}
-          opacity={0.3}
-          width="300px"
-          height="600px"
+          opacity={0.15}
+          width="23em"
+          height="30em"
         />
       </div>
-      <div className="absolute bottom-90 right-0 z-10">
+
+      <div className="relative z-10 mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:py-20">
+        <div className="space-y-16">
+          
+          {/* Header principal */}
+          <header className="text-center space-y-4">
+            <p className="text-xs font-bold uppercase tracking-[0.4em] text-purple-400/80">
+              ⚔️ Engenheiro de Software ⚔️
+            </p>
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-[#f3eade] via-purple-300 to-purple-500">
+              DAYVID SANTANA
+            </h1>
+            <div className="mx-auto mt-4 max-w-xl border-y border-purple-950/40 py-2">
+              <p className="text-xs font-medium uppercase tracking-[0.25em] text-purple-300/60">
+                Software Engineer • AI Researcher • Systems Builder
+              </p>
+            </div>
+          </header>
+
+          {/* Grid: Sobre Mim & Presença */}
+          <section className="grid gap-6 md:grid-cols-5">
+            <div className="md:col-span-3 bg-zinc-950/60 backdrop-blur-md border border-purple-950/40 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Selo do ofício</span>
+                <h2 className="text-2xl font-bold text-purple-300 mt-1 mb-4">Sobre Mim</h2>
+                <p className="text-sm leading-relaxed text-[#d1c5b6] font-light">
+                  {aboutMeText}
+                </p>
+              </div>
+            </div>
+
+            <div className="md:col-span-2 bg-gradient-to-br from-zinc-900/80 to-zinc-950/90 border border-purple-900/30 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Presença em campo</span>
+                <h3 className="text-lg font-semibold text-purple-300 mt-1 mb-3">Manifesto</h3>
+                <p className="text-sm leading-relaxed text-[#c4b8aa] font-light">
+                  {presentationText}
+                </p>
+              </div>
+              
+              <TypewriterStatus />
+            </div>
+          </section>
+
+          {/* Projetos */}
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-950/30 pb-4">
+              <div>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Artefatos criados</span>
+                <h2 className="text-2xl font-bold text-purple-300">Principais Projetos</h2>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {projects.map((project) => (
+                <a href={project.link} key={project.title}>
+                  <article
+                    className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-2">
+                        <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">Projeto</span>
+                        <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
+                        {project.icon}
+                      </div>
+                    </div>
+                    
+                    <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
+                      {project.description}
+                    </p>
+
+                    {project.highlight ? (
+                      <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
+                        {project.highlight}
+                      </div>
+                    ) : null}
+                  </article>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          {/* Conhecimentos / Skills */}
+          <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Habilidades especiais</span>
+                <h3 className="text-xl font-bold text-purple-300">Habilidades Arquetípicas</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Idiomas / Domínio Linguístico */}
+          <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Comunicação & Dialetos</span>
+                <h3 className="text-xl font-bold text-purple-300">Domínio Linguístico</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {languages.map((language) => (
+                  <span
+                    key={language}
+                    className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
+            <p className="font-mono text-purple-400/60 tracking-wider">
+              {'() => human ? Conecte-se com os botões ao lado : "???"'}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+                LinkedIn
+              </a>
+              <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+                GitHub
+              </a>
+              <a href="mailto:santana.dayvid@outlook.com" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+                Email
+              </a>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+
+      {/* Ilustração do Personagem/Avatar */}
+      <div className="pointer-events-none fixed bottom-20 right-0 z-20 hidden opacity-80 lg:block">
         <Image
           src="/1768628437181-removebg-preview.png"
-          alt="Character"
+          alt="Dayvid Santana Avatar"
           width={300}
           height={300}
           className="object-contain"
+          priority
         />
       </div>
-      {/* Hero Section */}
-      <div className="relative z-20 flex items-stretch justify-around">
-        <section className="mb-24 text-center">
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
-            {titlePresentation}
-            <span className="bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent">
-              {" "}
-              {namePresentation}
-            </span>
-          </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty md:text-xl">
-            {presentationText}
-          </p>
-        </section>
-      </div>
-      {/* About Section */}
-      <section className="relative z-20 mx-auto max-w-4xl">
-        <Card>
-          <CardContent className="p-8 md:p-12">
-            <h2 className="mb-6 text-3xl font-bold text-balance">Sobre mim</h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>{aboutMeText}</p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-    </div>
+
+    </main>
   );
 }

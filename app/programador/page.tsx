@@ -2,18 +2,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Code2, Database, FlaskConical, Globe, Smartphone } from "lucide-react"
 
-const mainText = "Integrante de uma família de geeks, filho de um programador e de uma destrinchadora de eletrônicos, meus principais interesses sempre foram os eletrônicos e jogos digitais. Retomei o interesse no fim do ensino médio, aprendendo Python, Java, SQL e estrutura de dados para automatizar minhas notas e atividades escolares. Criei uma assistente virtual em Java e Python para decorar fórmulas e estudar. Desde que entrei na UFS, continuo criando aplicações que me ajudam no dia a dia ou pessoas ao meu redor."
+const mainText = `Meu rumo em tecnologia começou em um ambiente naturalmente voltado à experimentação. Cresci cercado por eletrônica, programação e jogos digitais. Assim, como meus pais trabalhavam, eu também queria experimentar.
+
+No final do ensino médio, retomei esse interesse de forma mais estruturada, estudando programação, estruturas de dados, bancos de dados e desenvolvimento de software. Um dos primeiros projetos que desenvolvi foi uma assistente virtual utilizando Java e Python, criada para auxiliar meus estudos, organizar informações e facilitar a memorização de conteúdos acadêmicos.
+
+Desde então, mantenho uma abordagem de engenharia orientada a problemas: identificar uma necessidade, compreender o contexto e construir ferramentas que gerem valor. Durante minha graduação na UFS, continuei desenvolvendo aplicações para automatizar tarefas, explorar novas tecnologias e resolver desafios reais para mim e para pessoas próximas.
+`
 const skills = [
   {
     icon: Code2,
     title: "Front-end",
-    description: "React, Angular, Java, Python, Next.js, TypeScript, Tailwind CSS",
+    description: "Design e desenvolvimento de páginas orientadas a UI e UX.",
     tags: ["React", "Angular", "Next.js", "TypeScript", "Tailwind"],
   },
   {
     icon: Database,
     title: "Back-end",
-    description: "Node.js, Java, Python, Springboot PostgreSQL, MongoDB, Redis",
+    description: "Foco em otimizar recursos e em escalabilidade. Assim, verificando viabilidade de processos e quais os melhores Trade-off para cada operação",
     tags: ["Node.js", "Java", "Python,", "Springboot", "PostgreSQL", "MongoDB", "Redis"],
   },
   {
@@ -34,7 +39,7 @@ export default function ProgramadorPage() {
   return (
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Programador</h1>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">Engenheiro de Software</h1>
         <p className="mb-8 text-lg text-muted-foreground text-pretty">
           {mainText}
         </p>
