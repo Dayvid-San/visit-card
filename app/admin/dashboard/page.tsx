@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -366,6 +367,9 @@ export default function AdminDashboard() {
               Edit Project
               {editingProject && <Badge variant="secondary">{CATEGORY_LABEL[editingProject.category]}</Badge>}
             </DialogTitle>
+            <DialogDescription>
+              Altere os campos abaixo e clique em "Update Project" para salvar.
+            </DialogDescription>
           </DialogHeader>
 
           {editingProject && (

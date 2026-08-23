@@ -20,7 +20,7 @@ const principles = [
   {
     icon: Target, 
     title: "Empresas e Startups",
-    description: "Junto à comunidade, fundei empresas e startups para atender necessidades reais — desde pessoas comuns até grandes empresas. Ganhamos prêmios, reputação e seguimos presentes no mercado em áreas como engenharia civil, saúde, finanças e agronomia.",
+    description: "Junto à comunidade, fundei empresas e startups para atender necessidades reais, desde pessoas comuns até grandes empresas. Ganhamos prêmios, reputação e seguimos presentes no mercado em áreas como engenharia civil, saúde, finanças e agronomia.",
   },
 ]
 

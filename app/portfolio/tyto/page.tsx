@@ -37,7 +37,7 @@ interface ProjectDetail {
 const projectData: ProjectDetail = {
   title: "TYTO.club",
   subtitle:
-    "Comunidade internacional de tecnologia que fundei em 2021 — hoje uma plataforma com economia gamificada, governança simulada e projetos reais para squads",
+    "Comunidade internacional de tecnologia que fundei em 2021, hoje uma plataforma com economia gamificada, governança simulada e projetos reais para squads",
   date: "2021 - Presente",
   role: "Fundador & Lead Engineer",
   heroImage: "/Captura-tytoclub.png",
@@ -56,16 +56,16 @@ const projectData: ProjectDetail = {
     github: "https://github.com/TYTO-club",
   },
   overview:
-    "Fundei o TYTO.club em 2021, inicialmente como uma comunidade de estudos entre universitários de computação, e conduzi seu crescimento até a plataforma atual: um ecossistema onde membros acumulam XP, sobem de patente, ganham Dracmas (moeda interna) cumprindo missões, lideram ou participam de projetos reais e operam uma camada de governança simulada com Reinos, Polis, eleições e um tribunal monetário. Arquitetei e desenvolvi a plataforma do zero — frontend em React 19 + TypeScript + Vite, Firebase (Auth + Firestore) como base de dados primária para leituras em tempo real, e um backend REST dedicado para as regras de negócio mais sensíveis, como economia e missões.",
+    "Fundei o TYTO.club em 2021, inicialmente como uma comunidade de estudos entre universitários de computação, e conduzi seu crescimento até a plataforma atual: um ecossistema onde membros acumulam XP, sobem de patente, ganham Dracmas (moeda interna) cumprindo missões, lideram ou participam de projetos reais e operam uma camada de governança simulada com Reinos, Polis, eleições e um tribunal monetário. Arquitetei e desenvolvi a plataforma do zero: frontend em React 19 + TypeScript + Vite, Firebase (Auth + Firestore) como base de dados primária para leituras em tempo real, e um backend REST dedicado para as regras de negócio mais sensíveis, como economia e missões.",
   challenges: [
     "Conceder conquistas sem duplicar ou perder registros quando duas rotinas do app disparavam a mesma verificação quase ao mesmo tempo, para membros diferentes competindo pelas mesmas metas.",
-    "Proteger campos financeiros e de hierarquia (saldo, patente, cargos eletivos) sem depender só da interface — em um sistema onde XP e Dracmas valem \"moeda real\" dentro da comunidade, qualquer brecha de escrita direta vira uma forma de trapaça.",
-    "Modelar em código uma estrutura de governança inteira — Reino, Polis, Colônias/Metrópoles, cargos eletivos com mandato e impeachment, tribunal monetário — mantendo tudo fiel a regulamentos escritos em prosa que evoluem junto com a comunidade.",
+    "Proteger campos financeiros e de hierarquia (saldo, patente, cargos eletivos) sem depender só da interface: em um sistema onde XP e Dracmas valem \"moeda real\" dentro da comunidade, qualquer brecha de escrita direta vira uma forma de trapaça.",
+    "Modelar em código uma estrutura de governança inteira (Reino, Polis, Colônias/Metrópoles, cargos eletivos com mandato e impeachment, tribunal monetário), mantendo tudo fiel a regulamentos escritos em prosa que evoluem junto com a comunidade.",
   ],
   solutions: [
     "Concessão de conquistas dentro de uma transação atômica do Firestore em vez de escritas simples: a transação sempre lê o estado já confirmado (não o que está em memória) e, de quebra, repara sozinha registros duplicados deixados por corridas passadas.",
-    "Regras do Firestore com mais de 950 linhas como autoridade real de acesso — não só a UI: funções dedicadas bloqueiam qualquer escrita direta do usuário a saldo, patente ou cargo, e a suspensão automática por saldo negativo é reforçada tanto no client quanto no servidor.",
-    "Os regulamentos internos (a \"Carta Institucional\", em Markdown) são a fonte da verdade do domínio, e o código é a implementação deles — cargos eletivos, mandatos e o tribunal monetário viram tipos e serviços dedicados, revisáveis independentemente do texto institucional.",
+    "Regras do Firestore com mais de 950 linhas como autoridade real de acesso, não só a UI: funções dedicadas bloqueiam qualquer escrita direta do usuário a saldo, patente ou cargo, e a suspensão automática por saldo negativo é reforçada tanto no client quanto no servidor.",
+    "Os regulamentos internos (a \"Carta Institucional\", em Markdown) são a fonte da verdade do domínio, e o código é a implementação deles: cargos eletivos, mandatos e o tribunal monetário viram tipos e serviços dedicados, revisáveis independentemente do texto institucional.",
   ],
 }
 
@@ -74,7 +74,7 @@ const features = [
     icon: Trophy,
     title: "Progressão",
     description:
-      "XP e 14 patentes (de Neófito a Dominador), cada uma com perks reais de acesso a projetos e benefícios — conquistas concedidas por transação atômica.",
+      "XP e 14 patentes (de Neófito a Dominador), cada uma com perks reais de acesso a projetos e benefícios. Conquistas concedidas por transação atômica.",
   },
   {
     icon: Coins,
@@ -209,7 +209,7 @@ export default function TytoClub() {
             <p className="text-muted-foreground">
               O frontend fala com dois backends distintos por design: a maior parte das leituras (e algumas
               escritas) vai direto do navegador para o Firestore em tempo real, enquanto a economia, projetos e
-              missões — a lógica de negócio mais sensível — passam por um backend REST dedicado, autenticado com o
+              missões (a lógica de negócio mais sensível) passam por um backend REST dedicado, autenticado com o
               token do Firebase.
             </p>
 
@@ -217,7 +217,7 @@ export default function TytoClub() {
               <CardContent className="flex flex-col items-center justify-center p-8 text-center">
                 <div className="w-full space-y-4 text-xs font-mono text-left">
                   <div className="p-3 rounded border bg-background">
-                    <span className="text-blue-500 font-bold">[Frontend]</span> React 19 + Vite + TypeScript — Firebase
+                    <span className="text-blue-500 font-bold">[Frontend]</span> React 19 + Vite + TypeScript: Firebase
                     Auth, estado do usuário assinado em tempo real (onSnapshot)
                   </div>
                   <div className="text-center text-muted-foreground">↓ dois caminhos de dados</div>
@@ -227,13 +227,13 @@ export default function TytoClub() {
                       simples via SDK client, tempo real
                     </div>
                     <div className="p-3 rounded border bg-background">
-                      <span className="text-green-500 font-bold">[Backend REST]</span> Economia, projetos, missões —
+                      <span className="text-green-500 font-bold">[Backend REST]</span> Economia, projetos, missões:
                       fetch + Bearer &lt;ID token&gt;
                     </div>
                   </div>
                   <div className="text-center text-muted-foreground">↓ controle de acesso</div>
                   <div className="p-3 rounded border bg-background">
-                    <span className="text-orange-500 font-bold">[firestore.rules]</span> 950+ linhas — autoridade real
+                    <span className="text-orange-500 font-bold">[firestore.rules]</span> 950+ linhas: autoridade real
                     de acesso, não a interface
                   </div>
                 </div>
@@ -256,7 +256,7 @@ export default function TytoClub() {
             <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
               <li>
                 Campos sensíveis (saldo, patente, cargos) nunca são editáveis pelo próprio usuário via escrita
-                direta — apenas por transações server-side/admin.
+                direta, apenas por transações server-side/admin.
               </li>
               <li>
                 Permissão de projetos é derivada diretamente do papel do membro (líder, parceiro, colaborador),

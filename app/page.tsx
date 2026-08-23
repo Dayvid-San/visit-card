@@ -248,7 +248,7 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           {/* Footer */}
           <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
             <p className="font-mono text-purple-400/60 tracking-wider">
-              {'() => human ? Conecte-se com os botões ao lado : "???"'}
+              {'() => isHuman ? "Conecte-se pelos botões ao lado" : "erro 404: humano não encontrado"'}
             </p>
             <div className="flex flex-wrap gap-2">
               <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
