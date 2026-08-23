@@ -10,14 +10,19 @@
 # production
 /build
 
+# testing
+/coverage
+
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
-# env files
+# env files (keep .env.example as a template, ignore anything with real values)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -25,3 +30,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editors
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

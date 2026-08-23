@@ -1,17 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { auth, db } from "@/lib/firebase";
+import { auth, db, storage } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Pencil, Trash2, Link2, Upload, X, Loader2 } from "lucide-react";
+import Image from "next/image";
+
+type ProjectCategory = "programmer" | "research";
 
 interface FormData {
   title: string;
   description: string;
-  image: string; // Voltamos para string simples
+  image: string;
   tags: string;
   date: string;
   role: string;
@@ -21,18 +33,48 @@ interface FormData {
   dataset: string;
 }
 
+interface StoredProject {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  date: string;
+  role: string;
+  github?: string;
+  demo?: string;
+  paper?: string;
+  dataset?: string;
+}
+
 const initialFormState: FormData = {
   title: "", description: "", image: "", tags: "",
   date: "", role: "", github: "", demo: "", paper: "", dataset: ""
 };
 
+const COLLECTION_BY_CATEGORY: Record<ProjectCategory, string> = {
+  programmer: "programmerProjects",
+  research: "researchProjects",
+};
+
 export default function AdminDashboard() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [projectCategory, setProjectCategory] = useState<"programmer" | "research">("programmer");
+  const [projectCategory, setProjectCategory] = useState<ProjectCategory>("programmer");
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [statusMessage, setStatusMessage] = useState("");
   const router = useRouter();
+
+  const [programmerProjects, setProgrammerProjects] = useState<StoredProject[]>([]);
+  const [researchProjects, setResearchProjects] = useState<StoredProject[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
+
+  const [editingProject, setEditingProject] = useState<{ id: string; category: ProjectCategory } | null>(null);
+  const [imageMode, setImageMode] = useState<"url" | "upload">("url");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFilePreview, setImageFilePreview] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const formCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -43,22 +85,123 @@ export default function AdminDashboard() {
     return () => unsubscribe();
   }, [router]);
 
+  const fetchProjects = async () => {
+    setLoadingProjects(true);
+    try {
+      const [progSnapshot, researchSnapshot] = await Promise.all([
+        getDocs(collection(db, "programmerProjects")),
+        getDocs(collection(db, "researchProjects")),
+      ]);
+      setProgrammerProjects(
+        progSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as StoredProject[]
+      );
+      setResearchProjects(
+        researchSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as StoredProject[]
+      );
+    } catch (error) {
+      console.error("Error fetching projects: ", error);
+    } finally {
+      setLoadingProjects(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchProjects();
+  }, [user]);
+
+  useEffect(() => {
+    return () => {
+      if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
+    };
+  }, [imageFilePreview]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setImageFile(file);
+    if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
+    setImageFilePreview(file ? URL.createObjectURL(file) : null);
+  };
+
+  const resetForm = () => {
+    setFormData(initialFormState);
+    setEditingProject(null);
+    setImageMode("url");
+    setImageFile(null);
+    if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
+    setImageFilePreview(null);
+  };
+
+  const handleEdit = (project: StoredProject, category: ProjectCategory) => {
+    setProjectCategory(category);
+    setEditingProject({ id: project.id, category });
+    setFormData({
+      title: project.title,
+      description: project.description,
+      image: project.image,
+      tags: project.tags.join(", "),
+      date: project.date,
+      role: project.role,
+      github: project.github ?? "",
+      demo: project.demo ?? "",
+      paper: project.paper ?? "",
+      dataset: project.dataset ?? "",
+    });
+    setImageMode("url");
+    setImageFile(null);
+    if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
+    setImageFilePreview(null);
+    setStatusMessage("");
+    formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleDelete = async (project: StoredProject, category: ProjectCategory) => {
+    if (!window.confirm(`Excluir "${project.title}"? Essa ação não pode ser desfeita.`)) return;
+    try {
+      await deleteDoc(doc(db, COLLECTION_BY_CATEGORY[category], project.id));
+      if (editingProject?.id === project.id) resetForm();
+      await fetchProjects();
+      setStatusMessage("Projeto excluído.");
+      setTimeout(() => setStatusMessage(""), 3000);
+    } catch (error: any) {
+      setStatusMessage(`Error: ${error.message}`);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatusMessage("Saving...");
+
+    if (imageMode === "upload" && !imageFile && !formData.image) {
+      setStatusMessage("Error: selecione uma imagem para enviar.");
+      return;
+    }
+
+    setStatusMessage(imageMode === "upload" && imageFile ? "Enviando imagem..." : "Saving...");
 
     try {
+      let imageUrl = formData.image;
+
+      if (imageMode === "upload" && imageFile) {
+        setIsUploadingImage(true);
+        const path = `projects/${projectCategory}/${Date.now()}-${imageFile.name}`;
+        const storageRef = ref(storage, path);
+        await uploadBytes(storageRef, imageFile);
+        imageUrl = await getDownloadURL(storageRef);
+        setIsUploadingImage(false);
+      }
+
+      setStatusMessage("Saving...");
+
       const tagsArray = formData.tags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
       const payload: any = {
         title: formData.title,
         description: formData.description,
-        image: formData.image, // Pega o link da imagem direto do form
+        image: imageUrl,
         tags: tagsArray,
         date: formData.date,
         role: formData.role,
@@ -67,22 +210,30 @@ export default function AdminDashboard() {
       if (projectCategory === "programmer") {
         if (formData.github) payload.github = formData.github;
         if (formData.demo) payload.demo = formData.demo;
-        await addDoc(collection(db, "programmerProjects"), payload);
       } else {
         if (formData.paper) payload.paper = formData.paper;
         if (formData.dataset) payload.dataset = formData.dataset;
         if (formData.github) payload.github = formData.github;
-        await addDoc(collection(db, "researchProjects"), payload);
       }
 
-      setStatusMessage("Project added successfully!");
-      setFormData(initialFormState);
+      const collectionName = COLLECTION_BY_CATEGORY[projectCategory];
+
+      if (editingProject && editingProject.category === projectCategory) {
+        await updateDoc(doc(db, collectionName, editingProject.id), payload);
+        setStatusMessage("Project updated successfully!");
+      } else {
+        await addDoc(collection(db, collectionName), payload);
+        setStatusMessage("Project added successfully!");
+      }
+
+      resetForm();
+      await fetchProjects();
       setTimeout(() => setStatusMessage(""), 3000);
 
     } catch (error: any) {
-      console.error("Error adding document: ", error);
-      // Agora, se o texto for muito grande, ele avisa aqui em vermelho!
-      setStatusMessage(`Error: ${error.message}`); 
+      console.error("Error saving document: ", error);
+      setIsUploadingImage(false);
+      setStatusMessage(`Error: ${error.message}`);
     }
   };
 
@@ -94,6 +245,9 @@ export default function AdminDashboard() {
   if (loading) return <div className="p-10 text-center">Loading...</div>;
   if (!user) return null;
 
+  const isEditing = editingProject !== null;
+  const isSaving = statusMessage === "Saving..." || statusMessage === "Enviando imagem...";
+
   return (
     <div className="container px-4 py-10 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -101,21 +255,33 @@ export default function AdminDashboard() {
         <Button variant="outline" onClick={handleLogout}>Logout</Button>
       </div>
 
-      <Card>
+      <Card ref={formCardRef}>
         <CardHeader>
-          <CardTitle>Add New Project</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>{isEditing ? "Edit Project" : "Add New Project"}</CardTitle>
+            {isEditing && (
+              <Button type="button" variant="ghost" size="sm" onClick={resetForm}>
+                <X className="mr-1 h-4 w-4" />
+                Cancelar edição
+              </Button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 mb-6">
-            <Button 
+            <Button
+              type="button"
               variant={projectCategory === "programmer" ? "default" : "outline"}
               onClick={() => setProjectCategory("programmer")}
+              disabled={isEditing}
             >
               Programmer Project
             </Button>
-            <Button 
+            <Button
+              type="button"
               variant={projectCategory === "research" ? "default" : "outline"}
               onClick={() => setProjectCategory("research")}
+              disabled={isEditing}
             >
               Research Project
             </Button>
@@ -132,17 +298,62 @@ export default function AdminDashboard() {
               <textarea required name="description" value={formData.description} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" rows={3} />
             </div>
 
-            {/* Campo de Imagem em Texto Restaurado */}
-            <div>
-              <label className="text-sm">Image URL / Path *</label>
-              <input 
-                required 
-                name="image" 
-                value={formData.image} 
-                onChange={handleInputChange} 
-                placeholder="https://... ou /image.png" 
-                className="w-full p-2 border rounded bg-background" 
-              />
+            {/* Imagem: link ou upload */}
+            <div className="col-span-1 md:col-span-2 space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm">Imagem *</label>
+                <div className="flex gap-1 rounded-md border p-1">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={imageMode === "url" ? "default" : "ghost"}
+                    onClick={() => setImageMode("url")}
+                  >
+                    <Link2 className="mr-1 h-3.5 w-3.5" />
+                    Link
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={imageMode === "upload" ? "default" : "ghost"}
+                    onClick={() => setImageMode("upload")}
+                  >
+                    <Upload className="mr-1 h-3.5 w-3.5" />
+                    Upload
+                  </Button>
+                </div>
+              </div>
+
+              {imageMode === "url" ? (
+                <input
+                  required={imageMode === "url"}
+                  name="image"
+                  value={formData.image}
+                  onChange={handleInputChange}
+                  placeholder="https://... ou /image.png"
+                  className="w-full p-2 border rounded bg-background"
+                />
+              ) : (
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageFileChange}
+                    className="w-full p-2 border rounded bg-background text-sm file:mr-3 file:rounded file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-primary-foreground"
+                  />
+                  {(imageFilePreview || formData.image) && (
+                    <div className="relative h-32 w-full max-w-xs overflow-hidden rounded border bg-muted">
+                      <Image
+                        src={imageFilePreview || formData.image}
+                        alt="Pré-visualização"
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div>
@@ -191,7 +402,10 @@ export default function AdminDashboard() {
             </div>
 
             <div className="col-span-1 md:col-span-2 flex items-center gap-4 mt-4">
-              <Button type="submit" className="w-full md:w-auto">Save Project</Button>
+              <Button type="submit" className="w-full md:w-auto" disabled={isSaving}>
+                {isUploadingImage && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isEditing ? "Update Project" : "Save Project"}
+              </Button>
               {statusMessage && (
                 <span className={`text-sm font-medium ${statusMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
                   {statusMessage}
@@ -201,6 +415,84 @@ export default function AdminDashboard() {
           </form>
         </CardContent>
       </Card>
+
+      {/* Lista de projetos existentes */}
+      <div className="mt-10 space-y-8">
+        <ProjectList
+          title="Programmer Projects"
+          projects={programmerProjects}
+          category="programmer"
+          loading={loadingProjects}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+        <ProjectList
+          title="Research Projects"
+          projects={researchProjects}
+          category="research"
+          loading={loadingProjects}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ProjectList({
+  title,
+  projects,
+  category,
+  loading,
+  onEdit,
+  onDelete,
+}: {
+  title: string;
+  projects: StoredProject[];
+  category: ProjectCategory;
+  loading: boolean;
+  onEdit: (project: StoredProject, category: ProjectCategory) => void;
+  onDelete: (project: StoredProject, category: ProjectCategory) => void;
+}) {
+  return (
+    <div>
+      <h2 className="mb-3 text-lg font-semibold">{title}</h2>
+      {loading ? (
+        <p className="text-sm text-muted-foreground">Carregando...</p>
+      ) : projects.length === 0 ? (
+        <p className="text-sm text-muted-foreground">Nenhum projeto cadastrado.</p>
+      ) : (
+        <div className="space-y-2">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              className="flex items-center gap-4 rounded-lg border p-3"
+            >
+              <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded bg-muted">
+                <Image
+                  src={project.image || "/placeholder.svg"}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-medium">{project.title}</p>
+                <p className="truncate text-sm text-muted-foreground">{project.description}</p>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <Button size="icon" variant="outline" onClick={() => onEdit(project, category)} aria-label="Editar">
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="destructive" onClick={() => onDelete(project, category)} aria-label="Excluir">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

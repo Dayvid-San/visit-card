@@ -4,9 +4,20 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, ExternalLink, Github, Layers, Cpu, CheckCircle2, ShieldCheck, Globe2 } from "lucide-react"
+import {
+  ArrowLeft,
+  ExternalLink,
+  Github,
+  Layers,
+  Cpu,
+  CheckCircle2,
+  ShieldCheck,
+  Trophy,
+  Coins,
+  Crown,
+  Briefcase,
+} from "lucide-react"
 
-// Interface estendida para os detalhes da arquitetura do TYTO.club
 interface ProjectDetail {
   title: string
   subtitle: string
@@ -25,40 +36,67 @@ interface ProjectDetail {
 
 const projectData: ProjectDetail = {
   title: "TYTO.club",
-  subtitle: "Arquitetura Multi-Tenant isolada por escopo geográfico com React, NestJS e Firebase",
-  date: "2025 - Presente",
-  role: "Lead Software Architect & Full-stack Engineer",
+  subtitle:
+    "Comunidade internacional de tecnologia que fundei em 2021 — hoje uma plataforma com economia gamificada, governança simulada e projetos reais para squads",
+  date: "2021 - Presente",
+  role: "Fundador & Lead Engineer",
   heroImage: "/Captura-tytoclub.png",
   tags: [
-    "Nest.js",
-    "Vite",
-    "React",
+    "React 19",
     "TypeScript",
-    "Firebase Firestore",
-    "Multi-Tenancy",
+    "Vite",
     "Tailwind CSS",
-    "ClickUp API",
-    "Discord Bot"
+    "Firebase Auth",
+    "Firestore",
+    "React Router",
+    "Radix UI",
   ],
   links: {
     demo: "https://club.tytocode.com.br",
     github: "https://github.com/TYTO-club",
   },
   overview:
-    "O TYTO.club é uma plataforma comunitária e ecossistema operacional descentralizado focado na gestão de missões, economia interna (Dracmas), telemetria em tempo real de startups e gestão de squads. O sistema adota um modelo Multi-Tenant dinâmico para isolar a operação entre Núcleos Internacionais (Países) e Distritos Regionais (Subdivisões), garantindo total privacidade e governança granular de dados.",
+    "Fundei o TYTO.club em 2021, inicialmente como uma comunidade de estudos entre universitários de computação, e conduzi seu crescimento até a plataforma atual: um ecossistema onde membros acumulam XP, sobem de patente, ganham Dracmas (moeda interna) cumprindo missões, lideram ou participam de projetos reais e operam uma camada de governança simulada com Reinos, Polis, eleições e um tribunal monetário. Arquitetei e desenvolvi a plataforma do zero — frontend em React 19 + TypeScript + Vite, Firebase (Auth + Firestore) como base de dados primária para leituras em tempo real, e um backend REST dedicado para as regras de negócio mais sensíveis, como economia e missões.",
   challenges: [
-    "Escalar a comunidade para múltiplos países (ex: Brasil, Marrocos) impedindo vazamento de missões e dados entre núcleos regionais.",
-    "Garantir atualizações de telemetria em tempo real (MRR, Burn Rate, IPT) sem sobrecarregar chamadas no banco de dados.",
-    "Implementar um modelo de controle de acesso (RBAC) complexo baseado em Patentes/Tiers (Veterano, Elite) e papéis em projetos (Leader, Partner)."
+    "Conceder conquistas sem duplicar ou perder registros quando duas rotinas do app disparavam a mesma verificação quase ao mesmo tempo, para membros diferentes competindo pelas mesmas metas.",
+    "Proteger campos financeiros e de hierarquia (saldo, patente, cargos eletivos) sem depender só da interface — em um sistema onde XP e Dracmas valem \"moeda real\" dentro da comunidade, qualquer brecha de escrita direta vira uma forma de trapaça.",
+    "Modelar em código uma estrutura de governança inteira — Reino, Polis, Colônias/Metrópoles, cargos eletivos com mandato e impeachment, tribunal monetário — mantendo tudo fiel a regulamentos escritos em prosa que evoluem junto com a comunidade.",
   ],
   solutions: [
-    "Modelagem de dados baseada em Escopo Hierárquico (GLOBAL, NUCLEO, DISTRICT) validada nativamente via Firestore Security Rules e NestJS TenantGuards.",
-    "Arquitetura de Backend em NestJS desacoplada com Módulos para Auth, Economy, Marketplace, Projects e Integrations.",
-    "Sincronização reativa de dados no frontend (React/Next.js) utilizando escutas em tempo real (onSnapshot) com cláusulas de consulta combinadas (AND/OR)."
-  ]
+    "Concessão de conquistas dentro de uma transação atômica do Firestore em vez de escritas simples: a transação sempre lê o estado já confirmado (não o que está em memória) e, de quebra, repara sozinha registros duplicados deixados por corridas passadas.",
+    "Regras do Firestore com mais de 950 linhas como autoridade real de acesso — não só a UI: funções dedicadas bloqueiam qualquer escrita direta do usuário a saldo, patente ou cargo, e a suspensão automática por saldo negativo é reforçada tanto no client quanto no servidor.",
+    "Os regulamentos internos (a \"Carta Institucional\", em Markdown) são a fonte da verdade do domínio, e o código é a implementação deles — cargos eletivos, mandatos e o tribunal monetário viram tipos e serviços dedicados, revisáveis independentemente do texto institucional.",
+  ],
 }
 
-export default function TytoArchitecture() {
+const features = [
+  {
+    icon: Trophy,
+    title: "Progressão",
+    description:
+      "XP e 14 patentes (de Neófito a Dominador), cada uma com perks reais de acesso a projetos e benefícios — conquistas concedidas por transação atômica.",
+  },
+  {
+    icon: Coins,
+    title: "Economia (Dracmas)",
+    description:
+      "Moeda interna com histórico completo de transações, taxa mensal automática, empréstimos e reserva lastreada em dinheiro real.",
+  },
+  {
+    icon: Crown,
+    title: "Governança",
+    description:
+      "Reinos e Polis com cargos eletivos (Tribuno, Conselheiro, Dux Vecturium, Guarda Pretoriana), mandatos com prazo e impeachment por voto.",
+  },
+  {
+    icon: Briefcase,
+    title: "Projetos & Squads",
+    description:
+      "Papéis de líder/parceiro/colaborador por projeto, métricas reais de negócio (MRR, burn rate, churn) resumidas em um índice único de progresso.",
+  },
+]
+
+export default function TytoClub() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-5xl">
       {/* Botão Voltar */}
@@ -90,7 +128,7 @@ export default function TytoArchitecture() {
       <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
         <Image
           src={projectData.heroImage}
-          alt={`Capa da Arquitetura do ${projectData.title}`}
+          alt={`Capa do ${projectData.title}`}
           fill
           className="object-cover"
           priority
@@ -98,19 +136,38 @@ export default function TytoArchitecture() {
       </div>
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
-        
         {/* Coluna Principal (Conteúdo) */}
         <div className="space-y-12">
-          
           {/* Visão Geral */}
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Layers className="mr-2 h-6 w-6 text-primary" />
-              Visão Geral do Ecossistema
+              Visão Geral
             </h2>
-            <p className="text-lg leading-relaxed text-muted-foreground text-pretty">
-              {projectData.overview}
-            </p>
+            <p className="text-lg leading-relaxed text-muted-foreground text-pretty">{projectData.overview}</p>
+          </section>
+
+          <Separator />
+
+          {/* O que a plataforma faz */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold tracking-tight">O que a plataforma faz</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {features.map((feature) => {
+                const Icon = feature.icon
+                return (
+                  <Card key={feature.title} className="p-4 bg-muted/30">
+                    <div className="flex items-start gap-3">
+                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                      <div>
+                        <h4 className="font-bold text-sm mb-1">{feature.title}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                )
+              })}
+            </div>
           </section>
 
           <Separator />
@@ -118,7 +175,7 @@ export default function TytoArchitecture() {
           {/* Desafios e Soluções */}
           <section className="grid gap-8 md:grid-cols-2">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-red-500/80">O Desafio de Engenharia</h3>
+              <h3 className="text-xl font-semibold text-red-500/80">O Desafio</h3>
               <ul className="space-y-3">
                 {projectData.challenges.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-muted-foreground">
@@ -129,7 +186,7 @@ export default function TytoArchitecture() {
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-green-500/80">Solução de Arquitetura</h3>
+              <h3 className="text-xl font-semibold text-green-500/80">A Solução</h3>
               <ul className="space-y-3">
                 {projectData.solutions.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-muted-foreground">
@@ -143,58 +200,41 @@ export default function TytoArchitecture() {
 
           <Separator />
 
-          {/* Arquitetura Multi-Tenant & Segurança */}
+          {/* Arquitetura Técnica */}
           <section className="space-y-6">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
-              <Globe2 className="mr-2 h-6 w-6 text-primary" />
-              Isolamento Multi-Tenant Geográfico
-            </h2>
-            <p className="text-muted-foreground">
-              A infraestrutura segue o modelo <strong>Shared Database, Shared Process</strong>. O isolamento entre diferentes países e divisões regionais é mantido via <code>TenantGuard</code> na API NestJS e funções compostas de validação geográfica nas Security Rules do Firestore.
-            </p>
-            
-            <div className="grid gap-4 md:grid-cols-3">
-              <Card className="p-4 bg-muted/30">
-                <h4 className="font-bold text-sm text-primary mb-1">Escopo GLOBAL</h4>
-                <p className="text-xs text-muted-foreground">Missões, avisos e rankings acessíveis por qualquer membro do clã, independente da localização.</p>
-              </Card>
-              <Card className="p-4 bg-muted/30">
-                <h4 className="font-bold text-sm text-primary mb-1">Escopo NUCLEO</h4>
-                <p className="text-xs text-muted-foreground">Isolamento em nível de País (ex: BR, MA). Restringe operações e marketplaces para o contexto nacional.</p>
-              </Card>
-              <Card className="p-4 bg-muted/30">
-                <h4 className="font-bold text-sm text-primary mb-1">Escopo DISTRICT</h4>
-                <p className="text-xs text-muted-foreground">Subdivisão regional (ex: PR-MARINGA, SE-ARACAJU). Missões e demandas locais exclusivas da célula.</p>
-              </Card>
-            </div>
-          </section>
-
-          <Separator />
-
-          {/* Arquitetura Técnica em Camadas */}
-          <section className="space-y-6">
-             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Cpu className="mr-2 h-6 w-6 text-primary" />
-              Topologia do Sistema (NestJS + Firebase)
+              Arquitetura do Sistema
             </h2>
             <p className="text-muted-foreground">
-              A aplicação é dividida em três camadas principais: a camada reativa no Frontend (Next.js/React), a API Restful em NestJS com middlewares de validação de escopo e os ecossistemas externos desacoplados.
+              O frontend fala com dois backends distintos por design: a maior parte das leituras (e algumas
+              escritas) vai direto do navegador para o Firestore em tempo real, enquanto a economia, projetos e
+              missões — a lógica de negócio mais sensível — passam por um backend REST dedicado, autenticado com o
+              token do Firebase.
             </p>
-            
-            {/* Diagrama Textual / Card Visual */}
+
             <Card className="overflow-hidden border-dashed bg-slate-50 dark:bg-slate-950/50">
               <CardContent className="flex flex-col items-center justify-center p-8 text-center">
                 <div className="w-full space-y-4 text-xs font-mono text-left">
                   <div className="p-3 rounded border bg-background">
-                    <span className="text-blue-500 font-bold">[Client Layer]</span> React / Next.js Dashboard → Querying Firestore Realtime + Axios /api
+                    <span className="text-blue-500 font-bold">[Frontend]</span> React 19 + Vite + TypeScript — Firebase
+                    Auth, estado do usuário assinado em tempo real (onSnapshot)
                   </div>
-                  <div className="text-center text-muted-foreground">↓ Auth JWT & Tenant Injection</div>
-                  <div className="p-3 rounded border bg-background">
-                    <span className="text-green-500 font-bold">[API Gateway NestJS]</span> FirebaseAuthGuard → TenantGuard → Controllers (Missions, Economy, Telemetry)
+                  <div className="text-center text-muted-foreground">↓ dois caminhos de dados</div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="p-3 rounded border bg-background">
+                      <span className="text-purple-500 font-bold">[Firestore direto]</span> Leituras e escritas
+                      simples via SDK client, tempo real
+                    </div>
+                    <div className="p-3 rounded border bg-background">
+                      <span className="text-green-500 font-bold">[Backend REST]</span> Economia, projetos, missões —
+                      fetch + Bearer &lt;ID token&gt;
+                    </div>
                   </div>
-                  <div className="text-center text-muted-foreground">↓ Business Rules & RBAC</div>
+                  <div className="text-center text-muted-foreground">↓ controle de acesso</div>
                   <div className="p-3 rounded border bg-background">
-                    <span className="text-purple-500 font-bold">[Data & Integration Layer]</span> Firestore Security Rules | ClickUp API | Discord Bot Service
+                    <span className="text-orange-500 font-bold">[firestore.rules]</span> 950+ linhas — autoridade real
+                    de acesso, não a interface
                   </div>
                 </div>
               </CardContent>
@@ -203,26 +243,31 @@ export default function TytoArchitecture() {
 
           <Separator />
 
-          {/* Governança e Regras de Negócio */}
+          {/* Segurança */}
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <ShieldCheck className="mr-2 h-6 w-6 text-primary" />
-              Governança e RBAC Integrado
+              Segurança como Camada Real, não de Conveniência
             </h2>
             <p className="text-muted-foreground">
-              A economia interna e as permissões de escrita em projetos e mercado dependem do nível hierárquico do membro:
+              Mais de 45 coleções têm regras dedicadas no Firestore, cada uma derivando leitura/escrita de uma
+              combinação de autenticação, membership de Polis/Reino/projeto, cargo eletivo ativo ou admin global:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
-              <li><strong>Marketplace:</strong> Apenas membros com patente a partir de <em>Veterano</em> têm permissão de criar ofertas/pedidos de serviços.</li>
-              <li><strong>Project Telemetry:</strong> Ações de atualização nos indicadores financeiros e operacionais (MRR, Burn Rate, IPT) são exclusivas para o líder vinculado (<code>members[uid] == 'leader'</code>) ou Administradores Globais.</li>
+              <li>
+                Campos sensíveis (saldo, patente, cargos) nunca são editáveis pelo próprio usuário via escrita
+                direta — apenas por transações server-side/admin.
+              </li>
+              <li>
+                Permissão de projetos é derivada diretamente do papel do membro (líder, parceiro, colaborador),
+                validada nas regras, não apenas escondida na UI.
+              </li>
             </ul>
           </section>
-
         </div>
 
         {/* Coluna Lateral (Metadados) */}
         <aside className="space-y-8">
-          
           {/* Links de Ação */}
           <div className="flex flex-col gap-3">
             {projectData.links.demo && (
@@ -271,7 +316,7 @@ export default function TytoArchitecture() {
               <Separator />
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Arquitetura</span>
-                <span className="font-medium text-primary">Multi-Tenant</span>
+                <span className="font-medium text-primary">SPA + REST dedicado</span>
               </div>
               <Separator />
               <div className="flex justify-between">

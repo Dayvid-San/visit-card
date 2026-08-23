@@ -12,17 +12,26 @@ export async function animateDoor({ direction, duration = 1000 }: AnimateDoorOpt
   return new Promise((resolve) => {
     const footer = document.querySelector("[data-door-footer]") as HTMLElement
     if (!footer) {
-      console.warn("[v0] Door footer element not found")
       resolve()
       return
     }
 
-    const startTransform = direction === "close" ? "translateY(0)" : "translateY(-100vh)"
-    const endTransform = direction === "close" ? "translateY(-100vh)" : "translateY(0)"
+    const originalZIndex = footer.style.zIndex
+    footer.style.zIndex = "9999"
+    footer.style.willChange = "transform"
+
+    const startTransform = direction === "close" ? "translateY(calc(100vh - 4rem))" : "translateY(0)"
+    const endTransform = direction === "close" ? "translateY(0)" : "translateY(calc(100vh - 4rem))"
     const easing = direction === "close" ? "ease-in-out" : "ease-out"
 
-    // Set initial state
+    footer.style.transition = "none"
     footer.style.transform = startTransform
+
+    // Force a reflow so the browser commits startTransform before the
+    // transition is enabled — otherwise the two style writes can land in the
+    // same frame and the transition gets skipped, making the door "jump".
+    void footer.offsetHeight
+
     footer.style.transition = `transform ${duration}ms ${easing}`
 
     // Announce to screen readers
@@ -33,16 +42,14 @@ export async function animateDoor({ direction, duration = 1000 }: AnimateDoorOpt
     announcement.textContent = direction === "close" ? "Transitioning to new page" : "Page loaded"
     document.body.appendChild(announcement)
 
-    // Trigger animation
     requestAnimationFrame(() => {
       footer.style.transform = endTransform
     })
 
-    // Resolve when animation completes
     setTimeout(() => {
-      if (announcement.parentNode) {
-        document.body.removeChild(announcement)
-      }
+      footer.style.zIndex = originalZIndex
+      footer.style.willChange = ""
+      document.body.removeChild(announcement)
       resolve()
     }, duration)
   })
