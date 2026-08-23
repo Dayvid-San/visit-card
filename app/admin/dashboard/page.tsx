@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db, storage } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -15,7 +15,15 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Link2, Upload, X, Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Pencil, Trash2, Link2, Upload, Loader2 } from "lucide-react";
 import Image from "next/image";
 
 type ProjectCategory = "programmer" | "research";
@@ -57,6 +65,19 @@ const COLLECTION_BY_CATEGORY: Record<ProjectCategory, string> = {
   research: "researchProjects",
 };
 
+const CATEGORY_LABEL: Record<ProjectCategory, string> = {
+  programmer: "Programmer Project",
+  research: "Research Project",
+};
+
+interface ImageFieldState {
+  imageMode: "url" | "upload";
+  setImageMode: (mode: "url" | "upload") => void;
+  imageFile: File | null;
+  imageFilePreview: string | null;
+  onImageFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 export default function AdminDashboard() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -74,7 +95,6 @@ export default function AdminDashboard() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageFilePreview, setImageFilePreview] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const formCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -127,17 +147,20 @@ export default function AdminDashboard() {
     setImageFilePreview(file ? URL.createObjectURL(file) : null);
   };
 
-  const resetForm = () => {
-    setFormData(initialFormState);
-    setEditingProject(null);
+  const resetImageField = () => {
     setImageMode("url");
     setImageFile(null);
     if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
     setImageFilePreview(null);
   };
 
+  const resetForm = () => {
+    setFormData(initialFormState);
+    setEditingProject(null);
+    resetImageField();
+  };
+
   const handleEdit = (project: StoredProject, category: ProjectCategory) => {
-    setProjectCategory(category);
     setEditingProject({ id: project.id, category });
     setFormData({
       title: project.title,
@@ -151,12 +174,8 @@ export default function AdminDashboard() {
       paper: project.paper ?? "",
       dataset: project.dataset ?? "",
     });
-    setImageMode("url");
-    setImageFile(null);
-    if (imageFilePreview) URL.revokeObjectURL(imageFilePreview);
-    setImageFilePreview(null);
+    resetImageField();
     setStatusMessage("");
-    formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleDelete = async (project: StoredProject, category: ProjectCategory) => {
@@ -172,9 +191,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const submitProject = async (category: ProjectCategory) => {
     if (imageMode === "upload" && !imageFile && !formData.image) {
       setStatusMessage("Error: selecione uma imagem para enviar.");
       return;
@@ -187,7 +204,7 @@ export default function AdminDashboard() {
 
       if (imageMode === "upload" && imageFile) {
         setIsUploadingImage(true);
-        const path = `projects/${projectCategory}/${Date.now()}-${imageFile.name}`;
+        const path = `projects/${category}/${Date.now()}-${imageFile.name}`;
         const storageRef = ref(storage, path);
         await uploadBytes(storageRef, imageFile);
         imageUrl = await getDownloadURL(storageRef);
@@ -207,7 +224,7 @@ export default function AdminDashboard() {
         role: formData.role,
       };
 
-      if (projectCategory === "programmer") {
+      if (category === "programmer") {
         if (formData.github) payload.github = formData.github;
         if (formData.demo) payload.demo = formData.demo;
       } else {
@@ -216,9 +233,9 @@ export default function AdminDashboard() {
         if (formData.github) payload.github = formData.github;
       }
 
-      const collectionName = COLLECTION_BY_CATEGORY[projectCategory];
+      const collectionName = COLLECTION_BY_CATEGORY[category];
 
-      if (editingProject && editingProject.category === projectCategory) {
+      if (editingProject && editingProject.category === category) {
         await updateDoc(doc(db, collectionName, editingProject.id), payload);
         setStatusMessage("Project updated successfully!");
       } else {
@@ -237,6 +254,16 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleCreateSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitProject(projectCategory);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingProject) submitProject(editingProject.category);
+  };
+
   const handleLogout = async () => {
     await signOut(auth);
     router.push("/admin");
@@ -245,8 +272,14 @@ export default function AdminDashboard() {
   if (loading) return <div className="p-10 text-center">Loading...</div>;
   if (!user) return null;
 
-  const isEditing = editingProject !== null;
   const isSaving = statusMessage === "Saving..." || statusMessage === "Enviando imagem...";
+  const imageFieldState: ImageFieldState = {
+    imageMode,
+    setImageMode,
+    imageFile,
+    imageFilePreview,
+    onImageFileChange: handleImageFileChange,
+  };
 
   return (
     <div className="container px-4 py-10 max-w-4xl mx-auto">
@@ -255,17 +288,9 @@ export default function AdminDashboard() {
         <Button variant="outline" onClick={handleLogout}>Logout</Button>
       </div>
 
-      <Card ref={formCardRef}>
+      <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>{isEditing ? "Edit Project" : "Add New Project"}</CardTitle>
-            {isEditing && (
-              <Button type="button" variant="ghost" size="sm" onClick={resetForm}>
-                <X className="mr-1 h-4 w-4" />
-                Cancelar edição
-              </Button>
-            )}
-          </div>
+          <CardTitle>Add New Project</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 mb-6">
@@ -273,7 +298,6 @@ export default function AdminDashboard() {
               type="button"
               variant={projectCategory === "programmer" ? "default" : "outline"}
               onClick={() => setProjectCategory("programmer")}
-              disabled={isEditing}
             >
               Programmer Project
             </Button>
@@ -281,132 +305,25 @@ export default function AdminDashboard() {
               type="button"
               variant={projectCategory === "research" ? "default" : "outline"}
               onClick={() => setProjectCategory("research")}
-              disabled={isEditing}
             >
               Research Project
             </Button>
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="col-span-1 md:col-span-2">
-              <label className="text-sm">Title *</label>
-              <input required name="title" value={formData.title} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-            </div>
-
-            <div className="col-span-1 md:col-span-2">
-              <label className="text-sm">Description *</label>
-              <textarea required name="description" value={formData.description} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" rows={3} />
-            </div>
-
-            {/* Imagem: link ou upload */}
-            <div className="col-span-1 md:col-span-2 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-sm">Imagem *</label>
-                <div className="flex gap-1 rounded-md border p-1">
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant={imageMode === "url" ? "default" : "ghost"}
-                    onClick={() => setImageMode("url")}
-                  >
-                    <Link2 className="mr-1 h-3.5 w-3.5" />
-                    Link
-                  </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant={imageMode === "upload" ? "default" : "ghost"}
-                    onClick={() => setImageMode("upload")}
-                  >
-                    <Upload className="mr-1 h-3.5 w-3.5" />
-                    Upload
-                  </Button>
-                </div>
-              </div>
-
-              {imageMode === "url" ? (
-                <input
-                  required={imageMode === "url"}
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  placeholder="https://... ou /image.png"
-                  className="w-full p-2 border rounded bg-background"
-                />
-              ) : (
-                <div className="space-y-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageFileChange}
-                    className="w-full p-2 border rounded bg-background text-sm file:mr-3 file:rounded file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-primary-foreground"
-                  />
-                  {(imageFilePreview || formData.image) && (
-                    <div className="relative h-32 w-full max-w-xs overflow-hidden rounded border bg-muted">
-                      <Image
-                        src={imageFilePreview || formData.image}
-                        alt="Pré-visualização"
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div>
-              <label className="text-sm">Tags (comma separated) *</label>
-              <input required name="tags" value={formData.tags} onChange={handleInputChange} placeholder="React, Node, Firebase" className="w-full p-2 border rounded bg-background" />
-            </div>
-
-            <div>
-              <label className="text-sm">Date *</label>
-              <input required name="date" value={formData.date} onChange={handleInputChange} placeholder="2024-2026" className="w-full p-2 border rounded bg-background" />
-            </div>
-
-            <div>
-              <label className="text-sm">Role *</label>
-              <input required name="role" value={formData.role} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-            </div>
-
-            <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t mt-2">
-              {projectCategory === "programmer" ? (
-                <>
-                  <div>
-                    <label className="text-sm">GitHub URL</label>
-                    <input name="github" value={formData.github} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-                  </div>
-                  <div>
-                    <label className="text-sm">Demo URL</label>
-                    <input name="demo" value={formData.demo} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label className="text-sm">Paper URL</label>
-                    <input name="paper" value={formData.paper} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-                  </div>
-                  <div>
-                    <label className="text-sm">Dataset URL</label>
-                    <input name="dataset" value={formData.dataset} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-                  </div>
-                  <div className="col-span-1 md:col-span-2">
-                    <label className="text-sm">GitHub URL</label>
-                    <input name="github" value={formData.github} onChange={handleInputChange} className="w-full p-2 border rounded bg-background" />
-                  </div>
-                </>
-              )}
-            </div>
+          <form onSubmit={handleCreateSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ProjectFormFields
+              formData={formData}
+              onInputChange={handleInputChange}
+              projectCategory={projectCategory}
+              imageField={imageFieldState}
+            />
 
             <div className="col-span-1 md:col-span-2 flex items-center gap-4 mt-4">
               <Button type="submit" className="w-full md:w-auto" disabled={isSaving}>
                 {isUploadingImage && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isEditing ? "Update Project" : "Save Project"}
+                Save Project
               </Button>
-              {statusMessage && (
+              {statusMessage && !editingProject && (
                 <span className={`text-sm font-medium ${statusMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
                   {statusMessage}
                 </span>
@@ -435,7 +352,184 @@ export default function AdminDashboard() {
           onDelete={handleDelete}
         />
       </div>
+
+      {/* Modal de edição */}
+      <Dialog
+        open={editingProject !== null}
+        onOpenChange={(open) => {
+          if (!open) resetForm();
+        }}
+      >
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              Edit Project
+              {editingProject && <Badge variant="secondary">{CATEGORY_LABEL[editingProject.category]}</Badge>}
+            </DialogTitle>
+          </DialogHeader>
+
+          {editingProject && (
+            <form onSubmit={handleEditSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ProjectFormFields
+                formData={formData}
+                onInputChange={handleInputChange}
+                projectCategory={editingProject.category}
+                imageField={imageFieldState}
+              />
+
+              {statusMessage && (
+                <div className="col-span-1 md:col-span-2">
+                  <span className={`text-sm font-medium ${statusMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+                    {statusMessage}
+                  </span>
+                </div>
+              )}
+
+              <DialogFooter className="col-span-1 md:col-span-2">
+                <Button type="button" variant="outline" onClick={resetForm}>
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={isSaving}>
+                  {isUploadingImage && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Update Project
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
+  );
+}
+
+function ProjectFormFields({
+  formData,
+  onInputChange,
+  projectCategory,
+  imageField,
+}: {
+  formData: FormData;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  projectCategory: ProjectCategory;
+  imageField: ImageFieldState;
+}) {
+  const { imageMode, setImageMode, imageFile, imageFilePreview, onImageFileChange } = imageField;
+
+  return (
+    <>
+      <div className="col-span-1 md:col-span-2">
+        <label className="text-sm">Title *</label>
+        <input required name="title" value={formData.title} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+      </div>
+
+      <div className="col-span-1 md:col-span-2">
+        <label className="text-sm">Description *</label>
+        <textarea required name="description" value={formData.description} onChange={onInputChange} className="w-full p-2 border rounded bg-background" rows={3} />
+      </div>
+
+      {/* Imagem: link ou upload */}
+      <div className="col-span-1 md:col-span-2 space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm">Imagem *</label>
+          <div className="flex gap-1 rounded-md border p-1">
+            <Button
+              type="button"
+              size="sm"
+              variant={imageMode === "url" ? "default" : "ghost"}
+              onClick={() => setImageMode("url")}
+            >
+              <Link2 className="mr-1 h-3.5 w-3.5" />
+              Link
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={imageMode === "upload" ? "default" : "ghost"}
+              onClick={() => setImageMode("upload")}
+            >
+              <Upload className="mr-1 h-3.5 w-3.5" />
+              Upload
+            </Button>
+          </div>
+        </div>
+
+        {imageMode === "url" ? (
+          <input
+            required={imageMode === "url"}
+            name="image"
+            value={formData.image}
+            onChange={onInputChange}
+            placeholder="https://... ou /image.png"
+            className="w-full p-2 border rounded bg-background"
+          />
+        ) : (
+          <div className="space-y-2">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onImageFileChange}
+              className="w-full p-2 border rounded bg-background text-sm file:mr-3 file:rounded file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-primary-foreground"
+            />
+            {(imageFilePreview || formData.image) && (
+              <div className="relative h-32 w-full max-w-xs overflow-hidden rounded border bg-muted">
+                <Image
+                  src={imageFilePreview || formData.image}
+                  alt="Pré-visualização"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="text-sm">Tags (comma separated) *</label>
+        <input required name="tags" value={formData.tags} onChange={onInputChange} placeholder="React, Node, Firebase" className="w-full p-2 border rounded bg-background" />
+      </div>
+
+      <div>
+        <label className="text-sm">Date *</label>
+        <input required name="date" value={formData.date} onChange={onInputChange} placeholder="2024-2026" className="w-full p-2 border rounded bg-background" />
+      </div>
+
+      <div>
+        <label className="text-sm">Role *</label>
+        <input required name="role" value={formData.role} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+      </div>
+
+      <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t mt-2">
+        {projectCategory === "programmer" ? (
+          <>
+            <div>
+              <label className="text-sm">GitHub URL</label>
+              <input name="github" value={formData.github} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div>
+              <label className="text-sm">Demo URL</label>
+              <input name="demo" value={formData.demo} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <label className="text-sm">Paper URL</label>
+              <input name="paper" value={formData.paper} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div>
+              <label className="text-sm">Dataset URL</label>
+              <input name="dataset" value={formData.dataset} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div className="col-span-1 md:col-span-2">
+              <label className="text-sm">GitHub URL</label>
+              <input name="github" value={formData.github} onChange={onInputChange} className="w-full p-2 border rounded bg-background" />
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
