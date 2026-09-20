@@ -1,6 +1,9 @@
+"use client";
+
 import React, { CSSProperties } from "react";
 import Image from "next/image";
 import { TypewriterStatus } from "@/components/typeWriterStatus";
+import { useContent } from "@/components/content-provider";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -44,64 +47,25 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 // --- Dados Fixos ---
 
 const projects = [
-  {
-    title: "EngScan",
-    link: "/portfolio/engscan",
-    description: "Solução que reduz o tempo nas vistória e inspeções de meses para algumas horas.",
-    icon: "⚒️",
-    highlight: "🏆 1º LUGAR EM COMPETIÇÕES",
-  },
-  {
-    title: "TYTO",
-    link: "portfolio/tyto",
-    description: "Comunidade internacional de computação e ciência. Estudamos, testamos e criamos produtos com base científica usados em diversos países.",
-    icon: "🏰",
-    highlight: "🏆 RECONHECIMENTO EM UNIVERSIDADES",
-  },
-  {
-    title: "Atenas",
-    link: "portfolio/atenas",
-    description: "Bot para gerenciamento de rotinas, criação de documentos automáticos para reunições e administração da comunidade TYTO.",
-    icon: "📚",
-  },
-  {
-    title: "Ágora",
-    link:"portfolio/agora",
-    description: "Aplicação capaz de predizer os valores de imóveis em determinadas regiões automaticamente.",
-    icon: "🛍️",
-  },
+  { key: "plantas", title: "Monitor de Plantas", link: "/portfolio/plantas", icon: "🌱" },
+  { key: "hefesto", title: "Hefesto", link: "/portfolio/hefesto", icon: "🔨", hasHighlight: true },
+  { key: "maestro", title: "Maestro", link: "/portfolio/maestro", icon: "🎼" },
+  { key: "engscan", title: "EngScan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
+  { key: "tyto", title: "TYTO", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
+  { key: "atenas", title: "Atenas", link: "/atenas", icon: "📚" },
+  { key: "agora", title: "Ágora", link: "/portfolio/agora", icon: "🛍️" },
 ];
 
-const skills = [
-  `${currentYear - 2015} anos de experiência com código e eletrônica`,
-  "Boa comunicação",
-  "Visão total de negócio",
-  "Dedicação em entregar resultados",
-  "Dedicação ao time"
-];
+const skillKeys = ["home.skills.item2", "home.skills.item3", "home.skills.item4", "home.skills.item5"];
 
-const languages = [
-  "Português",
-  "Inglês",
-  "Russo",
-  "Sergipanês",
-  "Alto Valiriano",
-];
+const languageKeys = ["home.languages.pt", "home.languages.en", "home.languages.ru", "home.languages.sergipanes", "home.languages.altovaliriano"];
 
 // --- Componente Principal ---
 
 export default function HomePage() {
+  const { t } = useContent();
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
-  const age = currentYear - 2000;
-
-  const presentationText = `Acredito que software existe para resolver problemas reais. Gosto de entender sistemas complexos, questionar processos e construir soluções que gerem impacto mensurável. Seja por meio de engenharia de software, automação ou inteligência artificial, meu objetivo é transformar desafios em resultados.
-`;
-  
-  const aboutMeText = `Sou engenheiro de software, pesquisador em inteligência artificial e estudante de Ciência da Computação. Comecei a programar de forma independente aos 15 anos e, desde então, desenvolvo soluções que combinam engenharia, ciência e software para resolver problemas reais.
-
-Fundei uma comunidade internacional de computação aplicada, participei da criação de produtos utilizados globalmente e desenvolvi sistemas envolvendo automação, modelagem matemática, aprendizado de máquina e engenharia de software.
-
-Minha experiência transita entre pesquisa e desenvolvimento, transformando problemas complexos em soluções funcionais e escaláveis. Tenho interesse em desafios que envolvam inteligência artificial, automação e sistemas distribuídos, contribuindo com equipes que buscam criar produtos de alto impacto.`;
+  const yearsOfExperience = currentYear - 2015;
 
   return (
     <main className="relative min-h-screen bg-[#000000] text-[#f3eade] font-sans antialiased overflow-x-hidden selection:bg-purple-700 selection:text-white">
@@ -126,7 +90,7 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           {/* Header principal */}
           <header className="text-center space-y-4">
             <p className="text-xs font-bold uppercase tracking-[0.4em] text-purple-400/80">
-              ⚔️ Engenheiro de Software ⚔️
+              {t("home.badge")}
             </p>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-[#f3eade] via-purple-300 to-purple-500">
               DAYVID SANTANA
@@ -142,20 +106,20 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           <section className="grid gap-6 md:grid-cols-5">
             <div className="md:col-span-3 bg-zinc-950/60 backdrop-blur-md border border-purple-950/40 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Selo do ofício</span>
-                <h2 className="text-2xl font-bold text-purple-300 mt-1 mb-4">Sobre Mim</h2>
-                <p className="text-sm leading-relaxed text-[#d1c5b6] font-light">
-                  {aboutMeText}
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.about.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-purple-300 mt-1 mb-4">{t("home.about.heading")}</h2>
+                <p className="text-sm leading-relaxed text-[#d1c5b6] font-light whitespace-pre-line">
+                  {t("home.about.body")}
                 </p>
               </div>
             </div>
 
             <div className="md:col-span-2 bg-gradient-to-br from-zinc-900/80 to-zinc-950/90 border border-purple-900/30 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Presença em campo</span>
-                <h3 className="text-lg font-semibold text-purple-300 mt-1 mb-3">Manifesto</h3>
-                <p className="text-sm leading-relaxed text-[#c4b8aa] font-light">
-                  {presentationText}
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.manifesto.eyebrow")}</span>
+                <h3 className="text-lg font-semibold text-purple-300 mt-1 mb-3">{t("home.manifesto.heading")}</h3>
+                <p className="text-sm leading-relaxed text-[#c4b8aa] font-light whitespace-pre-line">
+                  {t("home.manifesto.body")}
                 </p>
               </div>
               
@@ -167,8 +131,8 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-950/30 pb-4">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Artefatos criados</span>
-                <h2 className="text-2xl font-bold text-purple-300">Principais Projetos</h2>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.projects.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-purple-300">{t("home.projects.heading")}</h2>
               </div>
             </div>
 
@@ -180,7 +144,7 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="space-y-2">
-                        <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">Projeto</span>
+                        <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">{t("home.projects.label")}</span>
                         <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
                           {project.title}
                         </h3>
@@ -189,14 +153,14 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
                         {project.icon}
                       </div>
                     </div>
-                    
+
                     <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
-                      {project.description}
+                      {t(`home.projects.${project.key}.description`)}
                     </p>
 
-                    {project.highlight ? (
+                    {project.hasHighlight ? (
                       <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
-                        {project.highlight}
+                        {t(`home.projects.${project.key}.highlight`)}
                       </div>
                     ) : null}
                   </article>
@@ -209,16 +173,19 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Habilidades especiais</span>
-                <h3 className="text-xl font-bold text-purple-300">Habilidades Arquetípicas</h3>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.skills.eyebrow")}</span>
+                <h3 className="text-xl font-bold text-purple-300">{t("home.skills.heading")}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
+                <span className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors">
+                  {t("home.skills.item1").replace("{years}", String(yearsOfExperience))}
+                </span>
+                {skillKeys.map((key) => (
                   <span
-                    key={skill}
+                    key={key}
                     className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
                   >
-                    {skill}
+                    {t(key)}
                   </span>
                 ))}
               </div>
@@ -229,16 +196,16 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">// Comunicação & Dialetos</span>
-                <h3 className="text-xl font-bold text-purple-300">Domínio Linguístico</h3>
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.languages.eyebrow")}</span>
+                <h3 className="text-xl font-bold text-purple-300">{t("home.languages.heading")}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {languages.map((language) => (
+                {languageKeys.map((key) => (
                   <span
-                    key={language}
+                    key={key}
                     className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
                   >
-                    {language}
+                    {t(key)}
                   </span>
                 ))}
               </div>
@@ -248,7 +215,7 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
           {/* Footer */}
           <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
             <p className="font-mono text-purple-400/60 tracking-wider">
-              {'() => isHuman ? "Conecte-se pelos botões ao lado" : "erro 404: humano não encontrado"'}
+              {t("home.footer.quip")}
             </p>
             <div className="flex flex-wrap gap-2">
               <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">

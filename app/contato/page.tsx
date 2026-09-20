@@ -1,106 +1,63 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Linkedin, Github, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Mail, Linkedin, Github, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
-import SuccessModal from "../../components/sucessModal";
+import { sendContact } from "@/lib/api";
+import { useContent } from "@/components/content-provider";
+
+const contactInfo = [
+  { key: "email", icon: Mail, value: "santana.dayvid@outlook.com", href: "mailto:santana.dayvid@outlook.com" },
+  { key: "linkedin", icon: Linkedin, value: "/dayvid-santana-jr", href: "https://www.linkedin.com/in/dayvid-santana-jr/" },
+  { key: "github", icon: Github, value: "@Dayvid-San", href: "https://github.com/Dayvid-San" },
+  { key: "location", icon: MapPin, value: "Paraná, Brasil", href: null },
+];
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { t } = useContent();
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    window.location.reload(); 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    setErrorMessage(null);
-
-    const formData = new FormData(event.currentTarget);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      subject: formData.get("subject"),
-      message: formData.get("message"),
-    };
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMessage("");
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setShowModal(true);
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error || "Ocorreu um erro ao enviar.");
-      }
-    } catch (error) {
-      setErrorMessage("Erro de conexão com o servidor.");
-    } finally {
-      setIsSubmitting(false);
+      await sendContact(form);
+      setStatus("sent");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (error: any) {
+      setStatus("error");
+      setErrorMessage(error.message ?? t("contato.form.genericError"));
     }
   };
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "santana.dayvid@outlook.com",
-      href: "mailto:santana.dayvid@outlook.com",
-      description: "Respondo em até 24 horas"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "/dayvid-santana-jr",
-      href: "https://www.linkedin.com/in/dayvid-santana-jr/",
-      description: "Respondo em até 42 horas"
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "@Dayvid-San",
-      href: "https://github.com/Dayvid-San",
-      description: "Confira meus projetos"
-    },
-    {
-      icon: MapPin,
-      label: "Localização",
-      value: "Paraná, Brasil",
-      href: null,
-      description: "Disponível para trabalho remoto"
-    }
-  ];
 
   return (
     <div className="container relative px-4 py-16 md:py-24">
       {/* Contact Cards Section */}
       <section className="relative z-20 mx-auto max-w-4xl mb-16">
         <div className="grid gap-6 md:grid-cols-2">
-          {contactInfo.map((contact, index) => {
+          {contactInfo.map((contact) => {
             const Icon = contact.icon;
             return (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
+              <Card key={contact.key} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="rounded-lg bg-primary/10 p-3">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold mb-1">{contact.label}</h3>
+                      <h3 className="font-semibold mb-1">{t(`contato.info.${contact.key}.label`)}</h3>
                       {contact.href ? (
-                        <Link 
+                        <Link
                           href={contact.href}
                           className="text-primary hover:underline mb-1 block"
                           target={contact.href.startsWith('http') ? '_blank' : undefined}
@@ -111,7 +68,7 @@ export default function ContactPage() {
                         <p className="text-muted-foreground mb-1">{contact.value}</p>
                       )}
                       <p className="text-sm text-muted-foreground">
-                        {contact.description}
+                        {t(`contato.info.${contact.key}.description`)}
                       </p>
                     </div>
                   </div>
@@ -122,93 +79,74 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form Section 
+      {/* Contact Form Section */}
       <section className="relative z-20 mx-auto max-w-2xl">
         <Card>
-          <CardContent className="p-8 md:p-12">
-            <h2 className="mb-6 text-3xl font-bold text-balance">
-              Envie uma Mensagem
-            </h2>
-            
-            <form onSubmit={onSubmit} className="space-y-6">
+          <CardContent className="p-6">
+            <h2 className="text-xl font-semibold mb-1">{t("contato.form.heading")}</h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              {t("contato.form.intro")}
+            </p>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Nome
-                </label>
+                <label className="text-sm mb-1 block">{t("contato.form.name")}</label>
                 <input
-                  type="text"
-                  id="name"
+                  required
                   name="name"
-                  className="w-full rounded-md border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Seu nome completo"
-                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md bg-background"
                 />
               </div>
-              
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
+                <label className="text-sm mb-1 block">{t("contato.form.email")}</label>
                 <input
+                  required
                   type="email"
-                  id="email"
                   name="email"
-                  className="w-full rounded-md border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="seu.email@exemplo.com"
-                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md bg-background"
                 />
               </div>
-              
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Assunto
-                </label>
+                <label className="text-sm mb-1 block">{t("contato.form.subject")}</label>
                 <input
-                  type="text"
-                  id="subject"
                   name="subject"
-                  className="w-full rounded-md border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Sobre o que deseja falar?"
-                  required
+                  value={form.subject}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md bg-background"
                 />
               </div>
-              
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Mensagem
-                </label>
+                <label className="text-sm mb-1 block">{t("contato.form.message")}</label>
                 <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  className="w-full rounded-md border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  placeholder="Escreva sua mensagem aqui..."
                   required
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={5}
+                  className="w-full p-2 border rounded-md bg-background"
                 />
               </div>
 
-              {errorMessage && (
-                <p className="text-sm font-medium text-destructive">{errorMessage}</p>
+              {status === "sent" && (
+                <p className="text-sm font-medium text-green-500">
+                  {t("contato.form.success")}
+                </p>
               )}
-              
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full" 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
+              {status === "error" && (
+                <p className="text-sm font-medium text-red-500">{errorMessage}</p>
+              )}
+
+              <Button type="submit" disabled={status === "sending"} className="w-full sm:w-auto">
+                {status === "sending" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {t("contato.form.submit")}
               </Button>
             </form>
           </CardContent>
         </Card>
       </section>
-
-      <SuccessModal 
-        isOpen={showModal} 
-        onClose={handleCloseModal} 
-      />
-      */}
     </div>
   );
 }

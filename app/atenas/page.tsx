@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -5,56 +7,22 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, Brain, Gem, Sparkles, Code, Users, ExternalLink, CheckCircle2, Github } from "lucide-react"
-
-// Interface estendida para detalhes profundos
-interface ProjectDetail {
-  title: string
-  subtitle: string
-  date: string
-  role: string
-  heroImage: string
-  tags: string[]
-  links: {
-    demo?: string
-    github?: string
-    paper?: string
-  }
-  overview: string
-  challenges: string[]
-  solutions: string[]
-  architectureUrl?: string // URL para o diagrama de arquitetura
-}
+import { useContent } from "@/components/content-provider"
 
 // Dados do Projeto (Deusa Athena)
-const projectData: ProjectDetail = {
-  title: "Deusa Athena",
-  subtitle: "A Inteligência por trás do TYTO.club: Gamificação, Automação e Mentoria AI",
-  date: "2023 - Presente",
-  role: "Criador & Lead AI/Backend Developer",
+const projectData = {
   heroImage: "/athena-hero.png", // Você precisará criar uma imagem para a Athena
   tags: ["Node.js", "TypeScript", "Python", "OpenAI API", "Discord.js", "Whatsapp-web.js", "PostgreSQL", "Docker", "RabbitMQ"],
   links: {
     demo: "https://tyto.club", // Exemplo, ajuste se houver uma demo pública
     github: "https://github.com/seu-usuario/athena-bot", // Exemplo, ajuste para o seu repo
   },
-  overview:
-    "Athena é a assistente inteligente central do TYTO.club. Ela centraliza e gerencia a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em plataformas como Discord e WhatsApp, agenda reuniões, propõe desafios práticos de desenvolvimento e, de forma inovadora, avalia soluções de código submetidas pelos membros. Com o 'Oráculo', Athena oferece respostas instantâneas, garantindo uma experiência interativa e gamificada para todos os clubistas.",
-  challenges: [
-    "Integrar múltiplas plataformas (Discord, WhatsApp) e APIs de IA de forma coesa.",
-    "Desenvolver um sistema robusto de gamificação com XP e tokens em tempo real.",
-    "Criar um avaliador de código baseado em IA que forneça feedback útil e preciso.",
-    "Gerenciar a persistência de dados complexos (gamificação, tarefas, históricos) de forma escalável."
-  ],
-  solutions: [
-    "Arquitetura modular baseada em micro-serviços (ou módulos bem definidos) para cada integração.",
-    "Backend em Node.js com TypeScript para gerenciar a lógica de gamificação e as interações.",
-    "Uso da OpenAI API para processamento de linguagem natural e avaliação inteligente de código.",
-    "Implementação de um banco de dados PostgreSQL para dados relacionais e Redis para cache de alta performance.",
-    "Sistema de fila (RabbitMQ) para processar requisições assíncronas de IA e interações de chat sem gargalos."
-  ]
+  challengeKeys: ["atenas.challenges.item1", "atenas.challenges.item2", "atenas.challenges.item3", "atenas.challenges.item4"],
+  solutionKeys: ["atenas.solutions.item1", "atenas.solutions.item2", "atenas.solutions.item3", "atenas.solutions.item4", "atenas.solutions.item5"],
 }
 
 export default function Athena() {
+  const { t } = useContent();
   return (
     <div className="container mx-auto px-4 py-16 max-w-5xl">
       {/* Botão Voltar */}
@@ -62,7 +30,7 @@ export default function Athena() {
         <Button variant="ghost" asChild className="-ml-4 text-muted-foreground hover:text-primary">
           <Link href="/portfolio">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar para o Portfolio
+            {t("projectDetail.back")}
           </Link>
         </Button>
       </div>
@@ -71,12 +39,12 @@ export default function Athena() {
       <div className="mb-12">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div className="space-y-2">
-            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{projectData.title}</h1>
-            <p className="text-xl text-muted-foreground">{projectData.subtitle}</p>
+            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{t("atenas.title")}</h1>
+            <p className="text-xl text-muted-foreground">{t("atenas.subtitle")}</p>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-sm py-1 px-3">
-              {projectData.date}
+              {t("atenas.date")}
             </Badge>
           </div>
         </div>
@@ -86,7 +54,7 @@ export default function Athena() {
       <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
         <Image
           src={projectData.heroImage}
-          alt={`Capa do projeto ${projectData.title}`}
+          alt={`Capa do projeto ${t("atenas.title")}`}
           fill
           className="object-cover"
           priority
@@ -102,10 +70,10 @@ export default function Athena() {
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Brain className="mr-2 h-6 w-6 text-primary" />
-              Visão Geral da Athena
+              {t("atenas.overview.heading")}
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground text-pretty">
-              {projectData.overview}
+              {t("atenas.overview.body")}
             </p>
           </section>
 
@@ -114,23 +82,23 @@ export default function Athena() {
           {/* Desafios e Soluções */}
           <section className="grid gap-8 md:grid-cols-2">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-red-500/80">Os Desafios da Construção</h3>
+              <h3 className="text-xl font-semibold text-red-500/80">{t("atenas.challenges.heading")}</h3>
               <ul className="space-y-3">
-                {projectData.challenges.map((item, i) => (
-                  <li key={item.substring(0, Math.min(item.length, 20))} className="flex items-start gap-2 text-muted-foreground">
+                {projectData.challengeKeys.map((key) => (
+                  <li key={key} className="flex items-start gap-2 text-muted-foreground">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
-                    {item}
+                    {t(key)}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-green-500/80">As Soluções Implementadas</h3>
+              <h3 className="text-xl font-semibold text-green-500/80">{t("atenas.solutions.heading")}</h3>
               <ul className="space-y-3">
-                {projectData.solutions.map((item, i) => (
-                  <li key={item.substring(0, Math.min(item.length, 20))} className="flex items-start gap-2 text-muted-foreground">
+                {projectData.solutionKeys.map((key) => (
+                  <li key={key} className="flex items-start gap-2 text-muted-foreground">
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-green-500" />
-                    {item}
+                    {t(key)}
                   </li>
                 ))}
               </ul>
@@ -143,39 +111,39 @@ export default function Athena() {
           <section className="space-y-6">
              <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Sparkles className="mr-2 h-6 w-6 text-primary" />
-              Recursos e Funcionalidades Chave
+              {t("atenas.features.heading")}
             </h2>
             <p className="text-muted-foreground">
-              Athena não é apenas um bot, mas um ecossistema inteligente que impulsiona o engajamento e o aprendizado no TYTO.club.
+              {t("atenas.features.intro")}
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="flex items-center p-4 gap-4">
                     <Gem className="h-8 w-8 text-yellow-500 shrink-0" />
                     <div>
-                        <h4 className="font-semibold">Gamificação Centralizada</h4>
-                        <p className="text-sm text-muted-foreground">Gerencia XP, tokens e recompensas para manter os clubistas engajados.</p>
+                        <h4 className="font-semibold">{t("atenas.features.gamification.title")}</h4>
+                        <p className="text-sm text-muted-foreground">{t("atenas.features.gamification.description")}</p>
                     </div>
                 </Card>
                 <Card className="flex items-center p-4 gap-4">
                     <Users className="h-8 w-8 text-blue-500 shrink-0" />
                     <div>
-                        <h4 className="font-semibold">Automação Inteligente</h4>
-                        <p className="text-sm text-muted-foreground">Administra tarefas, cargos e a organização em Discord e WhatsApp.</p>
+                        <h4 className="font-semibold">{t("atenas.features.automation.title")}</h4>
+                        <p className="text-sm text-muted-foreground">{t("atenas.features.automation.description")}</p>
                     </div>
                 </Card>
                 <Card className="flex items-center p-4 gap-4">
                     <Code className="h-8 w-8 text-green-500 shrink-0" />
                     <div>
-                        <h4 className="font-semibold">Mentoria por IA e Avaliação de Código</h4>
-                        <p className="text-sm text-muted-foreground">Propõe desafios de código e avalia as soluções, oferecendo feedback construtivo.</p>
+                        <h4 className="font-semibold">{t("atenas.features.mentoring.title")}</h4>
+                        <p className="text-sm text-muted-foreground">{t("atenas.features.mentoring.description")}</p>
                     </div>
                 </Card>
                  <Card className="flex items-center p-4 gap-4">
                     <Brain className="h-8 w-8 text-purple-500 shrink-0" />
                     <div>
-                        <h4 className="font-semibold">Oráculo de Respostas Instantâneas</h4>
-                        <p className="text-sm text-muted-foreground">Disponibiliza um canal para respostas rápidas e dúvidas dos clubistas.</p>
+                        <h4 className="font-semibold">{t("atenas.features.oracle.title")}</h4>
+                        <p className="text-sm text-muted-foreground">{t("atenas.features.oracle.description")}</p>
                     </div>
                 </Card>
             </div>
@@ -185,7 +153,7 @@ export default function Athena() {
               <CardContent className="flex aspect-[16/9] flex-col items-center justify-center p-6 text-center text-muted-foreground">
                 <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
                    <span className="text-sm italic">
-                    [Fluxo de Interação da Athena: Usuário → Discord/WhatsApp → Athena Bot (Node.js) → OpenAI API / PostgreSQL]
+                    {t("atenas.flow.placeholder")}
                    </span>
                 </div>
               </CardContent>
@@ -202,7 +170,7 @@ export default function Athena() {
               <Button size="lg" className="w-full font-semibold" asChild>
                 <a href={projectData.links.demo} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  Visitar TYTO.club
+                  {t("atenas.links.demo")}
                 </a>
               </Button>
             )}
@@ -210,7 +178,7 @@ export default function Athena() {
               <Button variant="outline" size="lg" className="w-full" asChild>
                 <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" />
-                  Ver Repositório (Exemplo)
+                  {t("atenas.links.github")}
                 </a>
               </Button>
             )}
@@ -218,7 +186,7 @@ export default function Athena() {
 
           {/* Tecnologias */}
           <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-            <h3 className="font-semibold">Tecnologias Envolvidas</h3>
+            <h3 className="font-semibold">{t("atenas.labels.techStack")}</h3>
             <div className="flex flex-wrap gap-2">
               {projectData.tags.map((tag) => (
                 <Badge key={tag} variant="secondary">
@@ -230,21 +198,21 @@ export default function Athena() {
 
           {/* Info Adicional */}
           <div className="space-y-4 rounded-lg border bg-muted/50 p-6">
-            <h3 className="font-semibold">Ficha Técnica</h3>
+            <h3 className="font-semibold">{t("projectDetail.techSheet")}</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Função</span>
-                <span className="font-medium text-right">{projectData.role}</span>
+                <span className="text-muted-foreground">{t("atenas.labels.role")}</span>
+                <span className="font-medium text-right">{t("atenas.role")}</span>
               </div>
               <Separator />
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Período</span>
-                <span className="font-medium">{projectData.date}</span>
+                <span className="text-muted-foreground">{t("projectDetail.period")}</span>
+                <span className="font-medium">{t("atenas.date")}</span>
               </div>
               <Separator />
                <div className="flex justify-between">
-                <span className="text-muted-foreground">Status</span>
-                <span className="font-medium text-green-600">Ativa e em Evolução</span>
+                <span className="text-muted-foreground">{t("projectDetail.status")}</span>
+                <span className="font-medium text-green-600">{t("atenas.status")}</span>
               </div>
             </div>
           </div>
