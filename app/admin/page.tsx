@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { login, isAuthenticated } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -63,6 +64,12 @@ export default function AdminLogin() {
             <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
               {isSubmitting ? "Signing in..." : "Login"}
             </Button>
+            <Link
+              href="/admin/forgot-password"
+              className="text-sm text-center text-muted-foreground hover:underline"
+            >
+              Forgot password?
+            </Link>
           </form>
         </CardContent>
       </Card>
