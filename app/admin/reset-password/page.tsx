@@ -3,12 +3,13 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { resetPassword } from "@/lib/api";
+import { confirmPasswordReset } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function ResetPasswordForm() {
-  const token = useSearchParams().get("token") ?? "";
+  const oobCode = useSearchParams().get("oobCode") ?? "";
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,7 +32,7 @@ function ResetPasswordForm() {
 
     setIsSubmitting(true);
     try {
-      await resetPassword(token, password);
+      await confirmPasswordReset(auth, oobCode, password);
       setDone(true);
       setTimeout(() => router.push("/admin"), 2000);
     } catch (err: any) {
@@ -41,11 +42,11 @@ function ResetPasswordForm() {
     }
   };
 
-  if (!token) {
+  if (!oobCode) {
     return (
       <div className="flex flex-col gap-4 text-center">
         <p className="text-sm text-muted-foreground">
-          This link is missing its reset token. Request a new one below.
+          This link is missing its reset code. Request a new one below.
         </p>
         <Link href="/admin/forgot-password" className="text-sm text-primary hover:underline">
           Request a new link

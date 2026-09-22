@@ -2,22 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, db, storage } from "@/lib/firebase";
 import {
-  isAuthenticated,
-  logout,
-  listProjects,
-  createProject,
-  updateProject,
-  deleteProject,
-  uploadImage,
+  logout as clearBackendToken,
   listStatusItems,
   createStatusItem,
   updateStatusItem,
   deleteStatusItem,
   listContentEntries,
   upsertContentEntry,
-  type ApiProject,
-  type ProjectCategory,
   type ApiStatusItem,
   type ContentEntryDto,
 } from "@/lib/api";
@@ -36,6 +32,22 @@ import {
 import { Pencil, Trash2, Link2, Upload, Loader2, ArrowUp, ArrowDown } from "lucide-react";
 import Image from "next/image";
 
+type ProjectCategory = "programmer" | "research";
+
+interface StoredProject {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  date: string;
+  role: string;
+  github?: string;
+  demo?: string;
+  paper?: string;
+  dataset?: string;
+}
+
 interface FormData {
   title: string;
   description: string;
@@ -52,6 +64,11 @@ interface FormData {
 const initialFormState: FormData = {
   title: "", description: "", image: "", tags: "",
   date: "", role: "", github: "", demo: "", paper: "", dataset: ""
+};
+
+const COLLECTION_BY_CATEGORY: Record<ProjectCategory, string> = {
+  programmer: "programmerProjects",
+  research: "researchProjects",
 };
 
 const CATEGORY_LABEL: Record<ProjectCategory, string> = {
@@ -74,8 +91,8 @@ export default function AdminDashboard() {
   const [statusMessage, setStatusMessage] = useState("");
   const router = useRouter();
 
-  const [programmerProjects, setProgrammerProjects] = useState<ApiProject[]>([]);
-  const [researchProjects, setResearchProjects] = useState<ApiProject[]>([]);
+  const [programmerProjects, setProgrammerProjects] = useState<StoredProject[]>([]);
+  const [researchProjects, setResearchProjects] = useState<StoredProject[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
 
   const [editingProject, setEditingProject] = useState<{ id: string; category: ProjectCategory } | null>(null);
@@ -98,22 +115,29 @@ export default function AdminDashboard() {
   const [contentMessage, setContentMessage] = useState("");
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      router.push("/admin");
-      return;
-    }
-    setCheckingAuth(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/admin");
+        return;
+      }
+      setCheckingAuth(false);
+    });
+    return () => unsubscribe();
   }, [router]);
 
   const fetchProjects = async () => {
     setLoadingProjects(true);
     try {
-      const [programmer, research] = await Promise.all([
-        listProjects("programmer"),
-        listProjects("research"),
+      const [programmerSnap, researchSnap] = await Promise.all([
+        getDocs(collection(db, COLLECTION_BY_CATEGORY.programmer)),
+        getDocs(collection(db, COLLECTION_BY_CATEGORY.research)),
       ]);
-      setProgrammerProjects(programmer);
-      setResearchProjects(research);
+      setProgrammerProjects(
+        programmerSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
+      );
+      setResearchProjects(
+        researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
+      );
     } catch (error) {
       console.error("Error fetching projects: ", error);
     } finally {
@@ -192,7 +216,7 @@ export default function AdminDashboard() {
     resetImageField();
   };
 
-  const handleEdit = (project: ApiProject, category: ProjectCategory) => {
+  const handleEdit = (project: StoredProject, category: ProjectCategory) => {
     setEditingProject({ id: project.id, category });
     setFormData({
       title: project.title,
@@ -210,10 +234,10 @@ export default function AdminDashboard() {
     setStatusMessage("");
   };
 
-  const handleDelete = async (project: ApiProject, category: ProjectCategory) => {
+  const handleDelete = async (project: StoredProject, category: ProjectCategory) => {
     if (!window.confirm(`Excluir "${project.title}"? Essa ação não pode ser desfeita.`)) return;
     try {
-      await deleteProject(category, project.id);
+      await deleteDoc(doc(db, COLLECTION_BY_CATEGORY[category], project.id));
       if (editingProject?.id === project.id) resetForm();
       await fetchProjects();
       setStatusMessage("Projeto excluído.");
@@ -341,7 +365,9 @@ export default function AdminDashboard() {
 
       if (imageMode === "upload" && imageFile) {
         setIsUploadingImage(true);
-        imageUrl = await uploadImage(category, imageFile);
+        const imageRef = ref(storage, `projects/${category}/${Date.now()}-${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        imageUrl = await getDownloadURL(imageRef);
         setIsUploadingImage(false);
       }
 
@@ -349,23 +375,29 @@ export default function AdminDashboard() {
 
       const tagsArray = formData.tags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
-      const payload = {
+      const payload: Record<string, unknown> = {
         title: formData.title,
         description: formData.description,
         image: imageUrl,
         tags: tagsArray,
         date: formData.date,
         role: formData.role,
-        ...(category === "programmer"
-          ? { github: formData.github || undefined, demo: formData.demo || undefined }
-          : { paper: formData.paper || undefined, dataset: formData.dataset || undefined, github: formData.github || undefined }),
       };
 
+      if (category === "programmer") {
+        if (formData.github) payload.github = formData.github;
+        if (formData.demo) payload.demo = formData.demo;
+      } else {
+        if (formData.paper) payload.paper = formData.paper;
+        if (formData.dataset) payload.dataset = formData.dataset;
+        if (formData.github) payload.github = formData.github;
+      }
+
       if (editingProject && editingProject.category === category) {
-        await updateProject(category, editingProject.id, payload);
+        await updateDoc(doc(db, COLLECTION_BY_CATEGORY[category], editingProject.id), payload);
         setStatusMessage("Project updated successfully!");
       } else {
-        await createProject(category, payload);
+        await addDoc(collection(db, COLLECTION_BY_CATEGORY[category]), payload);
         setStatusMessage("Project added successfully!");
       }
 
@@ -390,8 +422,9 @@ export default function AdminDashboard() {
     if (editingProject) submitProject(editingProject.category);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await signOut(auth);
+    clearBackendToken();
     router.push("/admin");
   };
 
@@ -817,11 +850,11 @@ function ProjectList({
   onDelete,
 }: {
   title: string;
-  projects: ApiProject[];
+  projects: StoredProject[];
   category: ProjectCategory;
   loading: boolean;
-  onEdit: (project: ApiProject, category: ProjectCategory) => void;
-  onDelete: (project: ApiProject, category: ProjectCategory) => void;
+  onEdit: (project: StoredProject, category: ProjectCategory) => void;
+  onDelete: (project: StoredProject, category: ProjectCategory) => void;
 }) {
   return (
     <div>

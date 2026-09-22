@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { login, isAuthenticated } from "@/lib/api";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { login as backendLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -15,7 +17,10 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated()) router.push("/admin/dashboard");
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) router.push("/admin/dashboard");
+    });
+    return () => unsubscribe();
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -23,7 +28,14 @@ export default function AdminLogin() {
     setError("");
     setIsSubmitting(true);
     try {
-      await login(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
+      try {
+        // Best-effort: fetches the backend JWT used for Status/Conteúdo writes.
+        // Firebase sign-in above is what actually gates /admin/dashboard.
+        await backendLogin(email, password);
+      } catch (backendErr) {
+        console.error("Backend login failed, Status/Conteúdo writes may fail: ", backendErr);
+      }
       router.push("/admin/dashboard");
     } catch (err) {
       setError("Invalid credentials. Please try again.");

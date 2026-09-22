@@ -80,10 +80,6 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
-export function isAuthenticated(): boolean {
-  return getToken() !== null;
-}
-
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
   const headers = new Headers(options.headers);
@@ -120,20 +116,6 @@ export async function login(email: string, password: string): Promise<void> {
 
 export function logout() {
   clearToken();
-}
-
-export function forgotPassword(email: string): Promise<void> {
-  return request<void>("/api/auth/forgot-password", {
-    method: "POST",
-    body: JSON.stringify({ email }),
-  });
-}
-
-export function resetPassword(token: string, newPassword: string): Promise<void> {
-  return request<void>("/api/auth/reset-password", {
-    method: "POST",
-    body: JSON.stringify({ token, newPassword }),
-  });
 }
 
 export function listProjects(category: ProjectCategory): Promise<ApiProject[]> {

@@ -24,12 +24,13 @@ npx vitest       # watch mode
 
 **"Door transition" navigation** is the site's signature effect. `components/door-transition-provider.tsx` exposes `navigateWithDoor(href, isExternal)`, called by `Header`/`Footer` links instead of using `<Link>` directly: it calls `animateDoor` (from `lib/animation-utils.ts`) to animate the `[data-door-footer]` element (translateY) to look like a door closing, fires `playDoorSound()` from `AudioProvider` partway through, then calls `router.push`/`window.open`, then reopens the door. It respects `prefers-reduced-motion` (falls back to a plain crossfade + navigate). `animateDoor` itself is the single source of truth for the animation and is covered by `__tests__/animation-utils.test.tsx`.
 
-**Backend integration** (`lib/api.ts`) talks to `visit-card-backend` (JWT auth + REST CRUD + SMTP contact form + local-disk image upload), configured from `NEXT_PUBLIC_API_URL`. It backs three things:
-- `app/admin/page.tsx` + `app/admin/dashboard/page.tsx`: JWT login (`isAuthenticated()` checked once on mount, no live listener, redirects to `/admin` if there's no token) gating a full CRUD UI for the `programmer` / `research` project categories: list, create, edit and delete, with the image field populated either by pasting a URL or uploading a file (`POST /api/upload/{category}`) and storing the resulting URL. Both paths write the same `image: string` field, so `app/portfolio/page.tsx` doesn't need to know which one was used.
-- `app/portfolio/page.tsx`: reads those same two categories and renders them as the public portfolio.
+**Auth and project data are Firebase** (`lib/firebase.ts`, exports `auth`/`db`/`storage`). `app/admin/page.tsx` + `app/admin/dashboard/page.tsx` gate `/admin/dashboard` with a live `onAuthStateChanged` listener; `app/admin/dashboard/page.tsx` is a full CRUD UI for the `programmer` / `research` project categories (Firestore collections `programmerProjects`/`researchProjects`), with the image field populated either by pasting a URL or uploading to Firebase Storage. `app/portfolio/page.tsx` reads those same two collections for the public portfolio.
+
+**Backend integration** (`lib/api.ts`) talks to `visit-card-backend` (JWT auth + SMTP contact form + page-text content, Railway-hosted), configured from `NEXT_PUBLIC_API_URL`. It backs:
+- `app/admin/dashboard/page.tsx`'s "Status na TYTO" section and the PT/EN page-content editor, both protected by the backend's own JWT (fetched best-effort alongside the Firebase login, see `docs-agents/backend.md`).
 - `app/contato/page.tsx`: a real contact form (`POST /api/contact`), rate-limited per IP by the backend and relayed by email over SMTP.
 
-Firebase (`lib/firebase.ts`, the `firebase` npm package) was removed when this backend replaced it; see `docs-agents/backend.md`.
+See `docs-agents/backend.md` for how the Firebase and backend auth pieces fit together.
 
 **Content/route structure**: `app/{programador,empreendedor,universitario,portfolio,contato,atenas}/page.tsx` are the top-level personal-site sections (see `navLinks` in `components/header.tsx`); `app/portfolio/{constructor,engscan,flugo,tyto}/page.tsx` are individual project detail pages linked from the portfolio index.
 

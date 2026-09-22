@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { forgotPassword } from "@/lib/api";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -14,7 +15,9 @@ export default function ForgotPassword() {
     e.preventDefault();
     setStatus("submitting");
     try {
-      await forgotPassword(email);
+      await sendPasswordResetEmail(auth, email, {
+        url: `${window.location.origin}/admin/reset-password`,
+      });
     } catch {
       // Ignored: we show the same message either way so the endpoint can't be used
       // to check which emails have an account.

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { listProjects } from "@/lib/api";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import {
   Card,
   CardContent,
@@ -49,13 +50,17 @@ export default function PortfolioPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const [progList, researchList] = await Promise.all([
-          listProjects("programmer"),
-          listProjects("research"),
+        const [progSnap, researchSnap] = await Promise.all([
+          getDocs(collection(db, "programmerProjects")),
+          getDocs(collection(db, "researchProjects")),
         ]);
 
-        setProgrammerProjects(progList as ProgrammerProject[]);
-        setResearchProjects(researchList as ResearchProject[]);
+        setProgrammerProjects(
+          progSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ProgrammerProject)
+        );
+        setResearchProjects(
+          researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ResearchProject)
+        );
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
