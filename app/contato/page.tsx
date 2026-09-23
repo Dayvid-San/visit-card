@@ -6,6 +6,7 @@ import { Mail, Linkedin, Github, MapPin } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import SuccessModal from "../../components/sucessModal";
+import { API_URL, parseApiError } from "@/lib/api";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,7 +15,7 @@ export default function ContactPage() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    window.location.reload(); 
+    window.location.reload();
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +32,7 @@ export default function ContactPage() {
     };
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,9 +42,9 @@ export default function ContactPage() {
 
       if (response.ok) {
         setShowModal(true);
+        event.currentTarget.reset();
       } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error || "Ocorreu um erro ao enviar.");
+        setErrorMessage(await parseApiError(response, "Ocorreu um erro ao enviar."));
       }
     } catch (error) {
       setErrorMessage("Erro de conexão com o servidor.");
@@ -100,7 +101,7 @@ export default function ContactPage() {
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{contact.label}</h3>
                       {contact.href ? (
-                        <Link 
+                        <Link
                           href={contact.href}
                           className="text-primary hover:underline mb-1 block"
                           target={contact.href.startsWith('http') ? '_blank' : undefined}
@@ -122,14 +123,14 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form Section 
+      {/* Contact Form Section */}
       <section className="relative z-20 mx-auto max-w-2xl">
         <Card>
           <CardContent className="p-8 md:p-12">
             <h2 className="mb-6 text-3xl font-bold text-balance">
               Envie uma Mensagem
             </h2>
-            
+
             <form onSubmit={onSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -144,7 +145,7 @@ export default function ContactPage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
                   Email
@@ -158,7 +159,7 @@ export default function ContactPage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium mb-2">
                   Assunto
@@ -172,7 +173,7 @@ export default function ContactPage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">
                   Mensagem
@@ -190,11 +191,11 @@ export default function ContactPage() {
               {errorMessage && (
                 <p className="text-sm font-medium text-destructive">{errorMessage}</p>
               )}
-              
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full" 
+
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
@@ -204,11 +205,10 @@ export default function ContactPage() {
         </Card>
       </section>
 
-      <SuccessModal 
-        isOpen={showModal} 
-        onClose={handleCloseModal} 
+      <SuccessModal
+        isOpen={showModal}
+        onClose={handleCloseModal}
       />
-      */}
     </div>
   );
 }
