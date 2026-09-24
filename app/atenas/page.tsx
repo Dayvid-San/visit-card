@@ -31,11 +31,11 @@ const projectData: ProjectDetail = {
   subtitle: "A Inteligência por trás do TYTO.club: Gamificação, Automação e Mentoria AI",
   date: "2023 - Presente",
   role: "Criador & Lead AI/Backend Developer",
-  heroImage: "/athena-hero.png", // Você precisará criar uma imagem para a Athena
+  heroImage: "/placeholder.svg",
   tags: ["Node.js", "TypeScript", "Python", "OpenAI API", "Discord.js", "Whatsapp-web.js", "PostgreSQL", "Docker", "RabbitMQ"],
   links: {
-    demo: "https://tyto.club", // Exemplo, ajuste se houver uma demo pública
-    github: "https://github.com/seu-usuario/athena-bot", // Exemplo, ajuste para o seu repo
+    demo: "https://club.tytocode.com.br",
+    github: "https://github.com/TYTO-club",
   },
   overview:
     "Athena é a assistente inteligente central do TYTO.club. Ela centraliza e gerencia a gamificação (XP e tokens), automatiza a gestão de tarefas e cargos em plataformas como Discord e WhatsApp, agenda reuniões, propõe desafios práticos de desenvolvimento e, de forma inovadora, avalia soluções de código submetidas pelos membros. Com o 'Oráculo', Athena oferece respostas instantâneas, garantindo uma experiência interativa e gamificada para todos os clubistas.",
@@ -210,7 +210,7 @@ export default function Athena() {
               <Button variant="outline" size="lg" className="w-full" asChild>
                 <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" />
-                  Ver Repositório (Exemplo)
+                  TYTO.club no GitHub
                 </a>
               </Button>
             )}

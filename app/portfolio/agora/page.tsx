@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, ExternalLink, Github, Layers, Cpu, CheckCircle2 } from "lucide-react"
 
-
 interface ProjectDetail {
   title: string
   subtitle: string
@@ -22,32 +21,31 @@ interface ProjectDetail {
   overview: string
   challenges: string[]
   solutions: string[]
-  architectureUrl?: string // URL para o diagrama de arquitetura
 }
 
 const projectData: ProjectDetail = {
-  title: "Constructor",
-  subtitle: "Plataforma de gestão de obras e orçamentos para escritórios de engenharia civil",
+  title: "Ágora",
+  subtitle: "Predição automática do valor de imóveis por região, a partir de dados de mercado",
   date: "2024 - Presente",
-  role: "Lead Full-stack Developer",
+  role: "Lead Full-stack Developer & ML Engineer",
   heroImage: "/placeholder.svg",
-  tags: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "Tailwind", "Recharts"],
+  tags: ["Python", "Scikit-learn", "Pandas", "FastAPI", "Next.js", "PostgreSQL"],
   links: {},
   overview:
-    "Constructor nasceu dentro do mesmo laboratório de pesquisa aplicada da TYTO.club que deu origem à EngScan, mas ataca a outra ponta do canteiro de obras: em vez de diagnóstico estrutural, o foco é o dia a dia de gestão — orçamento, cronograma físico-financeiro e acompanhamento de etapas da obra em um único painel, substituindo planilhas soltas que escritórios de engenharia civil de pequeno e médio porte costumam manter separadas.",
+    "Ágora surgiu enquanto eu explorava o setor de investimentos imobiliários em busca de problemas que valessem a pena resolver com software: comprador e corretor decidem preço de imóvel quase sempre no olho, comparando poucos anúncios manualmente. Ágora treina um modelo de regressão sobre dados históricos de imóveis anunciados (localização, área, quartos, padrão de acabamento, distância de pontos de interesse) para estimar automaticamente o valor de mercado de um imóvel numa região, e expõe isso numa API consumida por uma interface simples de consulta.",
   challenges: [
-    "Cada escritório de engenharia tinha sua própria planilha de orçamento, com fórmulas e categorias diferentes, dificultando padronizar uma importação genérica.",
-    "Cronograma físico e cronograma financeiro da obra normalmente vivem em documentos separados e saem de sincronia rapidamente conforme a obra avança.",
-    "Precisava de uma visão de progresso que fizesse sentido tanto para o engenheiro responsável quanto para o cliente final, que geralmente não lê planilhas técnicas.",
+    "Dados de imóveis anunciados publicamente vêm sujos e inconsistentes: mesma característica descrita de formas diferentes por anúncio, valores discrepantes e duplicados.",
+    "Preço de imóvel varia muito por bairro e até por rua, então um único modelo genérico para uma cidade inteira erra grosseiramente em regiões menos representadas nos dados.",
+    "Precisava expor a predição de um jeito que desse pra confiar: um número sozinho, sem contexto, não convence ninguém a decidir sobre um imóvel.",
   ],
   solutions: [
-    "Modelo de orçamento por etapas e insumos com importação assistida a partir de planilhas existentes, mapeando categorias comuns automaticamente.",
-    "Cronograma único que amarra etapa física a desembolso financeiro, então atualizar uma etapa recalcula automaticamente a curva de gastos prevista.",
-    "Painel de progresso simplificado, com percentual concluído por etapa e histórico de fotos, pensado para ser compartilhado diretamente com o cliente da obra.",
+    "Pipeline de limpeza e normalização em Pandas antes do treino, incluindo remoção de duplicados e outliers por faixa de preço/região.",
+    "Modelo de regressão com a localização (bairro/região) como variável central, treinado e validado separadamente por região em vez de um único modelo nacional.",
+    "API em FastAPI que devolve, além do valor estimado, a faixa de confiança e os imóveis comparáveis usados na estimativa, para dar contexto à predição.",
   ],
 }
 
-export default function Constructor() {
+export default function Agora() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-5xl">
       {/* Botão Voltar */}
@@ -87,10 +85,8 @@ export default function Constructor() {
       </div>
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
-
         {/* Coluna Principal (Conteúdo) */}
         <div className="space-y-12">
-
           {/* Visão Geral */}
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
@@ -134,14 +130,14 @@ export default function Constructor() {
 
           {/* Arquitetura Técnica */}
           <section className="space-y-6">
-             <h2 className="flex items-center text-2xl font-bold tracking-tight">
+            <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Cpu className="mr-2 h-6 w-6 text-primary" />
               Arquitetura do Sistema
             </h2>
             <p className="text-muted-foreground">
-              Frontend em Next.js consumindo uma API própria em Node.js, com PostgreSQL guardando orçamentos,
-              etapas de obra e o histórico de progresso. Os gráficos de curva financeira e percentual concluído
-              por etapa são renderizados com Recharts a partir dos mesmos dados usados no cronograma.
+              Pipeline de dados e treino em Python (Pandas + Scikit-learn), servido por uma API em FastAPI que
+              carrega o modelo treinado e responde predições em tempo real. Um frontend em Next.js consome essa
+              API para o formulário de consulta e a exibição dos imóveis comparáveis.
             </p>
 
             {/* Placeholder para Diagrama de Arquitetura */}
@@ -149,7 +145,7 @@ export default function Constructor() {
               <CardContent className="flex aspect-[16/9] flex-col items-center justify-center p-6 text-center text-muted-foreground">
                 <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
                    <span className="text-sm italic">
-                    [Diagrama de Arquitetura: Next.js → API Node.js → PostgreSQL, com sincronização de cronograma físico-financeiro]
+                    [Diagrama de Arquitetura: Dados de anúncios → Pipeline Pandas/Scikit-learn → API FastAPI → Next.js]
                    </span>
                 </div>
               </CardContent>
@@ -159,7 +155,6 @@ export default function Constructor() {
 
         {/* Coluna Lateral (Metadados) */}
         <aside className="space-y-8">
-
           {/* Links de Ação */}
           {(projectData.links.demo || projectData.links.github) && (
             <div className="flex flex-col gap-3">
@@ -208,7 +203,7 @@ export default function Constructor() {
                 <span className="font-medium">{projectData.date}</span>
               </div>
               <Separator />
-               <div className="flex justify-between">
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">Status</span>
                 <span className="font-medium text-amber-600">Em desenvolvimento interno</span>
               </div>

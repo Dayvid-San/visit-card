@@ -19,7 +19,7 @@ const skills = [
     icon: Database,
     title: "Back-end",
     description: "Foco em otimizar recursos e em escalabilidade. Assim, verificando viabilidade de processos e quais os melhores Trade-off para cada operação",
-    tags: ["Node.js", "Java", "Python,", "Springboot", "PostgreSQL", "MongoDB", "Redis"],
+    tags: ["Node.js", "Java", "Python", "Spring Boot", "PostgreSQL", "MongoDB", "Redis"],
   },
   {
     icon: Globe,
@@ -29,7 +29,7 @@ const skills = [
   },
   {
     icon: FlaskConical,
-    title: "Inteligencia Artificial",
+    title: "Inteligência Artificial",
     description: "Uso, adaptações e desenvolvimento de modelos de acordo com a necessidade da aplicação",
     tags: ["ML", "DL", "CNN"],
   },
