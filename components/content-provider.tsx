@@ -33,7 +33,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     getPublicContent(locale)
       .then(setContentMap)
-      .catch((error) => console.error("Error fetching content: ", error));
+      .catch((error) =>
+        console.warn(`Backend de conteúdo indisponível, usando textos padrão (${error?.message ?? error})`)
+      );
   }, [locale]);
 
   const setLocale = useCallback((next: Locale) => {
