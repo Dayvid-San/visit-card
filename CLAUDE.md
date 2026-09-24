@@ -32,7 +32,7 @@ npx vitest       # watch mode
 
 See `docs-agents/backend.md` for how the Firebase and backend auth pieces fit together.
 
-**Content/route structure**: `app/{programador,empreendedor,universitario,portfolio,contato,atenas}/page.tsx` are the top-level personal-site sections (see `navLinks` in `components/header.tsx`); `app/portfolio/{constructor,engscan,flugo,tyto}/page.tsx` are individual project detail pages linked from the portfolio index.
+**Content/route structure**: `app/{programador,empreendedor,universitario,portfolio,contato}/page.tsx` are the top-level personal-site sections (see `navLinks` in `components/header.tsx`). `app/atenas/page.tsx` is not in the nav, it is reached from a card on the home page. `app/curriculos/` is a hidden page (`robots: noindex`, no inbound links) that links to CV PDFs under `/curriculos/` (expected in `public/curriculos/`, which does not exist yet, so those links 404). `app/portfolio/{agora,engscan,flugo,hefesto,maestro,plantas,tyto}/page.tsx` are individual project detail pages, linked from the cards in `app/page.tsx` (the home page), not from the portfolio index; `flugo` currently has no inbound link.
 
 **Voice announcements**: `components/VoiceProvider.tsx` + `hooks/useVoiceAnnouncement.ts` speak a per-route string via the Web Speech API on navigation. All entries in `routeAnnouncements` are currently commented out, so this is presently a no-op scaffold; re-enabling it means uncommenting/adding strings there.
 
