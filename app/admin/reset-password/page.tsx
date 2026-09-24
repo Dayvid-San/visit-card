@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { confirmPasswordReset } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -32,7 +32,7 @@ function ResetPasswordForm() {
 
     setIsSubmitting(true);
     try {
-      await confirmPasswordReset(auth, oobCode, password);
+      await confirmPasswordReset(getFirebaseAuth(), oobCode, password);
       setDone(true);
       setTimeout(() => router.push("/admin"), 2000);
     } catch (err: any) {

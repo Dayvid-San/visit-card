@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { getFirebaseDb } from "@/lib/firebase";
 import {
   Card,
   CardContent,
@@ -51,8 +51,8 @@ export default function PortfolioPage() {
     const fetchProjects = async () => {
       try {
         const [progSnap, researchSnap] = await Promise.all([
-          getDocs(collection(db, "programmerProjects")),
-          getDocs(collection(db, "researchProjects")),
+          getDocs(collection(getFirebaseDb(), "programmerProjects")),
+          getDocs(collection(getFirebaseDb(), "researchProjects")),
         ]);
 
         setProgrammerProjects(

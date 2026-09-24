@@ -1,7 +1,7 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
+import { getAuth, type Auth } from "firebase/auth";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,7 +12,18 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+
+// Lazy so a missing config fails only where Firebase is used, not at import time on every page.
+function getFirebaseApp(): FirebaseApp {
+  if (!isFirebaseConfigured) {
+    throw new Error(
+      "Firebase não configurado: defina as variáveis NEXT_PUBLIC_FIREBASE_* no .env.local (veja .env.example) e reinicie o npm run dev."
+    );
+  }
+  return getApps().length ? getApp() : initializeApp(firebaseConfig);
+}
+
+export const getFirebaseAuth = (): Auth => getAuth(getFirebaseApp());
+export const getFirebaseDb = (): Firestore => getFirestore(getFirebaseApp());
+export const getFirebaseStorage = (): FirebaseStorage => getStorage(getFirebaseApp());

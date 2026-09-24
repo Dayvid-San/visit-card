@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { auth, db, storage } from "@/lib/firebase";
+import { getFirebaseAuth, getFirebaseDb, getFirebaseStorage, isFirebaseConfigured } from "@/lib/firebase";
 import {
   logout as clearBackendToken,
   listStatusItems,
@@ -115,7 +115,11 @@ export default function AdminDashboard() {
   const [contentMessage, setContentMessage] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!isFirebaseConfigured) {
+      router.push("/admin");
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
       if (!user) {
         router.push("/admin");
         return;
@@ -129,8 +133,8 @@ export default function AdminDashboard() {
     setLoadingProjects(true);
     try {
       const [programmerSnap, researchSnap] = await Promise.all([
-        getDocs(collection(db, COLLECTION_BY_CATEGORY.programmer)),
-        getDocs(collection(db, COLLECTION_BY_CATEGORY.research)),
+        getDocs(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY.programmer)),
+        getDocs(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY.research)),
       ]);
       setProgrammerProjects(
         programmerSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
@@ -237,7 +241,7 @@ export default function AdminDashboard() {
   const handleDelete = async (project: StoredProject, category: ProjectCategory) => {
     if (!window.confirm(`Excluir "${project.title}"? Essa ação não pode ser desfeita.`)) return;
     try {
-      await deleteDoc(doc(db, COLLECTION_BY_CATEGORY[category], project.id));
+      await deleteDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], project.id));
       if (editingProject?.id === project.id) resetForm();
       await fetchProjects();
       setStatusMessage("Projeto excluído.");
@@ -365,7 +369,7 @@ export default function AdminDashboard() {
 
       if (imageMode === "upload" && imageFile) {
         setIsUploadingImage(true);
-        const imageRef = ref(storage, `projects/${category}/${Date.now()}-${imageFile.name}`);
+        const imageRef = ref(getFirebaseStorage(), `projects/${category}/${Date.now()}-${imageFile.name}`);
         await uploadBytes(imageRef, imageFile);
         imageUrl = await getDownloadURL(imageRef);
         setIsUploadingImage(false);
@@ -394,10 +398,10 @@ export default function AdminDashboard() {
       }
 
       if (editingProject && editingProject.category === category) {
-        await updateDoc(doc(db, COLLECTION_BY_CATEGORY[category], editingProject.id), payload);
+        await updateDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], editingProject.id), payload);
         setStatusMessage("Project updated successfully!");
       } else {
-        await addDoc(collection(db, COLLECTION_BY_CATEGORY[category]), payload);
+        await addDoc(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY[category]), payload);
         setStatusMessage("Project added successfully!");
       }
 
@@ -423,7 +427,7 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
+    await signOut(getFirebaseAuth());
     clearBackendToken();
     router.push("/admin");
   };

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth, isFirebaseConfigured } from "@/lib/firebase";
 import { login as backendLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -17,7 +17,11 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!isFirebaseConfigured) {
+      setError("Firebase não configurado: defina NEXT_PUBLIC_FIREBASE_* no .env.local.");
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
       if (user) router.push("/admin/dashboard");
     });
     return () => unsubscribe();
@@ -25,10 +29,11 @@ export default function AdminLogin() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFirebaseConfigured) return;
     setError("");
     setIsSubmitting(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
       try {
         // Best-effort: fetches the backend JWT used for Status/Conteúdo writes.
         // Firebase sign-in above is what actually gates /admin/dashboard.

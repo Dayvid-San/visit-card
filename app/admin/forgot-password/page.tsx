@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -15,7 +15,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     setStatus("submitting");
     try {
-      await sendPasswordResetEmail(auth, email, {
+      await sendPasswordResetEmail(getFirebaseAuth(), email, {
         url: `${window.location.origin}/admin/reset-password`,
       });
     } catch {
