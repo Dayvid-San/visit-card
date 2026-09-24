@@ -4,7 +4,7 @@ Two sets of vars, both client-side (embedded at build time). They live in `.env.
 
 | Variable | Used by | Default (when unset) |
 |---|---|---|
-| `NEXT_PUBLIC_API_URL` | `lib/api.ts`, base URL for page-text-content and contact-form calls to the Spring Boot backend | `http://localhost:8080` |
+| `NEXT_PUBLIC_API_URL` | `lib/api.ts`, base URL for page-text-content, TYTO status and contact-form calls to the Spring Boot backend | `http://localhost:8080` |
 | `NEXT_PUBLIC_FIREBASE_API_KEY` | `lib/firebase.ts` | none |
 | `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | `lib/firebase.ts` | none |
 | `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | `lib/firebase.ts` | none |
