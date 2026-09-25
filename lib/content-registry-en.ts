@@ -67,10 +67,10 @@ My experience moves between research and development, turning complex problems i
   "home.footer.quip": '() => isHuman ? "Connect using the buttons on the side" : "error 404: human not found"',
   "home.status.title": "Status at TYTO",
   "home.status.version": "v2.0",
-  "home.status.default.cargo": "Role: Warlord",
+  "home.status.default.patente": "Rank: Warlord",
   "home.status.default.polis": "Polis: Maringá, BR",
   "home.status.default.esquadrao": "Squad: EngScan",
-  "home.status.default.titulo": "Title: Advisor",
+  "home.status.default.cargo": "Office: Rex, Councilor and Tribune",
 
   // Programador
   "programador.title": "Software Engineer",

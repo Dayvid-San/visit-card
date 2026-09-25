@@ -13,18 +13,18 @@ function toStatusLine(item: ApiStatusItem): StatusLine {
   return { id: item.id, text };
 }
 
-// Mesmos valores semeados por StatusItemSeeder.java no backend, traduzidos via
-// content-registry. Ficam aqui como padrão do frontend para o widget nunca
-// aparecer vazio (ex.: backend fora do ar ou tabela ainda sem itens) e para
-// acompanhar o idioma da página; se o backend responder com itens reais, eles
-// substituem esses valores (o backend não guarda um valor por idioma, então
-// itens vindos de lá aparecem sempre no mesmo idioma em que foram cadastrados).
+// Valores atuais traduzidos via content-registry. Ficam aqui como padrão do
+// frontend para o widget nunca aparecer vazio (ex.: backend fora do ar ou
+// tabela ainda sem itens) e para acompanhar o idioma da página; se o backend
+// responder com itens reais, eles substituem esses valores (o backend não
+// guarda um valor por idioma, então itens vindos de lá aparecem sempre no
+// mesmo idioma em que foram cadastrados).
 function buildDefaultStatusItems(t: (key: string) => string): StatusLine[] {
   return [
-    { id: "default-cargo", text: `👑 ${t("home.status.default.cargo")}` },
+    { id: "default-patente", text: `👑 ${t("home.status.default.patente")}` },
     { id: "default-polis", text: `📍 ${t("home.status.default.polis")}` },
     { id: "default-esquadrao", text: `🛡️ ${t("home.status.default.esquadrao")}` },
-    { id: "default-titulo", text: `🏙️ ${t("home.status.default.titulo")}` },
+    { id: "default-cargo", text: `🏙️ ${t("home.status.default.cargo")}` },
   ];
 }
 
