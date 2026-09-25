@@ -100,19 +100,19 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
     "During that phase, I explored different markets looking for relevant problems that could be solved through software, including sectors like condominiums, hospitality and investments. That process taught me one of the main lessons of software engineering applied to business: technology only has value when it solves real problems.",
   "empreendedor.story.p6":
     "That search later led me to an unexpected opportunity in diagnostic engineering, where I began developing a solution involving structural analysis, mathematical models and artificial intelligence.",
-  "empreendedor.principles.heading": "Entrepreneurial Principles",
-  "empreendedor.principles.money.title": "More money with less work",
+  "empreendedor.principles.heading": "What I've Learned Building Businesses",
+  "empreendedor.principles.money.title": "Technology as leverage",
   "empreendedor.principles.money.description":
-    "I worked so that small and medium-sized businesses have the tooling they need to do more with less.",
-  "empreendedor.principles.education.title": "Encouraging teaching and learning",
+    "I saw it up close in diagnostic engineering: an inspection that used to take months became a matter of hours with EngScan. That's the kind of leverage I look for in every business: using software to make the same work worth much more.",
+  "empreendedor.principles.education.title": "Teaching multiplies the business",
   "empreendedor.principles.education.description":
-    "I believe education is one of the few resources that cannot be taken from us. That is why I promoted events, communities, leagues and grant programs so that anyone I could help would have the same opportunities education gave me.",
-  "empreendedor.principles.community.title": "Communities and cooperation",
+    "Every company I founded grew out of people I had helped train: academic leagues, computing clubs, hundreds of students I taught to code. Investing in the people coming up behind me has always come back as opportunity.",
+  "empreendedor.principles.community.title": "Community before product",
   "empreendedor.principles.community.description":
-    "I founded a computing community called TYTO.club to bring professionals together and apply independent academic development to civil society. I also founded and encouraged the creation of academic leagues and computing and innovation clubs.",
-  "empreendedor.principles.startups.title": "Companies and Startups",
+    "TYTO.club started as a study community, not a company. EngScan, Athena and the other products were born inside it. I'd rather build the network of people first; the right product shows up afterward.",
+  "empreendedor.principles.startups.title": "The problem matters more than the industry",
   "empreendedor.principles.startups.description":
-    "Together with the community, I founded companies and startups to meet real needs, from ordinary people to large companies. We won awards, built a reputation and remain active in the market in areas like civil engineering, healthcare, finance and agronomy.",
+    "I've taken software into condominiums, hospitality, investments, healthcare, agribusiness and civil engineering. I don't stick to one market: I follow the problem worth solving, not whichever industry happens to be trendy.",
   "empreendedor.vision.heading": "Worldview",
   "empreendedor.vision.body": "There is always more than one path to solving a problem.",
 
