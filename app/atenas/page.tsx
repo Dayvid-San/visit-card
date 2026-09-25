@@ -11,11 +11,11 @@ import { useContent } from "@/components/content-provider"
 
 // Dados do Projeto (Deusa Athena)
 const projectData = {
-  heroImage: "/athena-hero.png", // Você precisará criar uma imagem para a Athena
+  heroImage: "/placeholder.svg",
   tags: ["Node.js", "TypeScript", "Python", "OpenAI API", "Discord.js", "Whatsapp-web.js", "PostgreSQL", "Docker", "RabbitMQ"],
   links: {
-    demo: "https://tyto.club", // Exemplo, ajuste se houver uma demo pública
-    github: "https://github.com/seu-usuario/athena-bot", // Exemplo, ajuste para o seu repo
+    demo: "https://club.tytocode.com.br",
+    github: "https://github.com/TYTO-club",
   },
   challengeKeys: ["atenas.challenges.item1", "atenas.challenges.item2", "atenas.challenges.item3", "atenas.challenges.item4"],
   solutionKeys: ["atenas.solutions.item1", "atenas.solutions.item2", "atenas.solutions.item3", "atenas.solutions.item4", "atenas.solutions.item5"],

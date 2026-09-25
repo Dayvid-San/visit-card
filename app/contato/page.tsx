@@ -48,18 +48,18 @@ export default function ContactPage() {
           {contactInfo.map((contact) => {
             const Icon = contact.icon;
             return (
-              <Card key={contact.key} className="hover:shadow-lg transition-shadow">
+              <Card key={contact.key} className="min-w-0 hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="rounded-lg bg-primary/10 p-3">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <h3 className="font-semibold mb-1">{t(`contato.info.${contact.key}.label`)}</h3>
                       {contact.href ? (
                         <Link
                           href={contact.href}
-                          className="text-primary hover:underline mb-1 block"
+                          className="text-primary hover:underline mb-1 block break-words"
                           target={contact.href.startsWith('http') ? '_blank' : undefined}
                         >
                           {contact.value}

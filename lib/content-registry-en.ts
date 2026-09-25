@@ -93,7 +93,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "empreendedor.story.p2":
     "When I started programming, I found a new way to create: instead of building only physical objects, I began developing systems able to automate processes, organize information and meet the needs of people and businesses.",
   "empreendedor.story.p3":
-    "Along the way, I came into contact with different fields and professionals, building a broad view of how real problems arise and how digital solutions can create value. That experience led me to start my own company, TYTO, in July 2021.",
+    "Along the way, I came into contact with different fields and professionals, building a broad view of how real problems arise and how digital solutions can create value. That experience led me to turn TYTO — the study community I had founded with fellow computing students — into my own company, in July 2021.",
   "empreendedor.story.p4":
     "The opportunity came from a real need of a client who required a web app. The project marked my transition from developer and designer to someone responsible for understanding business problems, defining solutions, building products and delivering results.",
   "empreendedor.story.p5":
@@ -109,7 +109,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
     "I believe education is one of the few resources that cannot be taken from us. That is why I promoted events, communities, leagues and grant programs so that anyone I could help would have the same opportunities education gave me.",
   "empreendedor.principles.community.title": "Communities and cooperation",
   "empreendedor.principles.community.description":
-    "I founded a computing community called TYTO.code to bring professionals together and apply independent academic development to civil society. I also founded and encouraged the creation of academic leagues and computing and innovation clubs.",
+    "I founded a computing community called TYTO.club to bring professionals together and apply independent academic development to civil society. I also founded and encouraged the creation of academic leagues and computing and innovation clubs.",
   "empreendedor.principles.startups.title": "Companies and Startups",
   "empreendedor.principles.startups.description":
     "Together with the community, I founded companies and startups to meet real needs, from ordinary people to large companies. We won awards, built a reputation and remain active in the market in areas like civil engineering, healthcare, finance and agronomy.",
@@ -184,7 +184,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "atenas.features.oracle.description": "Provides a channel for quick answers to club members' questions.",
   "atenas.flow.placeholder": "[Athena Interaction Flow: User → Discord/WhatsApp → Athena Bot (Node.js) → OpenAI API / PostgreSQL]",
   "atenas.links.demo": "Visit TYTO.club",
-  "atenas.links.github": "View Repository (Example)",
+  "atenas.links.github": "TYTO.club on GitHub",
 
   // Portfolio: TYTO.club
   "tyto.title": "TYTO.club",

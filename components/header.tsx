@@ -66,7 +66,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
+        <nav className="hidden lg:flex items-center space-x-6" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -82,7 +82,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden lg:flex items-center space-x-2">
           <div className="flex items-center rounded-md border border-border/40 p-0.5 mr-1">
             <Button
               variant={locale === "pt" ? "secondary" : "ghost"}
@@ -132,7 +132,7 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className="lg:hidden"
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
@@ -144,7 +144,7 @@ export function Header() {
       {/* Mobile Hamburger Menu */}
       {isMenuOpen && (
         <nav
-          className="md:hidden border-t border-border/40 bg-background"
+          className="lg:hidden border-t border-border/40 bg-background"
           aria-label="Mobile navigation"
         >
           <div className="container flex flex-col items-start space-y-4 px-4 py-4">
