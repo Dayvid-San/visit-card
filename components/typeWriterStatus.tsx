@@ -13,9 +13,20 @@ function toStatusLine(item: ApiStatusItem): StatusLine {
   return { id: item.id, text };
 }
 
+// Mesmos valores semeados por StatusItemSeeder.java no backend. Ficam aqui como
+// padrão do frontend para o widget nunca aparecer vazio (ex.: backend fora do ar
+// ou tabela ainda sem itens); se o backend responder com itens reais, eles
+// substituem esses valores.
+const DEFAULT_STATUS_ITEMS: StatusLine[] = [
+  { id: "default-cargo", text: "👑 Cargo: Senhor da Guerra" },
+  { id: "default-polis", text: "📍 Polis: Maringá, BR" },
+  { id: "default-esquadrao", text: "🛡️ Esquadrão: EngScan" },
+  { id: "default-titulo", text: "🏙️ Título: Conselheiro" },
+];
+
 export const TypewriterStatus: React.FC = () => {
   const { t } = useContent();
-  const [statusItems, setStatusItems] = useState<StatusLine[]>([]);
+  const [statusItems, setStatusItems] = useState<StatusLine[]>(DEFAULT_STATUS_ITEMS);
   const [visibleCount, setVisibleCount] = useState<number>(0);
   const [currentLineText, setCurrentLineText] = useState<string>("");
   const [currentLineIndex, setCurrentLineIndex] = useState<number>(0);
@@ -25,7 +36,10 @@ export const TypewriterStatus: React.FC = () => {
 
   useEffect(() => {
     listStatusItems()
-      .then((items) => setStatusItems(items.map(toStatusLine)))
+      .then((items) => {
+        // Mantém os padrões se o backend ainda não tiver nenhum item cadastrado.
+        if (items.length > 0) setStatusItems(items.map(toStatusLine));
+      })
       .catch((error) => console.error("Error fetching status items: ", error));
   }, []);
 
