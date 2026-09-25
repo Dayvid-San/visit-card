@@ -2,17 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { auth, db, storage } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirebaseAuth, getFirebaseDb, getFirebaseStorage, isFirebaseConfigured } from "@/lib/firebase";
+import {
+  logout as clearBackendToken,
+  listStatusItems,
+  createStatusItem,
+  updateStatusItem,
+  deleteStatusItem,
+  listContentEntries,
+  upsertContentEntry,
+  type ApiStatusItem,
+  type ContentEntryDto,
+} from "@/lib/api";
+import { CONTENT_KEYS, CONTENT_PAGES, type ContentKeyDef } from "@/lib/content-registry";
+import { DEFAULT_EN } from "@/lib/content-registry-en";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,23 +30,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Pencil, Trash2, Link2, Upload, Loader2 } from "lucide-react";
+import { Pencil, Trash2, Link2, Upload, Loader2, ArrowUp, ArrowDown } from "lucide-react";
 import Image from "next/image";
 
 type ProjectCategory = "programmer" | "research";
-
-interface FormData {
-  title: string;
-  description: string;
-  image: string;
-  tags: string;
-  date: string;
-  role: string;
-  github: string;
-  demo: string;
-  paper: string;
-  dataset: string;
-}
 
 interface StoredProject {
   id: string;
@@ -54,6 +47,19 @@ interface StoredProject {
   demo?: string;
   paper?: string;
   dataset?: string;
+}
+
+interface FormData {
+  title: string;
+  description: string;
+  image: string;
+  tags: string;
+  date: string;
+  role: string;
+  github: string;
+  demo: string;
+  paper: string;
+  dataset: string;
 }
 
 const initialFormState: FormData = {
@@ -80,8 +86,7 @@ interface ImageFieldState {
 }
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const [projectCategory, setProjectCategory] = useState<ProjectCategory>("programmer");
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [statusMessage, setStatusMessage] = useState("");
@@ -97,11 +102,30 @@ export default function AdminDashboard() {
   const [imageFilePreview, setImageFilePreview] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
+  const [statusItems, setStatusItems] = useState<ApiStatusItem[]>([]);
+  const [loadingStatusItems, setLoadingStatusItems] = useState(true);
+  const [statusFormData, setStatusFormData] = useState({ icon: "", label: "", value: "" });
+  const [editingStatusId, setEditingStatusId] = useState<string | null>(null);
+  const [statusItemMessage, setStatusItemMessage] = useState("");
+
+  const [contentEntries, setContentEntries] = useState<Record<string, ContentEntryDto>>({});
+  const [loadingContent, setLoadingContent] = useState(true);
+  const [selectedContentPage, setSelectedContentPage] = useState<string>(CONTENT_PAGES[0] ?? "");
+  const [contentDrafts, setContentDrafts] = useState<Record<string, { valuePt: string; valueEn: string }>>({});
+  const [contentSavingKey, setContentSavingKey] = useState<string | null>(null);
+  const [contentMessage, setContentMessage] = useState("");
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) router.push("/admin");
-      else setUser(currentUser);
-      setLoading(false);
+    if (!isFirebaseConfigured) {
+      router.push("/admin");
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
+      if (!user) {
+        router.push("/admin");
+        return;
+      }
+      setCheckingAuth(false);
     });
     return () => unsubscribe();
   }, [router]);
@@ -109,15 +133,15 @@ export default function AdminDashboard() {
   const fetchProjects = async () => {
     setLoadingProjects(true);
     try {
-      const [progSnapshot, researchSnapshot] = await Promise.all([
-        getDocs(collection(db, "programmerProjects")),
-        getDocs(collection(db, "researchProjects")),
+      const [programmerSnap, researchSnap] = await Promise.all([
+        getDocs(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY.programmer)),
+        getDocs(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY.research)),
       ]);
       setProgrammerProjects(
-        progSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as StoredProject[]
+        programmerSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
       );
       setResearchProjects(
-        researchSnapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as StoredProject[]
+        researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
       );
     } catch (error) {
       console.error("Error fetching projects: ", error);
@@ -127,8 +151,44 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    if (user) fetchProjects();
-  }, [user]);
+    if (!checkingAuth) fetchProjects();
+  }, [checkingAuth]);
+
+  const fetchStatusItems = async () => {
+    setLoadingStatusItems(true);
+    try {
+      const items = await listStatusItems();
+      setStatusItems(items);
+    } catch (error) {
+      console.error("Error fetching status items: ", error);
+    } finally {
+      setLoadingStatusItems(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!checkingAuth) fetchStatusItems();
+  }, [checkingAuth]);
+
+  const fetchContentEntries = async () => {
+    setLoadingContent(true);
+    try {
+      const entries = await listContentEntries();
+      const map: Record<string, ContentEntryDto> = {};
+      entries.forEach((entry) => {
+        map[entry.key] = entry;
+      });
+      setContentEntries(map);
+    } catch (error) {
+      console.error("Error fetching content entries: ", error);
+    } finally {
+      setLoadingContent(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!checkingAuth) fetchContentEntries();
+  }, [checkingAuth]);
 
   useEffect(() => {
     return () => {
@@ -182,13 +242,118 @@ export default function AdminDashboard() {
   const handleDelete = async (project: StoredProject, category: ProjectCategory) => {
     if (!window.confirm(`Excluir "${project.title}"? Essa ação não pode ser desfeita.`)) return;
     try {
-      await deleteDoc(doc(db, COLLECTION_BY_CATEGORY[category], project.id));
+      await deleteDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], project.id));
       if (editingProject?.id === project.id) resetForm();
       await fetchProjects();
       setStatusMessage("Projeto excluído.");
       setTimeout(() => setStatusMessage(""), 3000);
     } catch (error: any) {
       setStatusMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const handleStatusInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setStatusFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const resetStatusForm = () => {
+    setStatusFormData({ icon: "", label: "", value: "" });
+    setEditingStatusId(null);
+  };
+
+  const handleStatusEdit = (item: ApiStatusItem) => {
+    setEditingStatusId(item.id);
+    setStatusFormData({ icon: item.icon ?? "", label: item.label, value: item.value });
+    setStatusItemMessage("");
+  };
+
+  const handleStatusDelete = async (item: ApiStatusItem) => {
+    if (!window.confirm(`Excluir "${item.label}"? Essa ação não pode ser desfeita.`)) return;
+    try {
+      await deleteStatusItem(item.id);
+      if (editingStatusId === item.id) resetStatusForm();
+      await fetchStatusItems();
+      setStatusItemMessage("Item excluído.");
+      setTimeout(() => setStatusItemMessage(""), 3000);
+    } catch (error: any) {
+      setStatusItemMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const handleStatusMove = async (item: ApiStatusItem, direction: "up" | "down") => {
+    const index = statusItems.findIndex((s) => s.id === item.id);
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (index === -1 || swapIndex < 0 || swapIndex >= statusItems.length) return;
+    const swapWith = statusItems[swapIndex];
+    try {
+      await Promise.all([
+        updateStatusItem(item.id, { icon: item.icon, label: item.label, value: item.value, position: swapWith.position }),
+        updateStatusItem(swapWith.id, { icon: swapWith.icon, label: swapWith.label, value: swapWith.value, position: item.position }),
+      ]);
+      await fetchStatusItems();
+    } catch (error: any) {
+      setStatusItemMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const handleStatusSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatusItemMessage("Saving...");
+    try {
+      const payload = {
+        icon: statusFormData.icon || undefined,
+        label: statusFormData.label,
+        value: statusFormData.value,
+      };
+      if (editingStatusId) {
+        await updateStatusItem(editingStatusId, payload);
+        setStatusItemMessage("Item atualizado com sucesso!");
+      } else {
+        await createStatusItem(payload);
+        setStatusItemMessage("Item adicionado com sucesso!");
+      }
+      resetStatusForm();
+      await fetchStatusItems();
+      setTimeout(() => setStatusItemMessage(""), 3000);
+    } catch (error: any) {
+      console.error("Error saving status item: ", error);
+      setStatusItemMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const getContentDraft = (def: ContentKeyDef) => {
+    return (
+      contentDrafts[def.key] ?? {
+        valuePt: contentEntries[def.key]?.valuePt ?? def.defaultPt,
+        valueEn: contentEntries[def.key]?.valueEn ?? "",
+      }
+    );
+  };
+
+  const handleContentChange = (def: ContentKeyDef, field: "valuePt" | "valueEn", value: string) => {
+    setContentDrafts((prev) => ({
+      ...prev,
+      [def.key]: { ...getContentDraft(def), [field]: value },
+    }));
+  };
+
+  const saveContentEntry = async (def: ContentKeyDef) => {
+    const draft = getContentDraft(def);
+    setContentSavingKey(def.key);
+    try {
+      const saved = await upsertContentEntry({
+        key: def.key,
+        valuePt: draft.valuePt,
+        valueEn: draft.valueEn || undefined,
+      });
+      setContentEntries((prev) => ({ ...prev, [def.key]: saved }));
+      setContentMessage("Conteúdo salvo.");
+      setTimeout(() => setContentMessage(""), 2000);
+    } catch (error: any) {
+      setContentMessage(`Error: ${error.message}`);
+    } finally {
+      setContentSavingKey(null);
     }
   };
 
@@ -205,10 +370,9 @@ export default function AdminDashboard() {
 
       if (imageMode === "upload" && imageFile) {
         setIsUploadingImage(true);
-        const path = `projects/${category}/${Date.now()}-${imageFile.name}`;
-        const storageRef = ref(storage, path);
-        await uploadBytes(storageRef, imageFile);
-        imageUrl = await getDownloadURL(storageRef);
+        const imageRef = ref(getFirebaseStorage(), `projects/${category}/${Date.now()}-${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        imageUrl = await getDownloadURL(imageRef);
         setIsUploadingImage(false);
       }
 
@@ -216,7 +380,7 @@ export default function AdminDashboard() {
 
       const tagsArray = formData.tags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
-      const payload: any = {
+      const payload: Record<string, unknown> = {
         title: formData.title,
         description: formData.description,
         image: imageUrl,
@@ -234,13 +398,11 @@ export default function AdminDashboard() {
         if (formData.github) payload.github = formData.github;
       }
 
-      const collectionName = COLLECTION_BY_CATEGORY[category];
-
       if (editingProject && editingProject.category === category) {
-        await updateDoc(doc(db, collectionName, editingProject.id), payload);
+        await updateDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], editingProject.id), payload);
         setStatusMessage("Project updated successfully!");
       } else {
-        await addDoc(collection(db, collectionName), payload);
+        await addDoc(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY[category]), payload);
         setStatusMessage("Project added successfully!");
       }
 
@@ -249,7 +411,7 @@ export default function AdminDashboard() {
       setTimeout(() => setStatusMessage(""), 3000);
 
     } catch (error: any) {
-      console.error("Error saving document: ", error);
+      console.error("Error saving project: ", error);
       setIsUploadingImage(false);
       setStatusMessage(`Error: ${error.message}`);
     }
@@ -266,12 +428,12 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
+    await signOut(getFirebaseAuth());
+    clearBackendToken();
     router.push("/admin");
   };
 
-  if (loading) return <div className="p-10 text-center">Loading...</div>;
-  if (!user) return null;
+  if (checkingAuth) return <div className="p-10 text-center">Loading...</div>;
 
   const isSaving = statusMessage === "Saving..." || statusMessage === "Enviando imagem...";
   const imageFieldState: ImageFieldState = {
@@ -331,6 +493,153 @@ export default function AdminDashboard() {
               )}
             </div>
           </form>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Status na TYTO</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleStatusSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="text-sm">Ícone (emoji)</label>
+              <input name="icon" value={statusFormData.icon} onChange={handleStatusInputChange} placeholder="👑" className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div>
+              <label className="text-sm">Rótulo *</label>
+              <input required name="label" value={statusFormData.label} onChange={handleStatusInputChange} placeholder="Cargo" className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div>
+              <label className="text-sm">Valor *</label>
+              <input required name="value" value={statusFormData.value} onChange={handleStatusInputChange} placeholder="Senhor da Guerra" className="w-full p-2 border rounded bg-background" />
+            </div>
+            <div className="flex items-end gap-2">
+              <Button type="submit" className="w-full">
+                {editingStatusId ? "Atualizar" : "Adicionar"}
+              </Button>
+              {editingStatusId && (
+                <Button type="button" variant="outline" onClick={resetStatusForm}>
+                  Cancelar
+                </Button>
+              )}
+            </div>
+            {statusItemMessage && (
+              <div className="col-span-1 md:col-span-4">
+                <span className={`text-sm font-medium ${statusItemMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+                  {statusItemMessage}
+                </span>
+              </div>
+            )}
+          </form>
+
+          <div className="mt-6 space-y-2">
+            {loadingStatusItems ? (
+              <p className="text-sm text-muted-foreground">Carregando...</p>
+            ) : statusItems.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Nenhum item cadastrado.</p>
+            ) : (
+              statusItems.map((item, index) => (
+                <div key={item.id} className="flex items-center gap-4 rounded-lg border p-3">
+                  <div className="min-w-0 flex-1 font-mono text-sm">
+                    {item.icon ? `${item.icon} ` : ""}{item.label}: {item.value}
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <Button size="icon" variant="outline" onClick={() => handleStatusMove(item, "up")} disabled={index === 0} aria-label="Mover para cima">
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button size="icon" variant="outline" onClick={() => handleStatusMove(item, "down")} disabled={index === statusItems.length - 1} aria-label="Mover para baixo">
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                    <Button size="icon" variant="outline" onClick={() => handleStatusEdit(item)} aria-label="Editar">
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button size="icon" variant="destructive" onClick={() => handleStatusDelete(item)} aria-label="Excluir">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Conteúdo do Site (PT / EN)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <label className="text-sm font-medium">Página:</label>
+            <select
+              value={selectedContentPage}
+              onChange={(e) => setSelectedContentPage(e.target.value)}
+              className="rounded-md border bg-background p-2 text-sm"
+            >
+              {CONTENT_PAGES.map((page) => (
+                <option key={page} value={page}>
+                  {page}
+                </option>
+              ))}
+            </select>
+            {contentMessage && (
+              <span className={`text-sm font-medium ${contentMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+                {contentMessage}
+              </span>
+            )}
+          </div>
+
+          {loadingContent ? (
+            <p className="text-sm text-muted-foreground">Carregando...</p>
+          ) : (
+            <div className="space-y-6">
+              {CONTENT_KEYS.filter((def) => def.page === selectedContentPage).map((def) => {
+                const draft = getContentDraft(def);
+                const isSaving = contentSavingKey === def.key;
+                const Field = def.multiline ? "textarea" : "input";
+                return (
+                  <div key={def.key} className="rounded-lg border p-4">
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                      <p className="text-sm font-medium">{def.label}</p>
+                      <code className="text-xs text-muted-foreground">{def.key}</code>
+                    </div>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <div>
+                        <label className="text-xs text-muted-foreground">Português</label>
+                        <Field
+                          value={draft.valuePt}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+                            handleContentChange(def, "valuePt", e.target.value)
+                          }
+                          rows={def.multiline ? 4 : undefined}
+                          className="w-full p-2 border rounded bg-background text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground">English</label>
+                        <Field
+                          value={draft.valueEn}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+                            handleContentChange(def, "valueEn", e.target.value)
+                          }
+                          rows={def.multiline ? 4 : undefined}
+                          placeholder={DEFAULT_EN[def.key] ?? draft.valuePt}
+                          className="w-full p-2 border rounded bg-background text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-3 flex justify-end">
+                      <Button size="sm" onClick={() => saveContentEntry(def)} disabled={isSaving}>
+                        {isSaving && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
+                        Salvar
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -491,7 +800,7 @@ function ProjectFormFields({
 
       <div>
         <label className="text-sm">Tags (comma separated) *</label>
-        <input required name="tags" value={formData.tags} onChange={onInputChange} placeholder="React, Node, Firebase" className="w-full p-2 border rounded bg-background" />
+        <input required name="tags" value={formData.tags} onChange={onInputChange} placeholder="React, Node, PostgreSQL" className="w-full p-2 border rounded bg-background" />
       </div>
 
       <div>

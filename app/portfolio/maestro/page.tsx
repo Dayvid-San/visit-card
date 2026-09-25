@@ -1,54 +1,51 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
   ArrowLeft,
-  ExternalLink,
   Github,
   Layers,
   Cpu,
   CheckCircle2,
   ShieldCheck,
-  Trophy,
-  Coins,
-  Crown,
-  Briefcase,
+  Workflow,
+  Bot,
+  GitBranch,
+  Terminal,
 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
 
 const projectData = {
-  heroImage: "/Captura-tytoclub.png",
   tags: [
-    "React 19",
-    "TypeScript",
-    "Vite",
-    "Tailwind CSS",
-    "Firebase Auth",
-    "Firestore",
-    "React Router",
-    "Radix UI",
+    "Python 3.11",
+    "FastAPI",
+    "Typer",
+    "Pydantic",
+    "PyYAML",
+    "Git Worktrees",
+    "Codex CLI",
+    "pytest",
+    "Docker",
   ],
   links: {
-    demo: "https://club.tytocode.com.br",
-    github: "https://github.com/TYTO-club",
+    github: "https://github.com/Dayvid-San/Maetro-Agent",
   },
-  challengeKeys: ["tyto.challenges.item1", "tyto.challenges.item2", "tyto.challenges.item3"],
-  solutionKeys: ["tyto.solutions.item1", "tyto.solutions.item2", "tyto.solutions.item3"],
+  challengeKeys: ["maestro.challenges.item1", "maestro.challenges.item2", "maestro.challenges.item3"],
+  solutionKeys: ["maestro.solutions.item1", "maestro.solutions.item2", "maestro.solutions.item3"],
 }
 
 const features = [
-  { key: "progression", icon: Trophy },
-  { key: "economy", icon: Coins },
-  { key: "governance", icon: Crown },
-  { key: "projects", icon: Briefcase },
+  { key: "pipeline", icon: Workflow },
+  { key: "agents", icon: Bot },
+  { key: "worktrees", icon: GitBranch },
+  { key: "cli", icon: Terminal },
 ]
 
-export default function TytoClub() {
+export default function Maestro() {
   const { t } = useContent();
   return (
     <div className="container mx-auto px-4 py-16 max-w-5xl">
@@ -66,26 +63,42 @@ export default function TytoClub() {
       <div className="mb-12">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div className="space-y-2">
-            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{t("tyto.title")}</h1>
-            <p className="text-xl text-muted-foreground">{t("tyto.subtitle")}</p>
+            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{t("maestro.title")}</h1>
+            <p className="text-xl text-muted-foreground">{t("maestro.subtitle")}</p>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-sm py-1 px-3">
-              {t("tyto.date")}
+              {t("maestro.date")}
             </Badge>
           </div>
         </div>
       </div>
 
-      {/* Imagem Principal / Hero */}
-      <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
-        <Image
-          src={projectData.heroImage}
-          alt={`Capa do ${t("tyto.title")}`}
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Terminal Hero (sem screenshot: é uma ferramenta de linha de comando) */}
+      <div className="relative mb-12 w-full overflow-hidden rounded-xl border bg-zinc-950 shadow-sm">
+        <div className="flex items-center gap-1.5 border-b border-zinc-800 bg-zinc-900 px-4 py-3">
+          <span className="h-3 w-3 rounded-full bg-red-500/70" />
+          <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
+          <span className="h-3 w-3 rounded-full bg-green-500/70" />
+          <span className="ml-3 font-mono text-xs text-zinc-500">maestro</span>
+        </div>
+        <pre className="overflow-x-auto p-6 text-sm leading-relaxed">
+          <code className="font-mono text-zinc-300">
+            <span className="text-zinc-500">$ </span>
+            <span className="text-green-400">maestro</span> task &quot;{t("maestro.terminal.task")}&quot;{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.planCreated")}</span>
+            {"\n\n"}
+            <span className="text-zinc-500">$ </span>
+            <span className="text-green-400">maestro</span> run &lt;{t("maestro.terminal.planId")}&gt; --confirm{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.branchCreated")}</span>
+            {"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.pipeline")}</span>
+            {"\n\n"}
+            <span className="text-zinc-500">$ </span>
+            <span className="text-green-400">maestro</span> job &lt;{t("maestro.terminal.planId")}&gt;{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.done")}</span>
+          </code>
+        </pre>
       </div>
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
@@ -95,16 +108,16 @@ export default function TytoClub() {
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Layers className="mr-2 h-6 w-6 text-primary" />
-              {t("tyto.overview.heading")}
+              {t("maestro.overview.heading")}
             </h2>
-            <p className="text-lg leading-relaxed text-muted-foreground text-pretty">{t("tyto.overview.body")}</p>
+            <p className="text-lg leading-relaxed text-muted-foreground text-pretty">{t("maestro.overview.body")}</p>
           </section>
 
           <Separator />
 
-          {/* O que a plataforma faz */}
+          {/* O que a ferramenta faz */}
           <section className="space-y-6">
-            <h2 className="text-2xl font-bold tracking-tight">{t("tyto.features.heading")}</h2>
+            <h2 className="text-2xl font-bold tracking-tight">{t("maestro.features.heading")}</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               {features.map((feature) => {
                 const Icon = feature.icon
@@ -113,8 +126,8 @@ export default function TytoClub() {
                     <div className="flex items-start gap-3">
                       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
                       <div>
-                        <h4 className="font-bold text-sm mb-1">{t(`tyto.features.${feature.key}.title`)}</h4>
-                        <p className="text-xs text-muted-foreground leading-relaxed">{t(`tyto.features.${feature.key}.description`)}</p>
+                        <h4 className="font-bold text-sm mb-1">{t(`maestro.features.${feature.key}.title`)}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{t(`maestro.features.${feature.key}.description`)}</p>
                       </div>
                     </div>
                   </Card>
@@ -128,7 +141,7 @@ export default function TytoClub() {
           {/* Desafios e Soluções */}
           <section className="grid gap-8 md:grid-cols-2">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-red-500/80">{t("tyto.challenges.heading")}</h3>
+              <h3 className="text-xl font-semibold text-red-500/80">{t("maestro.challenges.heading")}</h3>
               <ul className="space-y-3">
                 {projectData.challengeKeys.map((key) => (
                   <li key={key} className="flex items-start gap-2 text-muted-foreground">
@@ -139,7 +152,7 @@ export default function TytoClub() {
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-green-500/80">{t("tyto.solutions.heading")}</h3>
+              <h3 className="text-xl font-semibold text-green-500/80">{t("maestro.solutions.heading")}</h3>
               <ul className="space-y-3">
                 {projectData.solutionKeys.map((key) => (
                   <li key={key} className="flex items-start gap-2 text-muted-foreground">
@@ -157,30 +170,33 @@ export default function TytoClub() {
           <section className="space-y-6">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <Cpu className="mr-2 h-6 w-6 text-primary" />
-              {t("tyto.architecture.heading")}
+              {t("maestro.architecture.heading")}
             </h2>
             <p className="text-muted-foreground">
-              {t("tyto.architecture.body")}
+              {t("maestro.architecture.body")}
             </p>
 
             <Card className="overflow-hidden border-dashed bg-slate-50 dark:bg-slate-950/50">
               <CardContent className="flex flex-col items-center justify-center p-8 text-center">
-                <div className="w-full space-y-4 text-xs font-mono text-left">
-                  <div className="p-3 rounded border bg-background">
-                    <span className="text-blue-500 font-bold">[Frontend]</span> {t("tyto.architecture.diagram.frontend")}
+                <div className="w-full space-y-4 text-left font-mono text-xs">
+                  <div className="rounded border bg-background p-3">
+                    <span className="font-bold text-blue-500">[CLI]</span> {t("maestro.architecture.diagram.cli")}
                   </div>
-                  <div className="text-center text-muted-foreground">{t("tyto.architecture.diagram.arrow1")}</div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="p-3 rounded border bg-background">
-                      <span className="text-purple-500 font-bold">{t("tyto.architecture.diagram.firestoreTag")}</span> {t("tyto.architecture.diagram.firestore")}
-                    </div>
-                    <div className="p-3 rounded border bg-background">
-                      <span className="text-green-500 font-bold">[Backend REST]</span> {t("tyto.architecture.diagram.backend")}
-                    </div>
+                  <div className="text-center text-muted-foreground">{t("maestro.architecture.diagram.arrow1")}</div>
+                  <div className="rounded border bg-background p-3">
+                    <span className="font-bold text-purple-500">[API FastAPI]</span> {t("maestro.architecture.diagram.api")}
                   </div>
-                  <div className="text-center text-muted-foreground">{t("tyto.architecture.diagram.arrow2")}</div>
-                  <div className="p-3 rounded border bg-background">
-                    <span className="text-orange-500 font-bold">[firestore.rules]</span> {t("tyto.architecture.diagram.rules")}
+                  <div className="text-center text-muted-foreground">{t("maestro.architecture.diagram.arrow2")}</div>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div className="rounded border bg-background p-3">
+                      <span className="font-bold text-green-500">[ContextAgent]</span> {t("maestro.architecture.diagram.context")}
+                    </div>
+                    <div className="rounded border bg-background p-3">
+                      <span className="font-bold text-orange-500">[tools]</span> {t("maestro.architecture.diagram.tools")}
+                    </div>
+                    <div className="rounded border bg-background p-3">
+                      <span className="font-bold text-pink-500">[provider Codex]</span> {t("maestro.architecture.diagram.provider")}
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -193,14 +209,15 @@ export default function TytoClub() {
           <section className="space-y-4">
             <h2 className="flex items-center text-2xl font-bold tracking-tight">
               <ShieldCheck className="mr-2 h-6 w-6 text-primary" />
-              {t("tyto.security.heading")}
+              {t("maestro.security.heading")}
             </h2>
             <p className="text-muted-foreground">
-              {t("tyto.security.intro")}
+              {t("maestro.security.intro")}
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
-              <li>{t("tyto.security.item1")}</li>
-              <li>{t("tyto.security.item2")}</li>
+            <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+              <li>{t("maestro.security.item1")}</li>
+              <li>{t("maestro.security.item2")}</li>
+              <li>{t("maestro.security.item3")}</li>
             </ul>
           </section>
         </div>
@@ -209,19 +226,11 @@ export default function TytoClub() {
         <aside className="space-y-8">
           {/* Links de Ação */}
           <div className="flex flex-col gap-3">
-            {projectData.links.demo && (
-              <Button size="lg" className="w-full font-semibold" asChild>
-                <a href={projectData.links.demo} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  {t("tyto.links.demo")}
-                </a>
-              </Button>
-            )}
             {projectData.links.github && (
-              <Button variant="outline" size="lg" className="w-full" asChild>
+              <Button size="lg" className="w-full font-semibold" asChild>
                 <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" />
-                  {t("tyto.links.github")}
+                  {t("maestro.links.github")}
                 </a>
               </Button>
             )}
@@ -229,7 +238,7 @@ export default function TytoClub() {
 
           {/* Tecnologias */}
           <div className="space-y-4 rounded-lg border p-6 shadow-sm">
-            <h3 className="font-semibold">{t("tyto.labels.techStack")}</h3>
+            <h3 className="font-semibold">{t("maestro.labels.techStack")}</h3>
             <div className="flex flex-wrap gap-2">
               {projectData.tags.map((tag) => (
                 <Badge key={tag} variant="secondary">
@@ -244,23 +253,28 @@ export default function TytoClub() {
             <h3 className="font-semibold">{t("projectDetail.techSheet")}</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">{t("tyto.labels.role")}</span>
-                <span className="font-medium text-right">{t("tyto.role")}</span>
+                <span className="text-muted-foreground">{t("maestro.labels.role")}</span>
+                <span className="font-medium text-right">{t("maestro.role")}</span>
               </div>
               <Separator />
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("projectDetail.period")}</span>
-                <span className="font-medium">{t("tyto.date")}</span>
+                <span className="font-medium">{t("maestro.date")}</span>
               </div>
               <Separator />
               <div className="flex justify-between">
-                <span className="text-muted-foreground">{t("tyto.labels.architecture")}</span>
-                <span className="font-medium text-primary">{t("tyto.architectureValue")}</span>
+                <span className="text-muted-foreground">{t("maestro.labels.agents")}</span>
+                <span className="font-medium text-primary">{t("maestro.agentsValue")}</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">{t("maestro.labels.tests")}</span>
+                <span className="font-medium">{t("maestro.testsValue")}</span>
               </div>
               <Separator />
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("projectDetail.status")}</span>
-                <span className="font-medium text-green-600">{t("tyto.status")}</span>
+                <span className="font-medium text-green-600">{t("maestro.status")}</span>
               </div>
             </div>
           </div>

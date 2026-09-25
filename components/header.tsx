@@ -9,14 +9,15 @@ import { Button } from "@/components/ui/button"
 import { useAudio } from "@/components/audio-provider"
 import { useDoorTransition } from "@/components/door-transition-provider"
 import { DayvidLogo } from "@/components/dayvid-logo"
+import { useContent } from "@/components/content-provider"
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/programador", label: "Programador" },
-  { href: "/empreendedor", label: "Empreendedor" },
-  { href: "/universitario", label: "Universitário" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/contato", label: "Contato" },
+  { href: "/", key: "header.nav.home" },
+  { href: "/programador", key: "header.nav.programador" },
+  { href: "/empreendedor", key: "header.nav.empreendedor" },
+  { href: "/universitario", key: "header.nav.universitario" },
+  { href: "/portfolio", key: "header.nav.portfolio" },
+  { href: "/contato", key: "header.nav.contato" },
 ]
 
 const socialLinks = [
@@ -30,6 +31,7 @@ export function Header() {
   const pathname = usePathname()
   const { isMuted, toggleMute } = useAudio()
   const { navigateWithDoor, isTransitioning } = useDoorTransition()
+  const { locale, setLocale, t } = useContent()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -51,7 +53,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 backdrop-blur ">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link
           href="/"
@@ -64,7 +66,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-6" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center space-x-6" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -75,12 +77,32 @@ export function Header() {
               }`}
               aria-current={pathname === link.href ? "page" : undefined}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center space-x-2">
+        <div className="hidden md:flex items-center space-x-2">
+          <div className="flex items-center rounded-md border border-border/40 p-0.5 mr-1">
+            <Button
+              variant={locale === "pt" ? "secondary" : "ghost"}
+              size="sm"
+              className="h-6 px-2 text-xs"
+              onClick={() => setLocale("pt")}
+              aria-pressed={locale === "pt"}
+            >
+              PT
+            </Button>
+            <Button
+              variant={locale === "en" ? "secondary" : "ghost"}
+              size="sm"
+              className="h-6 px-2 text-xs"
+              onClick={() => setLocale("en")}
+              aria-pressed={locale === "en"}
+            >
+              EN
+            </Button>
+          </div>
           {socialLinks.map((social) => (
             <Button
               key={social.href}
@@ -110,7 +132,7 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden"
+          className="md:hidden"
           onClick={toggleMenu}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
@@ -122,7 +144,7 @@ export function Header() {
       {/* Mobile Hamburger Menu */}
       {isMenuOpen && (
         <nav
-          className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur"
+          className="md:hidden border-t border-border/40 bg-background"
           aria-label="Mobile navigation"
         >
           <div className="container flex flex-col items-start space-y-4 px-4 py-4">
@@ -137,13 +159,34 @@ export function Header() {
                 }`}
                 aria-current={pathname === link.href ? "page" : undefined}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
             <hr className="w-full border-t border-border/40" />
+            <div className="flex items-center rounded-md border border-border/40 p-0.5 w-fit">
+              <Button
+                variant={locale === "pt" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-6 px-2 text-xs"
+                onClick={() => setLocale("pt")}
+                aria-pressed={locale === "pt"}
+              >
+                PT
+              </Button>
+              <Button
+                variant={locale === "en" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-6 px-2 text-xs"
+                onClick={() => setLocale("en")}
+                aria-pressed={locale === "en"}
+              >
+                EN
+              </Button>
+            </div>
+            <hr className="w-full border-t border-border/40" />
             {/* Social Links */}
             <div className="flex flex-col space-y-4 w-full">
-              <span className="text-sm font-medium text-muted-foreground">Redes Sociais</span>
+              <span className="text-sm font-medium text-muted-foreground">{t("header.social.title")}</span>
               {socialLinks.map((social) => (
                 <a
                   key={social.href}
@@ -168,7 +211,7 @@ export function Header() {
                 aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
               >
                 {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                <span>{isMuted ? "Ativar Som" : "Desativar Som"}</span>
+                <span>{isMuted ? t("header.audio.unmute") : t("header.audio.mute")}</span>
               </Button>
             </div>
           </div>

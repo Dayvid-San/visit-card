@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase"; // Certifique-se de que o caminho está correto
+import { collection, getDocs } from "firebase/firestore";
+import { getFirebaseDb } from "@/lib/firebase";
 import {
   Card,
   CardContent,
@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, FileText } from "lucide-react";
 import Image from "next/image";
+import { useContent } from "@/components/content-provider";
 
 interface ProgrammerProject {
   id?: string;
@@ -41,6 +42,7 @@ interface ResearchProject {
 }
 
 export default function PortfolioPage() {
+  const { t } = useContent();
   const [programmerProjects, setProgrammerProjects] = useState<ProgrammerProject[]>([]);
   const [researchProjects, setResearchProjects] = useState<ResearchProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,24 +50,17 @@ export default function PortfolioPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // Busca projetos de programação (ordenados por data decrescente se desejar)
-        const progQuery = query(collection(db, "programmerProjects"));
-        const progSnapshot = await getDocs(progQuery);
-        const progList = progSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as ProgrammerProject[];
+        const [progSnap, researchSnap] = await Promise.all([
+          getDocs(collection(getFirebaseDb(), "programmerProjects")),
+          getDocs(collection(getFirebaseDb(), "researchProjects")),
+        ]);
 
-        // Busca projetos de pesquisa
-        const researchQuery = query(collection(db, "researchProjects"));
-        const researchSnapshot = await getDocs(researchQuery);
-        const researchList = researchSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as ResearchProject[];
-
-        setProgrammerProjects(progList);
-        setResearchProjects(researchList);
+        setProgrammerProjects(
+          progSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ProgrammerProject)
+        );
+        setResearchProjects(
+          researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ResearchProject)
+        );
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
@@ -79,7 +74,7 @@ export default function PortfolioPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-lg animate-pulse">Carregando portfólio...</p>
+        <p className="text-lg animate-pulse">{t("portfolio.loading")}</p>
       </div>
     );
   }
@@ -88,17 +83,15 @@ export default function PortfolioPage() {
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">
-          Portfolio
+          {t("portfolio.title")}
         </h1>
         <p className="mb-16 text-lg text-muted-foreground text-pretty">
-          Uma seleção dos meus projetos como programador e pesquisador,
-          demonstrando a aplicação prática de tecnologias modernas e
-          contribuições científicas e acadêmicas.
+          {t("portfolio.intro")}
         </p>
 
         <section className="mb-24">
           <div className="mb-8 flex items-center gap-3">
-            <h2 className="text-3xl font-bold">Programador</h2>
+            <h2 className="text-3xl font-bold">{t("portfolio.programmer.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {programmerProjects.map((project) => (
@@ -142,7 +135,7 @@ export default function PortfolioPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Detalhes
+                          {t("portfolio.button.details")}
                         </a>
                       </Button>
                     )}
@@ -168,7 +161,7 @@ export default function PortfolioPage() {
         {/* Researcher Section */}
         <section>
           <div className="mb-8 flex items-center gap-3">
-            <h2 className="text-3xl font-bold">Pesquisador</h2>
+            <h2 className="text-3xl font-bold">{t("portfolio.researcher.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {researchProjects.map((project) => (
@@ -225,7 +218,7 @@ export default function PortfolioPage() {
                           rel="noopener noreferrer"
                         >
                           <Github className="mr-2 h-4 w-4" />
-                          Detalhes
+                          {t("portfolio.button.details")}
                         </a>
                       </Button>
                     )}
