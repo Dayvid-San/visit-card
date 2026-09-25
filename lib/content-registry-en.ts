@@ -97,7 +97,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "empreendedor.story.p2":
     "When I started programming, I found a new way to create: instead of building only physical objects, I began developing systems able to automate processes, organize information and meet the needs of people and businesses.",
   "empreendedor.story.p3":
-    "Along the way, I came into contact with different fields and professionals, building a broad view of how real problems arise and how digital solutions can create value. That experience led me to turn TYTO — the study community I had founded with fellow computing students — into my own company, in July 2021.",
+    "Along the way, I came into contact with different fields and professionals, building a broad view of how real problems arise and how digital solutions can create value. That experience led me to turn TYTO, the study community I had founded with fellow computing students, into my own company, in July 2021.",
   "empreendedor.story.p4":
     "The opportunity came from a real need of a client who required a web app. The project marked my transition from developer and designer to someone responsible for understanding business problems, defining solutions, building products and delivering results.",
   "empreendedor.story.p5":

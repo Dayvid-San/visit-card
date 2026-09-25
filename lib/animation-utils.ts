@@ -28,7 +28,7 @@ export async function animateDoor({ direction, duration = 1000 }: AnimateDoorOpt
     footer.style.transform = startTransform
 
     // Force a reflow so the browser commits startTransform before the
-    // transition is enabled — otherwise the two style writes can land in the
+    // transition is enabled, otherwise the two style writes can land in the
     // same frame and the transition gets skipped, making the door "jump".
     void footer.offsetHeight
 
