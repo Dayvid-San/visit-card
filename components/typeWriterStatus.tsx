@@ -13,20 +13,25 @@ function toStatusLine(item: ApiStatusItem): StatusLine {
   return { id: item.id, text };
 }
 
-// Mesmos valores semeados por StatusItemSeeder.java no backend. Ficam aqui como
-// padrão do frontend para o widget nunca aparecer vazio (ex.: backend fora do ar
-// ou tabela ainda sem itens); se o backend responder com itens reais, eles
-// substituem esses valores.
-const DEFAULT_STATUS_ITEMS: StatusLine[] = [
-  { id: "default-cargo", text: "👑 Cargo: Senhor da Guerra" },
-  { id: "default-polis", text: "📍 Polis: Maringá, BR" },
-  { id: "default-esquadrao", text: "🛡️ Esquadrão: EngScan" },
-  { id: "default-titulo", text: "🏙️ Título: Conselheiro" },
-];
+// Mesmos valores semeados por StatusItemSeeder.java no backend, traduzidos via
+// content-registry. Ficam aqui como padrão do frontend para o widget nunca
+// aparecer vazio (ex.: backend fora do ar ou tabela ainda sem itens) e para
+// acompanhar o idioma da página; se o backend responder com itens reais, eles
+// substituem esses valores (o backend não guarda um valor por idioma, então
+// itens vindos de lá aparecem sempre no mesmo idioma em que foram cadastrados).
+function buildDefaultStatusItems(t: (key: string) => string): StatusLine[] {
+  return [
+    { id: "default-cargo", text: `👑 ${t("home.status.default.cargo")}` },
+    { id: "default-polis", text: `📍 ${t("home.status.default.polis")}` },
+    { id: "default-esquadrao", text: `🛡️ ${t("home.status.default.esquadrao")}` },
+    { id: "default-titulo", text: `🏙️ ${t("home.status.default.titulo")}` },
+  ];
+}
 
 export const TypewriterStatus: React.FC = () => {
-  const { t } = useContent();
-  const [statusItems, setStatusItems] = useState<StatusLine[]>(DEFAULT_STATUS_ITEMS);
+  const { t, locale } = useContent();
+  const [statusItems, setStatusItems] = useState<StatusLine[]>(() => buildDefaultStatusItems(t));
+  const [usingDefaults, setUsingDefaults] = useState(true);
   const [visibleCount, setVisibleCount] = useState<number>(0);
   const [currentLineText, setCurrentLineText] = useState<string>("");
   const [currentLineIndex, setCurrentLineIndex] = useState<number>(0);
@@ -37,11 +42,26 @@ export const TypewriterStatus: React.FC = () => {
   useEffect(() => {
     listStatusItems()
       .then((items) => {
-        // Mantém os padrões se o backend ainda não tiver nenhum item cadastrado.
-        if (items.length > 0) setStatusItems(items.map(toStatusLine));
+        // Mantém os padrões (e o acompanhamento de idioma) se o backend ainda
+        // não tiver nenhum item cadastrado.
+        if (items.length > 0) {
+          setUsingDefaults(false);
+          setStatusItems(items.map(toStatusLine));
+        }
       })
       .catch((error) => console.error("Error fetching status items: ", error));
   }, []);
+
+  // Reaplica os padrões no novo idioma quando o visitante troca PT/EN, e
+  // reinicia a digitação para não misturar texto de idiomas diferentes.
+  useEffect(() => {
+    if (!usingDefaults) return;
+    setStatusItems(buildDefaultStatusItems(t));
+    setVisibleCount(0);
+    setCurrentLineIndex(0);
+    setCurrentLineText("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
 
   // Observa quando o elemento entra na tela
   useEffect(() => {

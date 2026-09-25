@@ -87,6 +87,10 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
   { key: "home.footer.quip", page: "home", label: "Rodapé: frase de efeito", defaultPt: '() => isHuman ? "Conecte-se pelos botões ao lado" : "erro 404: humano não encontrado"' },
   { key: "home.status.title", page: "home", label: "Card de status: título", defaultPt: "Status na TYTO" },
   { key: "home.status.version", page: "home", label: "Card de status: versão", defaultPt: "v2.0" },
+  { key: "home.status.default.cargo", page: "home", label: "Card de status: item padrão (cargo)", defaultPt: "Cargo: Senhor da Guerra" },
+  { key: "home.status.default.polis", page: "home", label: "Card de status: item padrão (polis)", defaultPt: "Polis: Maringá, BR" },
+  { key: "home.status.default.esquadrao", page: "home", label: "Card de status: item padrão (esquadrão)", defaultPt: "Esquadrão: EngScan" },
+  { key: "home.status.default.titulo", page: "home", label: "Card de status: item padrão (título)", defaultPt: "Título: Conselheiro" },
 
   // Programador
   { key: "programador.title", page: "programador", label: "Título da página", defaultPt: "Engenheiro de Software" },
