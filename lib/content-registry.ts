@@ -1,8 +1,11 @@
+import { DEFAULT_EN } from "./content-registry-en";
+
 // Single source of truth for every editable text on the site: the admin dashboard's
 // "Conteudo" editor is generated entirely from this list (grouped by `page`), and
-// `useContent()`'s t(key) falls back to `defaultPt` here whenever the backend has no
-// override for that key yet (untranslated, or never edited). Keep the JSX itself free of
-// literal PT strings, everything should live here so there is exactly one place to look.
+// `useContent()`'s t(key) falls back to defaultText() whenever the backend has no
+// override for that key yet (untranslated, or never edited). English defaults live in
+// content-registry-en.ts. Keep the JSX itself free of literal PT strings, everything
+// should live here so there is exactly one place to look.
 export interface ContentKeyDef {
   key: string;
   page: string;
@@ -50,6 +53,13 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
   { key: "home.projects.eyebrow", page: "home", label: "Projetos: pré-título", defaultPt: "// Artefatos criados" },
   { key: "home.projects.heading", page: "home", label: "Projetos: título", defaultPt: "Principais Projetos" },
   { key: "home.projects.label", page: "home", label: "Projetos: rótulo do card", defaultPt: "Projeto" },
+  { key: "home.projects.plantas.title", page: "home", label: "Projeto Monitor de Plantas: nome no card", defaultPt: "Monitor de Plantas" },
+  { key: "home.projects.hefesto.title", page: "home", label: "Projeto Hefesto: nome no card", defaultPt: "Hefesto" },
+  { key: "home.projects.maestro.title", page: "home", label: "Projeto Maestro: nome no card", defaultPt: "Maestro" },
+  { key: "home.projects.engscan.title", page: "home", label: "Projeto EngScan: nome no card", defaultPt: "EngScan" },
+  { key: "home.projects.tyto.title", page: "home", label: "Projeto TYTO: nome no card", defaultPt: "TYTO" },
+  { key: "home.projects.atenas.title", page: "home", label: "Projeto Atenas: nome no card", defaultPt: "Atenas" },
+  { key: "home.projects.agora.title", page: "home", label: "Projeto Ágora: nome no card", defaultPt: "Ágora" },
   { key: "home.projects.plantas.description", page: "home", label: "Projeto Monitor de Plantas: descrição", multiline: true, defaultPt: "Sistema doméstico de rega automática: ESP32 + sensores + câmera monitoram as plantas e um dashboard PWA avisa no celular, tudo sem depender de nuvem." },
   { key: "home.projects.hefesto.description", page: "home", label: "Projeto Hefesto: descrição", multiline: true, defaultPt: "Assistente de IA pessoal e local-first que cita arquivo, linha e commit em toda resposta sobre meus repositórios, e coordena agentes de escrita sob aprovação humana." },
   { key: "home.projects.hefesto.highlight", page: "home", label: "Projeto Hefesto: selo", defaultPt: "🎙️ CHAT + VOZ + AGENTES" },
@@ -224,6 +234,7 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "tyto.architecture.body", page: "portfolio/tyto", label: "Arquitetura: texto", multiline: true, defaultPt: "O frontend fala com dois backends distintos por design: a maior parte das leituras (e algumas escritas) vai direto do navegador para o Firestore em tempo real, enquanto a economia, projetos e missões (a lógica de negócio mais sensível) passam por um backend REST dedicado, autenticado com o token do Firebase." },
   { key: "tyto.architecture.diagram.frontend", page: "portfolio/tyto", label: "Diagrama: linha frontend", defaultPt: "React 19 + Vite + TypeScript: Firebase Auth, estado do usuário assinado em tempo real (onSnapshot)" },
   { key: "tyto.architecture.diagram.arrow1", page: "portfolio/tyto", label: "Diagrama: seta 1", defaultPt: "↓ dois caminhos de dados" },
+  { key: "tyto.architecture.diagram.firestoreTag", page: "portfolio/tyto", label: "Diagrama: rótulo Firestore", defaultPt: "[Firestore direto]" },
   { key: "tyto.architecture.diagram.firestore", page: "portfolio/tyto", label: "Diagrama: linha Firestore", defaultPt: "Leituras e escritas simples via SDK client, tempo real" },
   { key: "tyto.architecture.diagram.backend", page: "portfolio/tyto", label: "Diagrama: linha backend", defaultPt: "Economia, projetos, missões: fetch + Bearer <ID token>" },
   { key: "tyto.architecture.diagram.arrow2", page: "portfolio/tyto", label: "Diagrama: seta 2", defaultPt: "↓ controle de acesso" },
@@ -247,6 +258,12 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "maestro.labels.techStack", page: "portfolio/maestro", label: "Título: stack tecnológica", defaultPt: "Stack Tecnológica" },
   { key: "maestro.labels.agents", page: "portfolio/maestro", label: "Rótulo: agentes", defaultPt: "Agentes" },
   { key: "maestro.labels.tests", page: "portfolio/maestro", label: "Rótulo: testes", defaultPt: "Testes" },
+  { key: "maestro.terminal.task", page: "portfolio/maestro", label: "Terminal: objetivo da tarefa", defaultPt: "Adicionar validação de CPF" },
+  { key: "maestro.terminal.planCreated", page: "portfolio/maestro", label: "Terminal: plano criado", defaultPt: "plano criado, repositório limpo, aguardando confirmação" },
+  { key: "maestro.terminal.planId", page: "portfolio/maestro", label: "Terminal: id do plano", defaultPt: "id-do-plano" },
+  { key: "maestro.terminal.branchCreated", page: "portfolio/maestro", label: "Terminal: branch criada", defaultPt: "branch maestro/<id> criada em worktree isolado" },
+  { key: "maestro.terminal.pipeline", page: "portfolio/maestro", label: "Terminal: pipeline", defaultPt: "pipeline: contexto → requisitos → implementação → testes → revisão" },
+  { key: "maestro.terminal.done", page: "portfolio/maestro", label: "Terminal: status concluído", defaultPt: "status: concluído" },
   { key: "maestro.overview.heading", page: "portfolio/maestro", label: "Visão Geral: título", defaultPt: "Visão Geral" },
   { key: "maestro.overview.body", page: "portfolio/maestro", label: "Visão Geral: texto", multiline: true, defaultPt: "Maestro é uma ferramenta local que coordena tarefas de desenvolvimento assistidas por IA em qualquer projeto que declare um maestro.yaml. A CLI (Typer) fala por HTTP com uma API FastAPI local, que aciona um Orchestrator responsável por selecionar contexto, montar um plano, exigir confirmação explícita e só então executar a escrita em uma branch e worktree Git isolados. A integração de produção com o modelo é feita exclusivamente pela CLI Codex já instalada na máquina; os testes usam fakes e nunca chamam um provider real." },
   { key: "maestro.features.heading", page: "portfolio/maestro", label: "Recursos: título", defaultPt: "O que a ferramenta faz" },
@@ -318,6 +335,9 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "hefesto.architecture.heading", page: "portfolio/hefesto", label: "Arquitetura: título", defaultPt: "Arquitetura do Sistema" },
   { key: "hefesto.architecture.body", page: "portfolio/hefesto", label: "Arquitetura: texto", multiline: true, defaultPt: "Três serviços locais independentes, cada um seu próprio repositório, conversando por HTTP em loopback e nunca expostos fora da máquina. O front web é a porta de entrada visual tanto do chat de documentação quanto do orquestrador de agentes de escrita." },
   { key: "hefesto.architecture.diagram.front", page: "portfolio/hefesto", label: "Diagrama: linha front", multiline: true, defaultPt: "React 19 + TanStack Router/Query, localhost:5174, chat, timeline de commits, leitura em voz alta, tela de agentes" },
+  { key: "hefesto.architecture.diagram.frontTag", page: "portfolio/hefesto", label: "Diagrama: rótulo front", defaultPt: "[Front web]" },
+  { key: "hefesto.architecture.diagram.chatTag", page: "portfolio/hefesto", label: "Diagrama: rótulo backend de chat", defaultPt: "[Backend de chat]" },
+  { key: "hefesto.architecture.diagram.orchestratorTag", page: "portfolio/hefesto", label: "Diagrama: rótulo orquestrador", defaultPt: "[Orquestrador de agentes]" },
   { key: "hefesto.architecture.diagram.arrow", page: "portfolio/hefesto", label: "Diagrama: seta", defaultPt: "↓ HTTP local, contrato OpenAPI tipado" },
   { key: "hefesto.architecture.diagram.chat", page: "portfolio/hefesto", label: "Diagrama: linha backend de chat", multiline: true, defaultPt: "FastAPI, 127.0.0.1:8000, indexa commits/docs em SQLite, cita path + linha + commit em toda resposta" },
   { key: "hefesto.architecture.diagram.orchestrator", page: "portfolio/hefesto", label: "Diagrama: linha orquestrador", multiline: true, defaultPt: "FastAPI, 127.0.0.1:8765, escrita isolada em branch/worktree, sob aprovação humana" },
@@ -347,6 +367,10 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "plantas.labels.database", page: "portfolio/plantas", label: "Rótulo: banco de dados", defaultPt: "Banco de dados" },
   { key: "plantas.noLinkNotice", page: "portfolio/plantas", label: "Aviso: sem link de demo", multiline: true, defaultPt: "Projeto local, hardware físico montado em casa. Sem link de demo ou repositório público no momento." },
   { key: "plantas.demo.humidity", page: "portfolio/plantas", label: "Demo: rótulo umidade", defaultPt: "umidade" },
+  { key: "plantas.demo.windowTitle", page: "portfolio/plantas", label: "Demo: título da janela", defaultPt: "Monitor de Plantas - dashboard" },
+  { key: "plantas.demo.plant.fern", page: "portfolio/plantas", label: "Demo: nome da planta 1", defaultPt: "Samambaia" },
+  { key: "plantas.demo.plant.succulent", page: "portfolio/plantas", label: "Demo: nome da planta 2", defaultPt: "Suculenta" },
+  { key: "plantas.demo.plant.pothos", page: "portfolio/plantas", label: "Demo: nome da planta 3", defaultPt: "Jiboia" },
   { key: "plantas.demo.status.healthy", page: "portfolio/plantas", label: "Demo: status saudável", defaultPt: "saudável" },
   { key: "plantas.demo.status.attention", page: "portfolio/plantas", label: "Demo: status atenção", defaultPt: "atenção" },
   { key: "plantas.demo.status.dry", page: "portfolio/plantas", label: "Demo: status seca", defaultPt: "seca" },
@@ -396,6 +420,11 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "agora.status", page: "portfolio/agora", label: "Status (ficha técnica)", defaultPt: "Em validação (pitch e editais)" },
   { key: "agora.labels.role", page: "portfolio/agora", label: "Rótulo: função", defaultPt: "Função" },
   { key: "agora.labels.techStack", page: "portfolio/agora", label: "Título: tecnologias-alvo", defaultPt: "Tecnologias-Alvo do Roadmap" },
+  { key: "agora.tags.statistics", page: "portfolio/agora", label: "Tecnologia 1", defaultPt: "Modelagem Estatística" },
+  { key: "agora.tags.ml", page: "portfolio/agora", label: "Tecnologia 2", defaultPt: "Machine Learning" },
+  { key: "agora.tags.backtesting", page: "portfolio/agora", label: "Tecnologia 3", defaultPt: "Backtesting" },
+  { key: "agora.tags.geospatial", page: "portfolio/agora", label: "Tecnologia 4", defaultPt: "Dados Geoespaciais" },
+  { key: "agora.tags.macro", page: "portfolio/agora", label: "Tecnologia 5", defaultPt: "Análise Macroeconômica" },
   { key: "agora.noLinkNotice", page: "portfolio/agora", label: "Aviso: sem link", multiline: true, defaultPt: "Projeto em fase de validação: participa de programas de inovação, com inscrição em editais. Ainda sem produto em produção nem link público." },
   { key: "agora.overview.heading", page: "portfolio/agora", label: "Visão Geral: título", defaultPt: "Visão Geral" },
   { key: "agora.overview.body", page: "portfolio/agora", label: "Visão Geral: texto", multiline: true, defaultPt: "O Ágora prevê a valorização e desvalorização de imóveis ao longo do tempo, cruzando dados públicos e macroeconômicos com dados proprietários de solo e topografia, e transformando a proximidade a pontos de referência (escolas, faculdades, obras públicas planejadas) em pontuação de valorização. É voltado a investidores e fundos imobiliários que precisam decidir compra, venda e timing com mais do que intuição de mercado. Sou responsável pelo frontend do produto e pela articulação da equipe multidisciplinar do projeto." },
@@ -517,3 +546,7 @@ export const CONTENT_KEYS_BY_KEY: Record<string, ContentKeyDef> = Object.fromEnt
 );
 
 export const CONTENT_PAGES: string[] = Array.from(new Set(CONTENT_KEYS.map((entry) => entry.page)));
+
+export function defaultText(key: string, locale: string): string | undefined {
+  return (locale === "en" ? DEFAULT_EN[key] : undefined) ?? CONTENT_KEYS_BY_KEY[key]?.defaultPt;
+}

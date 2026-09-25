@@ -43,9 +43,9 @@ const features = [
 ]
 
 const demoPlants = [
-  { nome: "Samambaia", umidade: 62, statusKey: "plantas.demo.status.healthy", cor: "green", wateredKey: "plantas.demo.watered.fern" },
-  { nome: "Suculenta", umidade: 45, statusKey: "plantas.demo.status.attention", cor: "yellow", wateredKey: "plantas.demo.watered.succulent" },
-  { nome: "Jiboia", umidade: 28, statusKey: "plantas.demo.status.dry", cor: "orange", wateredKey: "plantas.demo.watered.pothos" },
+  { nameKey: "plantas.demo.plant.fern", umidade: 62, statusKey: "plantas.demo.status.healthy", cor: "green", wateredKey: "plantas.demo.watered.fern" },
+  { nameKey: "plantas.demo.plant.succulent", umidade: 45, statusKey: "plantas.demo.status.attention", cor: "yellow", wateredKey: "plantas.demo.watered.succulent" },
+  { nameKey: "plantas.demo.plant.pothos", umidade: 28, statusKey: "plantas.demo.status.dry", cor: "orange", wateredKey: "plantas.demo.watered.pothos" },
 ]
 
 export default function MonitorDePlantas() {
@@ -83,13 +83,13 @@ export default function MonitorDePlantas() {
           <span className="h-3 w-3 rounded-full bg-red-500/70" />
           <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
           <span className="h-3 w-3 rounded-full bg-green-500/70" />
-          <span className="ml-3 font-mono text-xs text-zinc-500">Monitor de Plantas - dashboard</span>
+          <span className="ml-3 font-mono text-xs text-zinc-500">{t("plantas.demo.windowTitle")}</span>
         </div>
         <div className="grid gap-4 p-6 sm:grid-cols-3">
           {demoPlants.map((planta) => (
-            <div key={planta.nome} className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4">
+            <div key={planta.nameKey} className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4">
               <div className="flex items-center justify-between text-xs text-zinc-500">
-                <span>{planta.nome}</span>
+                <span>{t(planta.nameKey)}</span>
                 <span
                   className={
                     planta.cor === "green"

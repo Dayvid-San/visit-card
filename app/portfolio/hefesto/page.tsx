@@ -183,15 +183,15 @@ export default function Hefesto() {
               <CardContent className="flex flex-col items-center justify-center p-8 text-center">
                 <div className="w-full space-y-4 text-left font-mono text-xs">
                   <div className="rounded border bg-background p-3">
-                    <span className="font-bold text-blue-500">[Front web]</span> {t("hefesto.architecture.diagram.front")}
+                    <span className="font-bold text-blue-500">{t("hefesto.architecture.diagram.frontTag")}</span> {t("hefesto.architecture.diagram.front")}
                   </div>
                   <div className="text-center text-muted-foreground">{t("hefesto.architecture.diagram.arrow")}</div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded border bg-background p-3">
-                      <span className="font-bold text-purple-500">[Backend de chat]</span> {t("hefesto.architecture.diagram.chat")}
+                      <span className="font-bold text-purple-500">{t("hefesto.architecture.diagram.chatTag")}</span> {t("hefesto.architecture.diagram.chat")}
                     </div>
                     <div className="rounded border bg-background p-3">
-                      <span className="font-bold text-green-500">[Orquestrador de agentes]</span> {t("hefesto.architecture.diagram.orchestrator")}
+                      <span className="font-bold text-green-500">{t("hefesto.architecture.diagram.orchestratorTag")}</span> {t("hefesto.architecture.diagram.orchestrator")}
                     </div>
                   </div>
                 </div>

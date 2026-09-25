@@ -85,18 +85,18 @@ export default function Maestro() {
         <pre className="overflow-x-auto p-6 text-sm leading-relaxed">
           <code className="font-mono text-zinc-300">
             <span className="text-zinc-500">$ </span>
-            <span className="text-green-400">maestro</span> task &quot;Adicionar validação de CPF&quot;{"\n"}
-            <span className="text-zinc-500">{"> "}plano criado, repositório limpo, aguardando confirmação</span>
+            <span className="text-green-400">maestro</span> task &quot;{t("maestro.terminal.task")}&quot;{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.planCreated")}</span>
             {"\n\n"}
             <span className="text-zinc-500">$ </span>
-            <span className="text-green-400">maestro</span> run &lt;id-do-plano&gt; --confirm{"\n"}
-            <span className="text-zinc-500">{"> "}branch maestro/&lt;id&gt; criada em worktree isolado</span>
+            <span className="text-green-400">maestro</span> run &lt;{t("maestro.terminal.planId")}&gt; --confirm{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.branchCreated")}</span>
             {"\n"}
-            <span className="text-zinc-500">{"> "}pipeline: contexto → requisitos → implementação → testes → revisão</span>
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.pipeline")}</span>
             {"\n\n"}
             <span className="text-zinc-500">$ </span>
-            <span className="text-green-400">maestro</span> job &lt;id-do-plano&gt;{"\n"}
-            <span className="text-zinc-500">{"> "}status: concluído</span>
+            <span className="text-green-400">maestro</span> job &lt;{t("maestro.terminal.planId")}&gt;{"\n"}
+            <span className="text-zinc-500">{"> "}{t("maestro.terminal.done")}</span>
           </code>
         </pre>
       </div>

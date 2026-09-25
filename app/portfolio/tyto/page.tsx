@@ -172,7 +172,7 @@ export default function TytoClub() {
                   <div className="text-center text-muted-foreground">{t("tyto.architecture.diagram.arrow1")}</div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="p-3 rounded border bg-background">
-                      <span className="text-purple-500 font-bold">[Firestore direto]</span> {t("tyto.architecture.diagram.firestore")}
+                      <span className="text-purple-500 font-bold">{t("tyto.architecture.diagram.firestoreTag")}</span> {t("tyto.architecture.diagram.firestore")}
                     </div>
                     <div className="p-3 rounded border bg-background">
                       <span className="text-green-500 font-bold">[Backend REST]</span> {t("tyto.architecture.diagram.backend")}

@@ -18,6 +18,7 @@ import {
   type ContentEntryDto,
 } from "@/lib/api";
 import { CONTENT_KEYS, CONTENT_PAGES, type ContentKeyDef } from "@/lib/content-registry";
+import { DEFAULT_EN } from "@/lib/content-registry-en";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -623,7 +624,7 @@ export default function AdminDashboard() {
                             handleContentChange(def, "valueEn", e.target.value)
                           }
                           rows={def.multiline ? 4 : undefined}
-                          placeholder={draft.valuePt}
+                          placeholder={DEFAULT_EN[def.key] ?? draft.valuePt}
                           className="w-full p-2 border rounded bg-background text-sm"
                         />
                       </div>

@@ -17,7 +17,7 @@ import {
 import { useContent } from "@/components/content-provider"
 
 const projectData = {
-  tags: ["Modelagem Estatística", "Machine Learning", "Backtesting", "Dados Geoespaciais", "Análise Macroeconômica"],
+  tagKeys: ["agora.tags.statistics", "agora.tags.ml", "agora.tags.backtesting", "agora.tags.geospatial", "agora.tags.macro"],
   challengeKeys: ["agora.challenges.item1", "agora.challenges.item2", "agora.challenges.item3"],
   solutionKeys: ["agora.solutions.item1", "agora.solutions.item2", "agora.solutions.item3"],
 }
@@ -133,9 +133,9 @@ export default function Agora() {
           <div className="space-y-4 rounded-lg border p-6 shadow-sm">
             <h3 className="font-semibold">{t("agora.labels.techStack")}</h3>
             <div className="flex flex-wrap gap-2">
-              {projectData.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
-                  {tag}
+              {projectData.tagKeys.map((tagKey) => (
+                <Badge key={tagKey} variant="secondary">
+                  {t(tagKey)}
                 </Badge>
               ))}
             </div>

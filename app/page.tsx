@@ -47,13 +47,13 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 // --- Dados Fixos ---
 
 const projects = [
-  { key: "plantas", title: "Monitor de Plantas", link: "/portfolio/plantas", icon: "🌱" },
-  { key: "hefesto", title: "Hefesto", link: "/portfolio/hefesto", icon: "🔨", hasHighlight: true },
-  { key: "maestro", title: "Maestro", link: "/portfolio/maestro", icon: "🎼" },
-  { key: "engscan", title: "EngScan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
-  { key: "tyto", title: "TYTO", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
-  { key: "atenas", title: "Atenas", link: "/atenas", icon: "📚" },
-  { key: "agora", title: "Ágora", link: "/portfolio/agora", icon: "🛍️" },
+  { key: "plantas", link: "/portfolio/plantas", icon: "🌱" },
+  { key: "hefesto", link: "/portfolio/hefesto", icon: "🔨", hasHighlight: true },
+  { key: "maestro", link: "/portfolio/maestro", icon: "🎼" },
+  { key: "engscan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
+  { key: "tyto", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
+  { key: "atenas", link: "/atenas", icon: "📚" },
+  { key: "agora", link: "/portfolio/agora", icon: "🛍️" },
 ];
 
 const skillKeys = ["home.skills.item2", "home.skills.item3", "home.skills.item4", "home.skills.item5"];
@@ -138,7 +138,7 @@ export default function HomePage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {projects.map((project) => (
-                <a href={project.link} key={project.title}>
+                <a href={project.link} key={project.key}>
                   <article
                     className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
                   >
@@ -146,7 +146,7 @@ export default function HomePage() {
                       <div className="space-y-2">
                         <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">{t("home.projects.label")}</span>
                         <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
-                          {project.title}
+                          {t(`home.projects.${project.key}.title`)}
                         </h3>
                       </div>
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
