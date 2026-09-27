@@ -2,11 +2,18 @@ import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Cinzel } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ClientLayout } from "@/components/client-layout";
 import { VoiceProvider } from "@/components/VoiceProvider";
 import { Suspense } from "react";
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-cinzel",
+});
 
 export const metadata: Metadata = {
   title: "Dayvid Santana",
@@ -21,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark" suppressHydrationWarning>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${cinzel.variable}`}>
         <VoiceProvider>
           <Suspense fallback={<div>Loading...</div>}>
             <ClientLayout>{children}</ClientLayout>

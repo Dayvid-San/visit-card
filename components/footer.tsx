@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from "next/navigation"
 import { useState, useRef } from "react"
 import { DoorPanel } from "@/components/door-panel"
+import { TorchFlame } from "@/components/torch-flame"
 import { getDoorTheme } from "@/lib/door-themes"
 
 export function Footer() {
@@ -40,19 +41,25 @@ export function Footer() {
       style={{ transform: "translateY(calc(100vh - 4rem))" }}
     >
       <DoorPanel theme={doorTheme} />
-      <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between px-4">
-        <p className="text-sm text-muted-foreground select-none">
-          © {new Date().getFullYear()} 
-          <span
-            onClick={handleSecretClick}
-            className="cursor-default select-none"
-            title="" // Evita tooltips automáticos de navegadores
-          >
-            {" "}Dayvid.
-          </span>{" "}
-          All rights reserved.
-        </p>
-        <p className="text-sm text-muted-foreground select-none">Built with Blood, Code and AI</p>
+      <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between gap-3 px-4">
+        <div className="flex items-center gap-2">
+          <TorchFlame />
+          <p className="text-sm text-muted-foreground select-none">
+            © {new Date().getFullYear()}
+            <span
+              onClick={handleSecretClick}
+              className="cursor-default select-none"
+              title="" // Evita tooltips automáticos de navegadores
+            >
+              {" "}Dayvid.
+            </span>{" "}
+            All rights reserved.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <p className="gothic-title text-xs text-muted-foreground select-none">Built with Blood, Code and AI</p>
+          <TorchFlame />
+        </div>
       </div>
     </footer>
   )
