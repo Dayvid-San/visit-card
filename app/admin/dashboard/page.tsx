@@ -19,6 +19,7 @@ import {
 } from "@/lib/api";
 import { CONTENT_KEYS, CONTENT_PAGES, type ContentKeyDef } from "@/lib/content-registry";
 import { DEFAULT_EN } from "@/lib/content-registry-en";
+import { sortByPosition } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -47,6 +48,7 @@ interface StoredProject {
   demo?: string;
   paper?: string;
   dataset?: string;
+  position?: number;
 }
 
 interface FormData {
@@ -138,10 +140,10 @@ export default function AdminDashboard() {
         getDocs(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY.research)),
       ]);
       setProgrammerProjects(
-        programmerSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
+        sortByPosition(programmerSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject))
       );
       setResearchProjects(
-        researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject)
+        sortByPosition(researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as StoredProject))
       );
     } catch (error) {
       console.error("Error fetching projects: ", error);
@@ -247,6 +249,31 @@ export default function AdminDashboard() {
       await fetchProjects();
       setStatusMessage("Projeto excluído.");
       setTimeout(() => setStatusMessage(""), 3000);
+    } catch (error: any) {
+      setStatusMessage(`Error: ${error.message}`);
+    }
+  };
+
+  const handleProjectMove = async (project: StoredProject, category: ProjectCategory, direction: "up" | "down") => {
+    const list = category === "programmer" ? programmerProjects : researchProjects;
+    const index = list.findIndex((p) => p.id === project.id);
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (index === -1 || swapIndex < 0 || swapIndex >= list.length) return;
+
+    const reordered = [...list];
+    [reordered[index], reordered[swapIndex]] = [reordered[swapIndex], reordered[index]];
+
+    try {
+      // Regrava a position de todos os itens da categoria, não só dos dois
+      // trocados: projetos antigos ainda podem não ter position nenhuma, e
+      // isso garante que a lista inteira converge para positions sequenciais
+      // definitivas já na primeira reordenação.
+      await Promise.all(
+        reordered.map((p, i) =>
+          updateDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], p.id), { position: i })
+        )
+      );
+      await fetchProjects();
     } catch (error: any) {
       setStatusMessage(`Error: ${error.message}`);
     }
@@ -402,6 +429,9 @@ export default function AdminDashboard() {
         await updateDoc(doc(getFirebaseDb(), COLLECTION_BY_CATEGORY[category], editingProject.id), payload);
         setStatusMessage("Project updated successfully!");
       } else {
+        // Novo projeto entra no fim da lista dessa categoria.
+        const list = category === "programmer" ? programmerProjects : researchProjects;
+        payload.position = list.length;
         await addDoc(collection(getFirebaseDb(), COLLECTION_BY_CATEGORY[category]), payload);
         setStatusMessage("Project added successfully!");
       }
@@ -652,6 +682,7 @@ export default function AdminDashboard() {
           loading={loadingProjects}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onMove={handleProjectMove}
         />
         <ProjectList
           title="Research Projects"
@@ -660,6 +691,7 @@ export default function AdminDashboard() {
           loading={loadingProjects}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onMove={handleProjectMove}
         />
       </div>
 
@@ -853,6 +885,7 @@ function ProjectList({
   loading,
   onEdit,
   onDelete,
+  onMove,
 }: {
   title: string;
   projects: StoredProject[];
@@ -860,17 +893,21 @@ function ProjectList({
   loading: boolean;
   onEdit: (project: StoredProject, category: ProjectCategory) => void;
   onDelete: (project: StoredProject, category: ProjectCategory) => void;
+  onMove: (project: StoredProject, category: ProjectCategory, direction: "up" | "down") => void;
 }) {
   return (
     <div>
       <h2 className="mb-3 text-lg font-semibold">{title}</h2>
+      <p className="mb-3 text-xs text-muted-foreground">
+        A ordem desta lista é a mesma em que os projetos aparecem em /portfolio.
+      </p>
       {loading ? (
         <p className="text-sm text-muted-foreground">Carregando...</p>
       ) : projects.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nenhum projeto cadastrado.</p>
       ) : (
         <div className="space-y-2">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <div
               key={project.id}
               className="flex items-center gap-4 rounded-lg border p-3"
@@ -889,6 +926,12 @@ function ProjectList({
                 <p className="truncate text-sm text-muted-foreground">{project.description}</p>
               </div>
               <div className="flex shrink-0 gap-2">
+                <Button size="icon" variant="outline" onClick={() => onMove(project, category, "up")} disabled={index === 0} aria-label="Mover para cima">
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="outline" onClick={() => onMove(project, category, "down")} disabled={index === projects.length - 1} aria-label="Mover para baixo">
+                  <ArrowDown className="h-4 w-4" />
+                </Button>
                 <Button size="icon" variant="outline" onClick={() => onEdit(project, category)} aria-label="Editar">
                   <Pencil className="h-4 w-4" />
                 </Button>

@@ -16,6 +16,7 @@ import { ExternalLink, Github, FileText } from "lucide-react";
 import Image from "next/image";
 import { useContent } from "@/components/content-provider";
 import { Reveal } from "@/components/reveal";
+import { sortByPosition } from "@/lib/utils";
 
 interface ProgrammerProject {
   id?: string;
@@ -27,6 +28,7 @@ interface ProgrammerProject {
   role: string;
   github: string;
   demo?: string;
+  position?: number;
 }
 
 interface ResearchProject {
@@ -40,6 +42,7 @@ interface ResearchProject {
   paper?: string;
   dataset?: string;
   github?: string;
+  position?: number;
 }
 
 export default function PortfolioPage() {
@@ -57,10 +60,10 @@ export default function PortfolioPage() {
         ]);
 
         setProgrammerProjects(
-          progSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ProgrammerProject)
+          sortByPosition(progSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ProgrammerProject))
         );
         setResearchProjects(
-          researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ResearchProject)
+          sortByPosition(researchSnap.docs.map((d) => ({ id: d.id, ...d.data() }) as ResearchProject))
         );
       } catch (error) {
         console.error("Error fetching projects:", error);
