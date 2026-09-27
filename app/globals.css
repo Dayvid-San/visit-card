@@ -261,9 +261,10 @@
   }
 }
 
-/* 404 page (app/not-found.tsx): a restrained RGB-split glitch on the big "404".
-   Needs the same text repeated in the data-text attribute. Small, continuous
-   drift only, no strobing, so it stays comfortable to look at. */
+/* 404 page (app/not-found.tsx): a restrained blood/gold split glitch on the
+   big "404", to match the page's fantasy-shell theme. Needs the same text
+   repeated in the data-text attribute. Small, continuous drift only, no
+   strobing, so it stays comfortable to look at. */
 .glitch-text {
   position: relative;
   display: inline-block;
@@ -284,7 +285,7 @@
   }
 
   .glitch-text::after {
-    color: #22d3ee;
+    color: #f2c14e;
     clip-path: polygon(0 58%, 100% 58%, 100% 97%, 0 97%);
     animation: glitch-shift-2 3.3s infinite linear alternate-reverse;
   }
