@@ -4,6 +4,7 @@ import React, { CSSProperties } from "react";
 import Image from "next/image";
 import { TypewriterStatus } from "@/components/typeWriterStatus";
 import { useContent } from "@/components/content-provider";
+import { Reveal } from "@/components/reveal";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -137,39 +138,42 @@ export default function HomePage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {projects.map((project) => (
-                <a href={project.link} key={project.key}>
-                  <article
-                    className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">{t("home.projects.label")}</span>
-                        <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
-                          {t(`home.projects.${project.key}.title`)}
-                        </h3>
+              {projects.map((project, index) => (
+                <Reveal key={project.key} delayMs={index * 60}>
+                  <a href={project.link}>
+                    <article
+                      className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="space-y-2">
+                          <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">{t("home.projects.label")}</span>
+                          <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
+                            {t(`home.projects.${project.key}.title`)}
+                          </h3>
+                        </div>
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
+                          {project.icon}
+                        </div>
                       </div>
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
-                        {project.icon}
-                      </div>
-                    </div>
 
-                    <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
-                      {t(`home.projects.${project.key}.description`)}
-                    </p>
+                      <p className="mt-3 text-xs leading-relaxed text-[#bfb3a4] font-light">
+                        {t(`home.projects.${project.key}.description`)}
+                      </p>
 
-                    {project.hasHighlight ? (
-                      <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
-                        {t(`home.projects.${project.key}.highlight`)}
-                      </div>
-                    ) : null}
-                  </article>
-                </a>
+                      {project.hasHighlight ? (
+                        <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
+                          {t(`home.projects.${project.key}.highlight`)}
+                        </div>
+                      ) : null}
+                    </article>
+                  </a>
+                </Reveal>
               ))}
             </div>
           </section>
 
           {/* Conhecimentos / Skills */}
+          <Reveal>
           <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
@@ -191,8 +195,10 @@ export default function HomePage() {
               </div>
             </div>
           </section>
+          </Reveal>
 
           {/* Idiomas / Domínio Linguístico */}
+          <Reveal>
           <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
@@ -211,6 +217,7 @@ export default function HomePage() {
               </div>
             </div>
           </section>
+          </Reveal>
 
           {/* Footer */}
           <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">

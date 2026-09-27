@@ -601,6 +601,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "notFound.title": "Page Not Found",
   "notFound.description": "The page you are looking for does not exist.",
   "notFound.backHome": "Back to the Home Page",
+  "notFound.quip": '() => route.found ? render() : "you wandered off the map of TYTO\'s Kingdoms"',
 
   // Portfolio (index)
   "portfolio.loading": "Loading portfolio...",

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, FileText } from "lucide-react";
 import Image from "next/image";
 import { useContent } from "@/components/content-provider";
+import { Reveal } from "@/components/reveal";
 
 interface ProgrammerProject {
   id?: string;
@@ -94,10 +95,10 @@ export default function PortfolioPage() {
             <h2 className="text-3xl font-bold">{t("portfolio.programmer.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {programmerProjects.map((project) => (
+            {programmerProjects.map((project, index) => (
+              <Reveal key={project.id || project.title} delayMs={index * 60}>
               <Card
-                key={project.id || project.title}
-                className="flex flex-col overflow-hidden"
+                className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
@@ -154,6 +155,7 @@ export default function PortfolioPage() {
                   </div>
                 </CardContent>
               </Card>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -164,10 +166,10 @@ export default function PortfolioPage() {
             <h2 className="text-3xl font-bold">{t("portfolio.researcher.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {researchProjects.map((project) => (
+            {researchProjects.map((project, index) => (
+              <Reveal key={project.id || project.title} delayMs={index * 60}>
               <Card
-                key={project.id || project.title}
-                className="flex flex-col overflow-hidden"
+                className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   <Image
@@ -237,6 +239,7 @@ export default function PortfolioPage() {
                   </div>
                 </CardContent>
               </Card>
+              </Reveal>
             ))}
           </div>
         </section>

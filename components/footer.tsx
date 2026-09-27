@@ -1,10 +1,14 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useState, useRef } from "react"
+import { DoorPanel } from "@/components/door-panel"
+import { getDoorTheme } from "@/lib/door-themes"
 
 export function Footer() {
   const router = useRouter()
+  const pathname = usePathname()
+  const doorTheme = getDoorTheme(pathname)
   const [clickCount, setClickCount] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -35,6 +39,7 @@ export function Footer() {
       className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background min-h-screen"
       style={{ transform: "translateY(calc(100vh - 4rem))" }}
     >
+      <DoorPanel theme={doorTheme} />
       <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between px-4">
         <p className="text-sm text-muted-foreground select-none">
           © {new Date().getFullYear()} 

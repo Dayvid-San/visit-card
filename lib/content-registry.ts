@@ -535,6 +535,7 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "notFound.title", page: "notFound", label: "Título", defaultPt: "Página Não Encontrada" },
   { key: "notFound.description", page: "notFound", label: "Descrição", defaultPt: "A página que você está procurando não existe." },
   { key: "notFound.backHome", page: "notFound", label: "Botão: voltar para a página inicial", defaultPt: "Voltar para a Página Inicial" },
+  { key: "notFound.quip", page: "notFound", label: "Frase de efeito", defaultPt: '() => rota.encontrada ? renderizar() : "você se perdeu entre os Reinos da TYTO"' },
 
   // Portfolio (índice)
   { key: "portfolio.loading", page: "portfolio", label: "Mensagem de carregamento", defaultPt: "Carregando portfólio..." },

@@ -198,3 +198,68 @@
   display: none;
  }
 }
+
+/* "Status na TYTO" widget: a one-shot flourish on an icon the moment its line
+   finishes typing (components/typeWriterStatus.tsx). Plays once because each
+   icon is a freshly mounted element, not a class toggle. */
+@keyframes status-flourish {
+  0% {
+    transform: scale(0.5);
+    filter: brightness(1) drop-shadow(0 0 0 rgba(250, 204, 21, 0));
+  }
+  45% {
+    transform: scale(1.35);
+    filter: brightness(1.6) drop-shadow(0 0 6px rgba(250, 204, 21, 0.75));
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 0 rgba(250, 204, 21, 0));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-status-flourish {
+    animation: status-flourish 550ms ease-out;
+  }
+}
+
+/* 404 page (app/not-found.tsx): a restrained RGB-split glitch on the big "404".
+   Needs the same text repeated in the data-text attribute. Small, continuous
+   drift only, no strobing, so it stays comfortable to look at. */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+  }
+
+  .glitch-text::before {
+    color: #ff2e63;
+    clip-path: polygon(0 3%, 100% 3%, 100% 42%, 0 42%);
+    animation: glitch-shift-1 2.6s infinite linear alternate-reverse;
+  }
+
+  .glitch-text::after {
+    color: #22d3ee;
+    clip-path: polygon(0 58%, 100% 58%, 100% 97%, 0 97%);
+    animation: glitch-shift-2 3.3s infinite linear alternate-reverse;
+  }
+}
+
+@keyframes glitch-shift-1 {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-2px, 1px, 0); }
+  100% { transform: translate3d(2px, -1px, 0); }
+}
+
+@keyframes glitch-shift-2 {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(2px, -1px, 0); }
+  100% { transform: translate3d(-2px, 1px, 0); }
+}

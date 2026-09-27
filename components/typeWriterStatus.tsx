@@ -5,12 +5,16 @@ import { useContent } from "@/components/content-provider";
 
 interface StatusLine {
   id: string;
-  text: string;
+  icon: string;
+  rest: string;
+}
+
+function lineText(item: StatusLine): string {
+  return item.icon ? `${item.icon} ${item.rest}` : item.rest;
 }
 
 function toStatusLine(item: ApiStatusItem): StatusLine {
-  const text = item.icon ? `${item.icon} ${item.label}: ${item.value}` : `${item.label}: ${item.value}`;
-  return { id: item.id, text };
+  return { id: item.id, icon: item.icon ?? "", rest: `${item.label}: ${item.value}` };
 }
 
 // Valores atuais traduzidos via content-registry. Ficam aqui como padrão do
@@ -21,10 +25,10 @@ function toStatusLine(item: ApiStatusItem): StatusLine {
 // mesmo idioma em que foram cadastrados).
 function buildDefaultStatusItems(t: (key: string) => string): StatusLine[] {
   return [
-    { id: "default-patente", text: `👑 ${t("home.status.default.patente")}` },
-    { id: "default-polis", text: `📍 ${t("home.status.default.polis")}` },
-    { id: "default-esquadrao", text: `🛡️ ${t("home.status.default.esquadrao")}` },
-    { id: "default-cargo", text: `🏙️ ${t("home.status.default.cargo")}` },
+    { id: "default-patente", icon: "👑", rest: t("home.status.default.patente") },
+    { id: "default-polis", icon: "📍", rest: t("home.status.default.polis") },
+    { id: "default-esquadrao", icon: "🛡️", rest: t("home.status.default.esquadrao") },
+    { id: "default-cargo", icon: "🏙️", rest: t("home.status.default.cargo") },
   ];
 }
 
@@ -85,7 +89,7 @@ export const TypewriterStatus: React.FC = () => {
   useEffect(() => {
     if (!hasStarted || statusItems.length === 0 || currentLineIndex >= statusItems.length) return;
 
-    const fullText = statusItems[currentLineIndex].text;
+    const fullText = lineText(statusItems[currentLineIndex]);
 
     if (currentLineText.length < fullText.length) {
       const timer = setTimeout(() => {
@@ -116,9 +120,14 @@ export const TypewriterStatus: React.FC = () => {
       </div>
 
       <div className="pt-1 text-[#a69a8a] space-y-0.5 min-h-[80px]">
-        {/* Linhas já totalmente digitadas */}
+        {/* Linhas já totalmente digitadas: o ícone tem um flourish de uma vez só ao aparecer */}
         {statusItems.slice(0, visibleCount).map((item) => (
-          <p key={item.id}>{item.text}</p>
+          <p key={item.id}>
+            {item.icon && (
+              <span className="mr-[0.35em] inline-block animate-status-flourish">{item.icon}</span>
+            )}
+            {item.rest}
+          </p>
         ))}
 
         {/* Linha sendo digitada atualmente + Cursor */}
