@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation"
 import { useState, useRef } from "react"
+import Image from "next/image"
 import { DoorPanel } from "@/components/door-panel"
 import { getDoorTheme } from "@/lib/door-themes"
 
@@ -40,6 +41,21 @@ export function Footer() {
       style={{ transform: "translateY(calc(100vh - 4rem))" }}
     >
       <DoorPanel theme={doorTheme} />
+
+      {/* Avatar do personagem: mora na porta, então só aparece durante a
+          transição (a mesma janela em que o emblema da seção aparece),
+          não fixo o tempo todo como antes. */}
+      <div className="pointer-events-none absolute right-0 top-1/2 z-20 hidden -translate-y-1/2 opacity-80 lg:block">
+        <Image
+          src="/1768628437181-removebg-preview.png"
+          alt="Dayvid Santana Avatar"
+          width={300}
+          height={300}
+          className="object-contain"
+          priority
+        />
+      </div>
+
       <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between px-4">
         <p className="text-sm text-muted-foreground select-none">
           © {new Date().getFullYear()} 

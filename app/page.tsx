@@ -240,18 +240,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Ilustração do Personagem/Avatar */}
-      <div className="pointer-events-none fixed bottom-20 right-0 z-20 hidden opacity-80 lg:block">
-        <Image
-          src="/1768628437181-removebg-preview.png"
-          alt="Dayvid Santana Avatar"
-          width={300}
-          height={300}
-          className="object-contain"
-          priority
-        />
-      </div>
-
     </main>
   );
 }
