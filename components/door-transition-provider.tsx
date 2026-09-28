@@ -40,12 +40,16 @@ export function DoorTransitionProvider({ children }: { children: React.ReactNode
         }
       } else {
         // Full door animation
-        await animateDoor({ direction: "close", duration: 700 })
+        const closeAnimation = animateDoor({ direction: "close", duration: 700 })
 
-        // Play sound during final 40% of closing (280ms into 700ms animation)
+        // Play sound during final 40% of closing (280ms into 700ms animation).
+        // Scheduled alongside the animation, not after awaiting it, otherwise
+        // the sound only starts once the door has already finished closing.
         setTimeout(() => {
           playDoorSound()
         }, 420)
+
+        await closeAnimation
 
         // Pause
         await new Promise((resolve) => setTimeout(resolve, 120))
