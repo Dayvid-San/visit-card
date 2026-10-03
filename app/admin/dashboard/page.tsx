@@ -20,6 +20,8 @@ import {
 import { CONTENT_KEYS, CONTENT_PAGES, type ContentKeyDef } from "@/lib/content-registry";
 import { DEFAULT_EN } from "@/lib/content-registry-en";
 import { sortByPosition } from "@/lib/utils";
+import { SITE_THEMES, SITE_THEME_IDS } from "@/lib/site-themes";
+import { useSiteTheme } from "@/components/site-theme-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -116,6 +118,9 @@ export default function AdminDashboard() {
   const [contentDrafts, setContentDrafts] = useState<Record<string, { valuePt: string; valueEn: string }>>({});
   const [contentSavingKey, setContentSavingKey] = useState<string | null>(null);
   const [contentMessage, setContentMessage] = useState("");
+
+  const { themeId, setThemeId, isSaving: isSavingTheme } = useSiteTheme();
+  const [themeMessage, setThemeMessage] = useState("");
 
   useEffect(() => {
     if (!isFirebaseConfigured) {
@@ -457,6 +462,17 @@ export default function AdminDashboard() {
     if (editingProject) submitProject(editingProject.category);
   };
 
+  const handleThemeSelect = async (id: (typeof SITE_THEME_IDS)[number]) => {
+    if (id === themeId) return;
+    try {
+      await setThemeId(id);
+      setThemeMessage("Tema salvo.");
+      setTimeout(() => setThemeMessage(""), 2000);
+    } catch (error: any) {
+      setThemeMessage(`Error: ${error.message}`);
+    }
+  };
+
   const handleLogout = async () => {
     await signOut(getFirebaseAuth());
     clearBackendToken();
@@ -480,6 +496,42 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <Button variant="outline" onClick={handleLogout}>Logout</Button>
       </div>
+
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Tema do Site</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {SITE_THEME_IDS.map((id) => {
+              const def = SITE_THEMES[id];
+              const isActive = id === themeId;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => handleThemeSelect(id)}
+                  disabled={isSavingTheme}
+                  className={`rounded-lg border p-4 text-left transition-colors disabled:opacity-60 ${
+                    isActive ? "border-primary ring-2 ring-primary" : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-semibold">{def.label}</span>
+                    {isActive && <Badge>Ativo</Badge>}
+                  </div>
+                  <p className="text-sm text-muted-foreground">{def.description}</p>
+                </button>
+              );
+            })}
+          </div>
+          {themeMessage && (
+            <p className={`mt-3 text-sm font-medium ${themeMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+              {themeMessage}
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

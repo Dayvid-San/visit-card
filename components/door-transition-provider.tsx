@@ -5,7 +5,9 @@ import type React from "react"
 import { createContext, useContext, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useAudio } from "@/components/audio-provider"
+import { useSiteTheme } from "@/components/site-theme-provider"
 import { animateDoor } from "@/lib/animation-utils"
+import { animateHalftone } from "@/lib/halftone-canvas"
 
 interface DoorTransitionContextType {
   isTransitioning: boolean
@@ -18,6 +20,7 @@ export function DoorTransitionProvider({ children }: { children: React.ReactNode
   const [isTransitioning, setIsTransitioning] = useState(false)
   const router = useRouter()
   const { playDoorSound } = useAudio()
+  const { themeDef } = useSiteTheme()
   const transitionLockRef = useRef(false)
 
   const navigateWithDoor = async (href: string, isExternal = false) => {
@@ -39,12 +42,18 @@ export function DoorTransitionProvider({ children }: { children: React.ReactNode
           router.push(href)
         }
       } else {
-        // Full door animation
-        // Play the sound before the door starts moving, so it leads the
-        // transition instead of landing partway through it.
-        playDoorSound()
+        // Which navigation transition plays is driven by the active site
+        // theme (lib/site-themes.ts): the door slide, or the halftone
+        // dot-dissolve. Both share the same close -> navigate -> open shape.
+        const animate = themeDef.transition === "halftone" ? animateHalftone : animateDoor
 
-        await animateDoor({ direction: "close", duration: 700 })
+        if (themeDef.transition === "door") {
+          // Play the sound before the door starts moving, so it leads the
+          // transition instead of landing partway through it.
+          playDoorSound()
+        }
+
+        await animate({ direction: "close", duration: 700 })
 
         // Pause
         await new Promise((resolve) => setTimeout(resolve, 120))
@@ -56,8 +65,8 @@ export function DoorTransitionProvider({ children }: { children: React.ReactNode
           router.push(href)
         }
 
-        // Open door
-        await animateDoor({ direction: "open", duration: 600 })
+        // Open / reveal
+        await animate({ direction: "open", duration: 600 })
       }
     } finally {
       setIsTransitioning(false)

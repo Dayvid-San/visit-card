@@ -13,6 +13,16 @@ vi.mock("@/components/audio-provider", () => ({
   useAudio: () => ({ playDoorSound: playDoorSoundMock }),
 }))
 
+let mockTransition: "door" | "halftone" = "door"
+vi.mock("@/components/site-theme-provider", () => ({
+  useSiteTheme: () => ({ themeDef: { transition: mockTransition } }),
+}))
+
+const animateHalftoneMock = vi.fn().mockResolvedValue(undefined)
+vi.mock("@/lib/halftone-canvas", () => ({
+  animateHalftone: (...args: unknown[]) => animateHalftoneMock(...args),
+}))
+
 function wrapper({ children }: { children: ReactNode }) {
   return <DoorTransitionProvider>{children}</DoorTransitionProvider>
 }
@@ -27,6 +37,8 @@ function mockPrefersReducedMotion(matches: boolean) {
 beforeEach(() => {
   pushMock.mockClear()
   playDoorSoundMock.mockClear()
+  animateHalftoneMock.mockClear()
+  mockTransition = "door"
   document.body.innerHTML = `<footer data-door-footer style="transform: translateY(0);"></footer>`
   vi.useFakeTimers()
 })
@@ -85,6 +97,24 @@ describe("useDoorTransition", () => {
 
     expect(openSpy).toHaveBeenCalledWith("https://github.com/Dayvid-San", "_blank", "noopener,noreferrer")
     expect(pushMock).not.toHaveBeenCalled()
+  })
+
+  it("uses the halftone animation instead of the door when that theme is active", async () => {
+    mockPrefersReducedMotion(false)
+    mockTransition = "halftone"
+    const { result } = renderHook(() => useDoorTransition(), { wrapper })
+
+    await act(async () => {
+      const navigation = result.current.navigateWithDoor("/portfolio")
+      await vi.advanceTimersByTimeAsync(2000)
+      await navigation
+    })
+
+    expect(pushMock).toHaveBeenCalledWith("/portfolio")
+    expect(animateHalftoneMock).toHaveBeenCalledWith({ direction: "close", duration: 700 })
+    expect(animateHalftoneMock).toHaveBeenCalledWith({ direction: "open", duration: 600 })
+    // The door sound is the door theme's own cue, not the halftone one's.
+    expect(playDoorSoundMock).not.toHaveBeenCalled()
   })
 
   it("ignores a second call while a transition is already in flight", async () => {

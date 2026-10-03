@@ -4,11 +4,15 @@ import { useRouter, usePathname } from "next/navigation"
 import { useState, useRef } from "react"
 import { DoorPanel } from "@/components/door-panel"
 import { getDoorTheme } from "@/lib/door-themes"
+import { useSiteTheme } from "@/components/site-theme-provider"
+import { cn } from "@/lib/utils"
 
 export function Footer() {
   const router = useRouter()
   const pathname = usePathname()
   const doorTheme = getDoorTheme(pathname)
+  const { themeDef } = useSiteTheme()
+  const isDoorTheme = themeDef.transition === "door"
   const [clickCount, setClickCount] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -35,12 +39,22 @@ export function Footer() {
 
   return (
     <footer
-      data-door-footer
-      className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background min-h-screen"
-      style={{ transform: "translateY(calc(100vh - 4rem))" }}
+      {...(isDoorTheme ? { "data-door-footer": true } : {})}
+      className={cn(
+        "border-t border-border bg-background",
+        isDoorTheme
+          ? "fixed bottom-0 left-0 right-0 z-40 min-h-screen"
+          : "relative"
+      )}
+      style={isDoorTheme ? { transform: "translateY(calc(100vh - 4rem))" } : undefined}
     >
-      <DoorPanel theme={doorTheme} />
-      <div className="absolute top-0 left-0 right-0 container flex h-16 items-center justify-between px-4">
+      {isDoorTheme && <DoorPanel theme={doorTheme} />}
+      <div
+        className={cn(
+          "container flex h-16 items-center justify-between px-4",
+          isDoorTheme && "absolute top-0 left-0 right-0"
+        )}
+      >
         <p className="text-sm text-muted-foreground select-none">
           © {new Date().getFullYear()}
           <span

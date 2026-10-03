@@ -79,6 +79,52 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* Site themes (lib/site-themes.ts, components/site-theme-provider.tsx):
+   override the shadcn tokens above per data-site-theme, so every component
+   that already consumes --primary/--border/etc (buttons, cards, inputs,
+   badges...) re-skins automatically. Placed after .dark so they win when
+   both match <html> (it always carries the "dark" class). Pages with
+   hardcoded purple-* accents (Home headings, 404, Atenas, project detail
+   pages) are a separate, smaller v1 scope and keep their purple either way. */
+[data-site-theme="arcano"] {
+  --primary: oklch(0.62 0.22 303);
+  --primary-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.32 0.1 303);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(0.32 0.08 303);
+  --input: oklch(0.32 0.08 303);
+  --ring: oklch(0.62 0.22 303);
+}
+
+[data-site-theme="halftone"] {
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.97 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.97 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.97 0 0);
+  --primary: oklch(0.97 0 0);
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.97 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.22 0 0);
+  --accent-foreground: oklch(0.97 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.8 0 0);
+}
+
+/* Subtle dot-grid texture, site-wide, for the Halftone theme — the
+   low-effort, full-coverage half of its "dot-grid replaces the purple
+   glow orbs" premise (the Home page's orb divs are hidden separately,
+   conditioned on the active theme). */
+[data-site-theme="halftone"] body {
+  background-image: radial-gradient(circle, oklch(1 0 0 / 7%) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { TypewriterStatus } from "@/components/typeWriterStatus";
 import { useContent } from "@/components/content-provider";
 import { Reveal } from "@/components/reveal";
+import { useSiteTheme } from "@/components/site-theme-provider";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -65,16 +66,22 @@ const languageKeys = ["home.languages.pt", "home.languages.en", "home.languages.
 
 export default function HomePage() {
   const { t } = useContent();
+  const { themeDef } = useSiteTheme();
   const photoDayvid = "/emBeloHorizonteInteira.jpeg";
   const yearsOfExperience = currentYear - 2015;
 
   return (
     <main className="relative min-h-screen bg-[#000000] text-[#f3eade] font-sans antialiased overflow-x-hidden selection:bg-purple-700 selection:text-white">
-      
-      {/* Background Orbs de Iluminação Sutil */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-950/40 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-sky-900/40 rounded-full blur-[150px] pointer-events-none" />
-      
+
+      {/* Background Orbs de Iluminação Sutil (tema Halftone usa o dot-grid
+          global em vez destes, ver globals.css) */}
+      {themeDef.transition === "door" && (
+        <>
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-950/40 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-sky-900/40 rounded-full blur-[150px] pointer-events-none" />
+        </>
+      )}
+
       {/* Foto de Fundo Flutuante Lateral */}
       <div className="fixed left-6 top-12 z-0 hidden lg:block border border-purple-950/40 rounded-2xl overflow-hidden shadow-2xl">
         <TransparentPhoto
