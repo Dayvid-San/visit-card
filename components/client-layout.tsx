@@ -23,6 +23,20 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     return null
   }
 
+  // The login screen is a standalone full-bleed auth layout (no site
+  // header/footer chrome), not a section of the public site.
+  const isBareLayout = pathname === "/admin" || pathname === "/admin/"
+
+  if (isBareLayout) {
+    return (
+      <ContentProvider>
+        <ThemeProvider>
+          <AudioProvider>{children}</AudioProvider>
+        </ThemeProvider>
+      </ContentProvider>
+    )
+  }
+
   return (
     <ContentProvider>
       <ThemeProvider>
