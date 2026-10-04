@@ -1,13 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, ExternalLink, Github, Cpu, CheckCircle2, UserPlus } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 const projectData = {
   heroImage: "/FlugoPrint.png",
@@ -50,15 +50,11 @@ export default function FlugoProject() {
       </div>
 
       {/* Imagem Principal */}
-      <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
-        <Image
-          src={projectData.heroImage}
-          alt={`Interface do projeto ${t("flugo.title")}`}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      <ProjectHeroImage
+        slug="flugo"
+        fallbackSrc={projectData.heroImage}
+        alt={`Interface do projeto ${t("flugo.title")}`}
+      />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
 

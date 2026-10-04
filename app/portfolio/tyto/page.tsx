@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -20,6 +19,7 @@ import {
   Briefcase,
 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 const projectData = {
   heroImage: "/Captura-tytoclub.png",
@@ -78,15 +78,11 @@ export default function TytoClub() {
       </div>
 
       {/* Imagem Principal / Hero */}
-      <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
-        <Image
-          src={projectData.heroImage}
-          alt={`Capa do ${t("tyto.title")}`}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      <ProjectHeroImage
+        slug="tyto"
+        fallbackSrc={projectData.heroImage}
+        alt={`Capa do ${t("tyto.title")}`}
+      />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
         {/* Coluna Principal (Conteúdo) */}

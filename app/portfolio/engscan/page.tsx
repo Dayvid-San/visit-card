@@ -1,13 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, ExternalLink, Github, Layers, Cpu, CheckCircle2 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 // Dados do Projeto (EngScan) - Isso viria de um banco de dados ou CMS em produção
 const projectData = {
@@ -51,15 +51,11 @@ export default function EngScan() {
       </div>
 
       {/* Imagem Principal / Hero */}
-      <div className="relative mb-12 aspect-video w-full overflow-hidden rounded-xl border bg-muted shadow-sm">
-        <Image
-          src={projectData.heroImage}
-          alt={`Capa do projeto ${t("engscan.title")}`}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      <ProjectHeroImage
+        slug="engscan"
+        fallbackSrc={projectData.heroImage}
+        alt={`Capa do projeto ${t("engscan.title")}`}
+      />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
 

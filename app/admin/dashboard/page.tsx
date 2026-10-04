@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirebaseAuth, getFirebaseDb, getFirebaseStorage, isFirebaseConfigured } from "@/lib/firebase";
 import {
@@ -533,6 +533,17 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
 
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Imagens das Páginas de Projeto</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {PROJECT_PAGE_SLUGS.map(({ slug, label }) => (
+            <ProjectPageImageEditor key={slug} slug={slug} label={label} />
+          ))}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Add New Project</CardTitle>
@@ -995,6 +1006,114 @@ function ProjectList({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+const PROJECT_PAGE_SLUGS: { slug: string; label: string }[] = [
+  { slug: "engscan", label: "EngScan" },
+  { slug: "flugo", label: "Flugo" },
+  { slug: "tyto", label: "TYTO" },
+];
+
+function ProjectPageImageEditor({ slug, label }: { slug: string; label: string }) {
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageMode, setImageMode] = useState<"url" | "upload">("url");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFilePreview, setImageFilePreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    getDoc(doc(getFirebaseDb(), "projectPageImages", slug))
+      .then((snap) => {
+        const url = snap.data()?.imageUrl;
+        if (typeof url === "string") setImageUrl(url);
+      })
+      .catch((error: any) => setMessage(`Error: ${error.message}`))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setImageFile(file);
+    setImageFilePreview(file ? URL.createObjectURL(file) : null);
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      let finalUrl = imageUrl;
+      if (imageMode === "upload" && imageFile) {
+        const imageRef = ref(getFirebaseStorage(), `projectPageImages/${slug}/${Date.now()}-${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        finalUrl = await getDownloadURL(imageRef);
+      }
+      await setDoc(doc(getFirebaseDb(), "projectPageImages", slug), { imageUrl: finalUrl });
+      setImageUrl(finalUrl);
+      setImageFile(null);
+      setImageFilePreview(null);
+      setMessage("Imagem salva.");
+      setTimeout(() => setMessage(""), 2000);
+    } catch (error: any) {
+      setMessage(`Error: ${error.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="text-sm text-muted-foreground">Carregando {label}...</div>;
+
+  return (
+    <div className="space-y-3 rounded-lg border p-4">
+      <div className="flex items-center justify-between">
+        <span className="font-semibold">{label}</span>
+        <div className="flex gap-1 rounded-md border p-1">
+          <Button type="button" size="sm" variant={imageMode === "url" ? "default" : "ghost"} onClick={() => setImageMode("url")}>
+            <Link2 className="mr-1 h-3.5 w-3.5" />
+            Link
+          </Button>
+          <Button type="button" size="sm" variant={imageMode === "upload" ? "default" : "ghost"} onClick={() => setImageMode("upload")}>
+            <Upload className="mr-1 h-3.5 w-3.5" />
+            Upload
+          </Button>
+        </div>
+      </div>
+
+      {imageMode === "url" ? (
+        <input
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="https://... ou /image.png"
+          className="w-full p-2 border rounded bg-background text-sm"
+        />
+      ) : (
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full p-2 border rounded bg-background text-sm file:mr-3 file:rounded file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-primary-foreground"
+        />
+      )}
+
+      {(imageFilePreview || imageUrl) && (
+        <div className="relative aspect-video w-full max-w-xs overflow-hidden rounded border bg-muted">
+          <Image src={imageFilePreview || imageUrl} alt={`Pré-visualização de ${label}`} fill className="object-cover" unoptimized />
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <Button type="button" size="sm" onClick={handleSave} disabled={saving}>
+          {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Salvar
+        </Button>
+        {message && (
+          <span className={`text-sm font-medium ${message.includes("Error") ? "text-red-500" : "text-green-500"}`}>
+            {message}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
