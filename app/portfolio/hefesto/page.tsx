@@ -18,6 +18,7 @@ import {
   GitBranch,
 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 const projectData = {
   tags: [
@@ -75,6 +76,12 @@ export default function Hefesto() {
           </div>
         </div>
       </div>
+
+      <ProjectHeroImage
+        slug="hefesto"
+        fallbackSrc="/placeholder.svg"
+        alt={`Capa do projeto ${t("hefesto.title")}`}
+      />
 
       {/* Chat Hero (sem screenshot: mockup do diferencial real, a citação verificável) */}
       <div className="relative mb-12 w-full overflow-hidden rounded-xl border bg-zinc-950 shadow-sm">

@@ -1014,6 +1014,10 @@ const PROJECT_PAGE_SLUGS: { slug: string; label: string }[] = [
   { slug: "engscan", label: "EngScan" },
   { slug: "flugo", label: "Flugo" },
   { slug: "tyto", label: "TYTO" },
+  { slug: "agora", label: "Ágora" },
+  { slug: "hefesto", label: "Hefesto" },
+  { slug: "maestro", label: "Maestro" },
+  { slug: "plantas", label: "Monitor de Plantas" },
 ];
 
 function ProjectPageImageEditor({ slug, label }: { slug: string; label: string }) {

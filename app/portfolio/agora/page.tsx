@@ -15,6 +15,7 @@ import {
   LineChart,
 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 const projectData = {
   tagKeys: ["agora.tags.statistics", "agora.tags.ml", "agora.tags.backtesting", "agora.tags.geospatial", "agora.tags.macro"],
@@ -57,6 +58,12 @@ export default function Agora() {
           </div>
         </div>
       </div>
+
+      <ProjectHeroImage
+        slug="agora"
+        fallbackSrc="/placeholder.svg"
+        alt={`Capa do projeto ${t("agora.title")}`}
+      />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
         {/* Coluna Principal (Conteúdo) */}

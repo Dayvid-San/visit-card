@@ -17,6 +17,7 @@ import {
   Wifi,
 } from "lucide-react"
 import { useContent } from "@/components/content-provider"
+import { ProjectHeroImage } from "@/components/project-hero-image"
 
 const projectData = {
   tags: [
@@ -76,6 +77,12 @@ export default function MonitorDePlantas() {
           </div>
         </div>
       </div>
+
+      <ProjectHeroImage
+        slug="plantas"
+        fallbackSrc="/placeholder.svg"
+        alt={`Capa do projeto ${t("plantas.title")}`}
+      />
 
       {/* Dashboard Hero (sem screenshot: não existe nenhuma pronta) */}
       <div className="relative mb-12 w-full overflow-hidden rounded-xl border bg-zinc-950 shadow-sm">
