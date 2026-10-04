@@ -7,8 +7,10 @@ import "./globals.css";
 import { ClientLayout } from "@/components/client-layout";
 import { VoiceProvider } from "@/components/VoiceProvider";
 import { Suspense } from "react";
+import { SITE_URL } from "@/lib/site-config";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Dayvid Santana",
   description: "Programador, pesquisador e empreendedor",
   generator: "v0.app",
