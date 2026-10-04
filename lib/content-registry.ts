@@ -110,8 +110,8 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "programador.skills.frontend.description", page: "programador", label: "Habilidade Front-end: descrição", defaultPt: "Design e desenvolvimento de interfaces orientadas a UI e UX." },
   { key: "programador.skills.backend.title", page: "programador", label: "Habilidade Back-end: título", defaultPt: "Back-end" },
   { key: "programador.skills.backend.description", page: "programador", label: "Habilidade Back-end: descrição", defaultPt: "Foco em otimizar recursos e escalabilidade, avaliando a viabilidade de cada processo e o melhor trade-off para cada operação." },
-  { key: "programador.skills.web.title", page: "programador", label: "Habilidade Web: título", defaultPt: "Outras Tecnologias Web" },
-  { key: "programador.skills.web.description", page: "programador", label: "Habilidade Web: descrição", defaultPt: "Integração de sistemas via REST, GraphQL e WebSockets." },
+  { key: "programador.skills.agents.title", page: "programador", label: "Habilidade Agentes de IA: título", defaultPt: "Engenharia de IA e Agentes" },
+  { key: "programador.skills.agents.description", page: "programador", label: "Habilidade Agentes de IA: descrição", multiline: true, defaultPt: "Conhecimento aprofundado em desenvolvimento de harness, agentes multi-step, integrações via MCP e tool use. Já criei múltiplos agents e assistentes de desenvolvimento de software, além de oráculos sob medida para empresas." },
   { key: "programador.skills.ai.title", page: "programador", label: "Habilidade IA: título", defaultPt: "Inteligência Artificial" },
   { key: "programador.skills.ai.description", page: "programador", label: "Habilidade IA: descrição", defaultPt: "Uso, adaptação e desenvolvimento de modelos de acordo com a necessidade da aplicação." },
 

@@ -2,13 +2,13 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Code2, Database, FlaskConical, Globe, Smartphone } from "lucide-react"
+import { Code2, Database, FlaskConical, Bot } from "lucide-react"
 import { useContent } from "@/components/content-provider"
 
 const skills = [
   { key: "frontend", icon: Code2, title: "Front-end", tags: ["React", "Angular", "Next.js", "TypeScript", "Tailwind"] },
   { key: "backend", icon: Database, title: "Back-end", tags: ["Node.js", "Java", "Python", "Spring Boot", "PostgreSQL", "MongoDB", "Redis"] },
-  { key: "web", icon: Globe, title: "Outras Tecnologias Web", tags: ["REST", "GraphQL", "WebSockets"] },
+  { key: "agents", icon: Bot, title: "Engenharia de IA e Agentes", tags: ["Harness", "MCP", "Agentes Multi-step", "Tool Use"] },
   { key: "ai", icon: FlaskConical, title: "Inteligência Artificial", tags: ["ML", "DL", "CNN"] },
 ]
 

@@ -85,8 +85,9 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "programador.skills.backend.title": "Back-end",
   "programador.skills.backend.description":
     "Focused on optimizing resources and scalability, assessing the feasibility of each process and the best trade-off for each operation.",
-  "programador.skills.web.title": "Other Web Technologies",
-  "programador.skills.web.description": "System integration through REST, GraphQL and WebSockets.",
+  "programador.skills.agents.title": "AI & Agent Engineering",
+  "programador.skills.agents.description":
+    "Deep knowledge of harness development, multi-step agents, and integrations through MCP and tool use. I've built multiple agents and software-development assistants, plus bespoke oracles for companies.",
   "programador.skills.ai.title": "Artificial Intelligence",
   "programador.skills.ai.description": "Using, adapting and developing models according to what the application needs.",
 
