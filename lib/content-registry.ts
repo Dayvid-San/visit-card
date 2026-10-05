@@ -537,6 +537,12 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "notFound.backHome", page: "notFound", label: "Botão: voltar para a página inicial", defaultPt: "Voltar para a Página Inicial" },
   { key: "notFound.quip", page: "notFound", label: "Frase de efeito", defaultPt: '() => rota.encontrada ? renderizar() : "você se perdeu entre os Reinos da TYTO"' },
 
+  // Erro (app/error.tsx)
+  { key: "error.title", page: "error", label: "Título", defaultPt: "Algo deu errado" },
+  { key: "error.description", page: "error", label: "Descrição", defaultPt: "Essa página encontrou um erro inesperado. Tente novamente ou volte para o início." },
+  { key: "error.retry", page: "error", label: "Botão: tentar novamente", defaultPt: "Tentar novamente" },
+  { key: "error.backHome", page: "error", label: "Botão: voltar para a página inicial", defaultPt: "Voltar para a Página Inicial" },
+
   // Portfolio (índice)
   { key: "portfolio.loading", page: "portfolio", label: "Mensagem de carregamento", defaultPt: "Carregando portfólio..." },
   { key: "portfolio.title", page: "portfolio", label: "Título da página", defaultPt: "Portfolio" },

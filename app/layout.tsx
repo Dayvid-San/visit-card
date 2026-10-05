@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Dayvid Santana",
   description: "Programador, pesquisador e empreendedor",
   generator: "v0.app",
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

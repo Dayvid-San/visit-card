@@ -604,6 +604,12 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "notFound.backHome": "Back to the Home Page",
   "notFound.quip": '() => route.found ? render() : "you wandered off the map of TYTO\'s Kingdoms"',
 
+  // Error (app/error.tsx)
+  "error.title": "Something went wrong",
+  "error.description": "This page ran into an unexpected error. Try again or head back to the homepage.",
+  "error.retry": "Try again",
+  "error.backHome": "Back to the Home Page",
+
   // Portfolio (index)
   "portfolio.loading": "Loading portfolio...",
   "portfolio.title": "Portfolio",
