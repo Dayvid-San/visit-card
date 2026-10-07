@@ -4,10 +4,10 @@ Each file here is a self-contained context on one topic. `CLAUDE.md` at the repo
 
 | File | Read this when |
 |---|---|
-| `architecture.md` | touching routing, navigation, `next.config.*`, or anything that looks like it needs a backend |
+| `architecture.md` | touching routing, navigation, `next.config.*`, site themes (Arcano/Halftone), the sitemap/robots/icon/OG metadata files, or anything that looks like it needs a backend |
 | `testing.md` | writing or fixing a Vitest test, especially anything touching timers/animation |
 | `tooling.md` | running lint/build/dev scripts, or anything package-manager related |
-| `backend.md` | touching `lib/api.ts`, `app/admin/*`, `app/portfolio/page.tsx`, `app/contato/page.tsx`, or anything else that talks to `visit-card-backend` |
+| `backend.md` | touching `lib/api.ts`, `app/admin/*`, `app/portfolio/*`, `app/contato/page.tsx`, `components/site-theme-provider.tsx`, `components/project-hero-image.tsx`, or anything else that talks to Firebase or `visit-card-backend` |
 | `writing-style.md` | writing a commit message, PR description, or code comment |
 | `env.md` | adding/changing an env var, or setting up `.env.local` |
 | `ports-and-scripts.md` | quick reference for every npm script, what it does, and what's currently broken |
