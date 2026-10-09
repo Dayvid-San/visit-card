@@ -550,6 +550,9 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "portfolio.programmer.heading", page: "portfolio", label: "Seção Programador: título", defaultPt: "Programador" },
   { key: "portfolio.researcher.heading", page: "portfolio", label: "Seção Pesquisador: título", defaultPt: "Pesquisador" },
   { key: "portfolio.button.details", page: "portfolio", label: "Botão: detalhes", defaultPt: "Detalhes" },
+  { key: "portfolio.filter.all", page: "portfolio", label: "Filtro: botão Todos", defaultPt: "Todos" },
+  { key: "portfolio.filter.allCategories", page: "portfolio", label: "Filtro: chip Todas as categorias", defaultPt: "Todas as categorias" },
+  { key: "portfolio.filter.empty", page: "portfolio", label: "Mensagem: nenhum projeto no filtro atual", defaultPt: "Nenhum projeto encontrado com esse filtro." },
 ];
 
 export const CONTENT_KEYS_BY_KEY: Record<string, ContentKeyDef> = Object.fromEntries(

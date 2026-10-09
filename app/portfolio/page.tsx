@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useContent } from "@/components/content-provider";
 import { Reveal } from "@/components/reveal";
 import { sortByPosition } from "@/lib/utils";
+import { PROJECT_CATEGORIES } from "@/lib/project-categories";
 
 interface ProgrammerProject {
   id?: string;
@@ -26,6 +27,7 @@ interface ProgrammerProject {
   tags: string[];
   date: string;
   role: string;
+  category?: string;
   github: string;
   demo?: string;
   position?: number;
@@ -39,17 +41,22 @@ interface ResearchProject {
   tags: string[];
   date: string;
   role: string;
+  category?: string;
   paper?: string;
   dataset?: string;
   github?: string;
   position?: number;
 }
 
+type SectionFilter = "all" | "programmer" | "research";
+
 export default function PortfolioPage() {
   const { t } = useContent();
   const [programmerProjects, setProgrammerProjects] = useState<ProgrammerProject[]>([]);
   const [researchProjects, setResearchProjects] = useState<ResearchProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sectionFilter, setSectionFilter] = useState<SectionFilter>("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -83,22 +90,79 @@ export default function PortfolioPage() {
     );
   }
 
+  // Only offer filter chips for categories that actually have a project right
+  // now, in the taxonomy's own order, so the bar doesn't show dead filters.
+  const usedCategories = new Set(
+    [...programmerProjects, ...researchProjects].map((p) => p.category).filter(Boolean)
+  );
+  const availableCategories = PROJECT_CATEGORIES.filter((cat) => usedCategories.has(cat));
+
+  const matchesCategory = (project: { category?: string }) =>
+    categoryFilter === "all" || project.category === categoryFilter;
+
+  const filteredProgrammer = programmerProjects.filter(matchesCategory);
+  const filteredResearch = researchProjects.filter(matchesCategory);
+  const showProgrammer = sectionFilter !== "research" && filteredProgrammer.length > 0;
+  const showResearch = sectionFilter !== "programmer" && filteredResearch.length > 0;
+
   return (
     <div className="container px-4 py-16">
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl">
           {t("portfolio.title")}
         </h1>
-        <p className="mb-16 text-lg text-muted-foreground text-pretty">
+        <p className="mb-8 text-lg text-muted-foreground text-pretty">
           {t("portfolio.intro")}
         </p>
 
+        <div className="mb-16 space-y-3">
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant={sectionFilter === "all" ? "default" : "outline"} onClick={() => setSectionFilter("all")}>
+              {t("portfolio.filter.all")}
+            </Button>
+            <Button size="sm" variant={sectionFilter === "programmer" ? "default" : "outline"} onClick={() => setSectionFilter("programmer")}>
+              {t("portfolio.programmer.heading")}
+            </Button>
+            <Button size="sm" variant={sectionFilter === "research" ? "default" : "outline"} onClick={() => setSectionFilter("research")}>
+              {t("portfolio.researcher.heading")}
+            </Button>
+          </div>
+          {availableCategories.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              <Badge
+                role="button"
+                tabIndex={0}
+                variant={categoryFilter === "all" ? "default" : "outline"}
+                className="cursor-pointer select-none"
+                onClick={() => setCategoryFilter("all")}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setCategoryFilter("all")}
+              >
+                {t("portfolio.filter.allCategories")}
+              </Badge>
+              {availableCategories.map((cat) => (
+                <Badge
+                  key={cat}
+                  role="button"
+                  tabIndex={0}
+                  variant={categoryFilter === cat ? "default" : "outline"}
+                  className="cursor-pointer select-none"
+                  onClick={() => setCategoryFilter(cat)}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setCategoryFilter(cat)}
+                >
+                  {cat}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {showProgrammer && (
         <section className="mb-24">
           <div className="mb-8 flex items-center gap-3">
             <h2 className="text-3xl font-bold">{t("portfolio.programmer.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {programmerProjects.map((project, index) => (
+            {filteredProgrammer.map((project, index) => (
               <Reveal key={project.id || project.title} delayMs={index * 60}>
               <Card
                 className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
@@ -113,7 +177,10 @@ export default function PortfolioPage() {
                 </div>
                 <CardHeader>
                   <div className="mb-2 flex items-center justify-between">
-                    <Badge variant="outline">{project.date}</Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{project.date}</Badge>
+                      {project.category && <Badge variant="secondary">{project.category}</Badge>}
+                    </div>
                     <span className="text-xs text-muted-foreground">
                       {project.role}
                     </span>
@@ -162,14 +229,15 @@ export default function PortfolioPage() {
             ))}
           </div>
         </section>
+        )}
 
-        {/* Researcher Section */}
+        {showResearch && (
         <section>
           <div className="mb-8 flex items-center gap-3">
             <h2 className="text-3xl font-bold">{t("portfolio.researcher.heading")}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {researchProjects.map((project, index) => (
+            {filteredResearch.map((project, index) => (
               <Reveal key={project.id || project.title} delayMs={index * 60}>
               <Card
                 className="flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
@@ -184,7 +252,10 @@ export default function PortfolioPage() {
                 </div>
                 <CardHeader>
                   <div className="mb-2 flex items-center justify-between">
-                    <Badge variant="outline">{project.date}</Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{project.date}</Badge>
+                      {project.category && <Badge variant="secondary">{project.category}</Badge>}
+                    </div>
                     <span className="text-xs text-muted-foreground">
                       {project.role}
                     </span>
@@ -246,6 +317,11 @@ export default function PortfolioPage() {
             ))}
           </div>
         </section>
+        )}
+
+        {!showProgrammer && !showResearch && (
+          <p className="text-muted-foreground">{t("portfolio.filter.empty")}</p>
+        )}
       </div>
     </div>
   );

@@ -21,6 +21,7 @@ import { CONTENT_KEYS, CONTENT_PAGES, type ContentKeyDef } from "@/lib/content-r
 import { DEFAULT_EN } from "@/lib/content-registry-en";
 import { sortByPosition } from "@/lib/utils";
 import { SITE_THEMES, SITE_THEME_IDS } from "@/lib/site-themes";
+import { PROJECT_CATEGORIES } from "@/lib/project-categories";
 import { useSiteTheme } from "@/components/site-theme-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,6 +47,7 @@ interface StoredProject {
   tags: string[];
   date: string;
   role: string;
+  category?: string;
   github?: string;
   demo?: string;
   paper?: string;
@@ -60,6 +62,7 @@ interface FormData {
   tags: string;
   date: string;
   role: string;
+  category: string;
   github: string;
   demo: string;
   paper: string;
@@ -68,7 +71,7 @@ interface FormData {
 
 const initialFormState: FormData = {
   title: "", description: "", image: "", tags: "",
-  date: "", role: "", github: "", demo: "", paper: "", dataset: ""
+  date: "", role: "", category: "", github: "", demo: "", paper: "", dataset: ""
 };
 
 const COLLECTION_BY_CATEGORY: Record<ProjectCategory, string> = {
@@ -203,7 +206,7 @@ export default function AdminDashboard() {
     };
   }, [imageFilePreview]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -237,6 +240,7 @@ export default function AdminDashboard() {
       tags: project.tags.join(", "),
       date: project.date,
       role: project.role,
+      category: project.category ?? "",
       github: project.github ?? "",
       demo: project.demo ?? "",
       paper: project.paper ?? "",
@@ -420,6 +424,7 @@ export default function AdminDashboard() {
         date: formData.date,
         role: formData.role,
       };
+      if (formData.category) payload.category = formData.category;
 
       if (category === "programmer") {
         if (formData.github) payload.github = formData.github;
@@ -817,7 +822,7 @@ function ProjectFormFields({
   imageField,
 }: {
   formData: FormData;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
   projectCategory: ProjectCategory;
   imageField: ImageFieldState;
 }) {
@@ -896,6 +901,16 @@ function ProjectFormFields({
       <div>
         <label className="text-sm">Tags (comma separated) *</label>
         <input required name="tags" value={formData.tags} onChange={onInputChange} placeholder="React, Node, PostgreSQL" className="w-full p-2 border rounded bg-background" />
+      </div>
+
+      <div>
+        <label className="text-sm">Categoria</label>
+        <select name="category" value={formData.category} onChange={onInputChange} className="w-full p-2 border rounded bg-background">
+          <option value="">Sem categoria</option>
+          {PROJECT_CATEGORIES.map((cat) => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
       </div>
 
       <div>
@@ -985,7 +1000,10 @@ function ProjectList({
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium">{project.title}</p>
+                <div className="flex items-center gap-2">
+                  <p className="truncate font-medium">{project.title}</p>
+                  {project.category && <Badge variant="outline">{project.category}</Badge>}
+                </div>
                 <p className="truncate text-sm text-muted-foreground">{project.description}</p>
               </div>
               <div className="flex shrink-0 gap-2">

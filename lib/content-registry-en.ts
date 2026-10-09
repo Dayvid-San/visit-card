@@ -618,4 +618,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "portfolio.programmer.heading": "Developer",
   "portfolio.researcher.heading": "Researcher",
   "portfolio.button.details": "Details",
+  "portfolio.filter.all": "All",
+  "portfolio.filter.allCategories": "All categories",
+  "portfolio.filter.empty": "No project matches this filter.",
 };
