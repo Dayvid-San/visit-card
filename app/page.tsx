@@ -71,7 +71,7 @@ export default function HomePage() {
   const yearsOfExperience = currentYear - 2015;
 
   return (
-    <main className="relative min-h-screen bg-[#000000] text-[#f3eade] font-sans antialiased overflow-x-hidden selection:bg-purple-700 selection:text-white">
+    <main className="relative min-h-screen bg-brand-bg text-brand-fg font-sans antialiased overflow-x-hidden selection:bg-brand-700 selection:text-white">
 
       {/* Background Orbs de Iluminação Sutil (tema Halftone usa o dot-grid
           global em vez destes, ver globals.css) */}
@@ -83,7 +83,7 @@ export default function HomePage() {
       )}
 
       {/* Foto de Fundo Flutuante Lateral */}
-      <div className="fixed left-6 top-12 z-0 hidden lg:block border border-purple-950/40 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="fixed left-6 top-12 z-0 hidden lg:block border border-brand-950/40 rounded-2xl overflow-hidden shadow-2xl">
         <TransparentPhoto
           imageUrl={photoDayvid}
           opacity={0.15}
@@ -97,14 +97,14 @@ export default function HomePage() {
           
           {/* Header principal */}
           <header className="text-center space-y-4">
-            <p className="text-xs font-bold uppercase tracking-[0.4em] text-purple-400/80">
+            <p className="text-xs font-bold uppercase tracking-[0.4em] text-brand-400/80">
               {t("home.badge")}
             </p>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-[#f3eade] via-purple-300 to-purple-500">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-[#f3eade] via-brand-300 to-brand-500">
               DAYVID SANTANA
             </h1>
-            <div className="mx-auto mt-4 max-w-xl border-y border-purple-950/40 py-2">
-              <p className="text-xs font-medium uppercase tracking-[0.25em] text-purple-300/60">
+            <div className="mx-auto mt-4 max-w-xl border-y border-brand-950/40 py-2">
+              <p className="text-xs font-medium uppercase tracking-[0.25em] text-brand-300/60">
                 Software Engineer • AI Researcher • Systems Builder
               </p>
             </div>
@@ -112,20 +112,20 @@ export default function HomePage() {
 
           {/* Grid: Sobre Mim & Presença */}
           <section className="grid gap-6 md:grid-cols-5">
-            <div className="md:col-span-3 bg-zinc-950/60 backdrop-blur-md border border-purple-950/40 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+            <div className="md:col-span-3 bg-zinc-950/60 backdrop-blur-md border border-brand-950/40 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.about.eyebrow")}</span>
-                <h2 className="text-2xl font-bold text-purple-300 mt-1 mb-4">{t("home.about.heading")}</h2>
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.about.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-brand-300 mt-1 mb-4">{t("home.about.heading")}</h2>
                 <p className="text-sm leading-relaxed text-[#d1c5b6] font-light whitespace-pre-line">
                   {t("home.about.body")}
                 </p>
               </div>
             </div>
 
-            <div className="md:col-span-2 bg-gradient-to-br from-zinc-900/80 to-zinc-950/90 border border-purple-900/30 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+            <div className="md:col-span-2 bg-gradient-to-br from-brand-card/80 to-zinc-950/90 border border-brand-900/30 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.manifesto.eyebrow")}</span>
-                <h3 className="text-lg font-semibold text-purple-300 mt-1 mb-3">{t("home.manifesto.heading")}</h3>
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.manifesto.eyebrow")}</span>
+                <h3 className="text-lg font-semibold text-brand-300 mt-1 mb-3">{t("home.manifesto.heading")}</h3>
                 <p className="text-sm leading-relaxed text-[#c4b8aa] font-light whitespace-pre-line">
                   {t("home.manifesto.body")}
                 </p>
@@ -137,10 +137,10 @@ export default function HomePage() {
 
           {/* Projetos */}
           <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-950/30 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-950/30 pb-4">
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.projects.eyebrow")}</span>
-                <h2 className="text-2xl font-bold text-purple-300">{t("home.projects.heading")}</h2>
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.projects.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-brand-300">{t("home.projects.heading")}</h2>
               </div>
             </div>
 
@@ -149,16 +149,16 @@ export default function HomePage() {
                 <Reveal key={project.key} delayMs={index * 60}>
                   <a href={project.link}>
                     <article
-                      className="group relative overflow-hidden rounded-xl border border-purple-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-purple-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-purple-950/20"
+                      className="group relative overflow-hidden rounded-xl border border-brand-950/20 bg-zinc-950/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-600/40 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-brand-950/20"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="space-y-2">
-                          <span className="text-[9px] font-mono uppercase tracking-wider text-purple-500">{t("home.projects.label")}</span>
-                          <h3 className="text-base font-bold text-[#f3eade] group-hover:text-purple-300 transition-colors">
+                          <span className="text-[9px] font-mono uppercase tracking-wider text-brand-500">{t("home.projects.label")}</span>
+                          <h3 className="text-base font-bold text-brand-fg group-hover:text-brand-300 transition-colors">
                             {t(`home.projects.${project.key}.title`)}
                           </h3>
                         </div>
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-950/20 border border-purple-950/30 text-xl shadow-inner">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-950/20 border border-brand-950/30 text-xl shadow-inner">
                           {project.icon}
                         </div>
                       </div>
@@ -168,7 +168,7 @@ export default function HomePage() {
                       </p>
 
                       {project.hasHighlight ? (
-                        <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 text-[11px] font-medium text-purple-400">
+                        <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-brand-500/10 border border-brand-500/20 px-2.5 py-1 text-[11px] font-medium text-brand-400">
                           {t(`home.projects.${project.key}.highlight`)}
                         </div>
                       ) : null}
@@ -181,20 +181,20 @@ export default function HomePage() {
 
           {/* Conhecimentos / Skills */}
           <Reveal>
-          <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
+          <section className="bg-zinc-950/40 border border-brand-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.skills.eyebrow")}</span>
-                <h3 className="text-xl font-bold text-purple-300">{t("home.skills.heading")}</h3>
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.skills.eyebrow")}</span>
+                <h3 className="text-xl font-bold text-brand-300">{t("home.skills.heading")}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                <span className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors">
+                <span className="rounded-lg border border-brand-950/40 bg-brand-950/10 px-3 py-1.5 text-xs font-mono text-brand-300/80 hover:border-brand-600/60 transition-colors">
                   {t("home.skills.item1").replace("{years}", String(yearsOfExperience))}
                 </span>
                 {skillKeys.map((key) => (
                   <span
                     key={key}
-                    className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
+                    className="rounded-lg border border-brand-950/40 bg-brand-950/10 px-3 py-1.5 text-xs font-mono text-brand-300/80 hover:border-brand-600/60 transition-colors"
                   >
                     {t(key)}
                   </span>
@@ -206,17 +206,17 @@ export default function HomePage() {
 
           {/* Idiomas / Domínio Linguístico */}
           <Reveal>
-          <section className="bg-zinc-950/40 border border-purple-950/30 rounded-2xl p-6 sm:p-8">
+          <section className="bg-zinc-950/40 border border-brand-950/30 rounded-2xl p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.languages.eyebrow")}</span>
-                <h3 className="text-xl font-bold text-purple-300">{t("home.languages.heading")}</h3>
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.languages.eyebrow")}</span>
+                <h3 className="text-xl font-bold text-brand-300">{t("home.languages.heading")}</h3>
               </div>
               <div className="flex flex-wrap gap-2">
                 {languageKeys.map((key) => (
                   <span
                     key={key}
-                    className="rounded-lg border border-purple-950/40 bg-purple-950/10 px-3 py-1.5 text-xs font-mono text-purple-300/80 hover:border-purple-600/60 transition-colors"
+                    className="rounded-lg border border-brand-950/40 bg-brand-950/10 px-3 py-1.5 text-xs font-mono text-brand-300/80 hover:border-brand-600/60 transition-colors"
                   >
                     {t(key)}
                   </span>
@@ -227,18 +227,18 @@ export default function HomePage() {
           </Reveal>
 
           {/* Footer */}
-          <footer className="flex flex-col gap-4 border-t border-purple-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
-            <p className="font-mono text-purple-400/60 tracking-wider">
+          <footer className="flex flex-col gap-4 border-t border-brand-950/30 pt-8 sm:flex-row sm:items-center sm:justify-between text-xs">
+            <p className="font-mono text-brand-400/60 tracking-wider">
               {t("home.footer.quip")}
             </p>
             <div className="flex flex-wrap gap-2">
-              <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+              <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
                 LinkedIn
               </a>
-              <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+              <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
                 GitHub
               </a>
-              <a href="mailto:santana.dayvid@outlook.com" className="px-3 py-1.5 border border-purple-950/30 rounded-md hover:border-purple-600/50 hover:bg-purple-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
+              <a href="mailto:santana.dayvid@outlook.com" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
                 Email
               </a>
             </div>
