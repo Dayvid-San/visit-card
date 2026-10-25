@@ -2,7 +2,7 @@
 // visitor via a `data-site-theme` attribute on <html> (see
 // components/site-theme-provider.tsx). Distinct from lib/door-themes.ts,
 // which only varies the door's wash/emblem per route within a single theme.
-export type SiteThemeId = "arcano" | "halftone"
+export type SiteThemeId = "arcano" | "halftone" | "santana"
 
 export interface SiteThemeDef {
   id: SiteThemeId
@@ -16,7 +16,7 @@ export const SITE_THEMES: Record<SiteThemeId, SiteThemeDef> = {
   arcano: {
     id: "arcano",
     label: "Arcano",
-    description: "O visual atual: roxo, orbes de luz e a porta como transição.",
+    description: "O visual original: roxo, orbes de luz e a porta como transição.",
     transition: "door",
   },
   halftone: {
@@ -25,12 +25,18 @@ export const SITE_THEMES: Record<SiteThemeId, SiteThemeDef> = {
     description: "Monocromático, pontilhismo e uma dissolução em pontos como transição.",
     transition: "halftone",
   },
+  santana: {
+    id: "santana",
+    label: "Santana",
+    description: "Azul-noite e osso, o grifo do brasão como marca e a porta como transição.",
+    transition: "door",
+  },
 }
 
-export const DEFAULT_SITE_THEME: SiteThemeId = "arcano"
+export const DEFAULT_SITE_THEME: SiteThemeId = "santana"
 
 export const SITE_THEME_IDS = Object.keys(SITE_THEMES) as SiteThemeId[]
 
 export function isSiteThemeId(value: string | null | undefined): value is SiteThemeId {
-  return value === "arcano" || value === "halftone"
+  return value === "arcano" || value === "halftone" || value === "santana"
 }

@@ -116,6 +116,28 @@
   --ring: oklch(0.8 0 0);
 }
 
+/* Santana: the personal identity (brasão with the griffin). Navy and bone
+   taken from the crest artwork in public/identidade/. */
+[data-site-theme="santana"] {
+  --background: oklch(0.15 0.035 255);
+  --foreground: oklch(0.89 0.02 85);
+  --card: oklch(0.19 0.04 255);
+  --card-foreground: oklch(0.89 0.02 85);
+  --popover: oklch(0.19 0.04 255);
+  --popover-foreground: oklch(0.89 0.02 85);
+  --primary: oklch(0.89 0.02 85);
+  --primary-foreground: oklch(0.15 0.035 255);
+  --secondary: oklch(0.25 0.045 255);
+  --secondary-foreground: oklch(0.89 0.02 85);
+  --muted: oklch(0.22 0.04 255);
+  --muted-foreground: oklch(0.7 0.03 255);
+  --accent: oklch(0.27 0.05 255);
+  --accent-foreground: oklch(0.89 0.02 85);
+  --border: oklch(0.89 0.02 85 / 16%);
+  --input: oklch(0.89 0.02 85 / 16%);
+  --ring: oklch(0.89 0.02 85 / 60%);
+}
+
 /* Subtle dot-grid texture, site-wide, for the Halftone theme — the
    low-effort, full-coverage half of its "dot-grid replaces the purple
    glow orbs" premise (the Home page's orb divs are hidden separately,
@@ -125,7 +147,39 @@
   background-size: 16px 16px;
 }
 
+/* Brand scale used by pages that used to hardcode purple-* (Home): each site
+   theme maps it to its own palette, Tailwind classes are brand-300 ... brand-950. */
+:root, [data-site-theme="arcano"] {
+  --brand-300: oklch(0.827 0.119 305.5); --brand-400: oklch(0.714 0.203 305.5);
+  --brand-500: oklch(0.627 0.265 303.9); --brand-600: oklch(0.558 0.288 302.3);
+  --brand-700: oklch(0.496 0.265 301.9); --brand-900: oklch(0.381 0.176 304.99);
+  --brand-950: oklch(0.291 0.149 302.7);
+  --brand-bg: #000000; --brand-fg: #f3eade; --brand-card: oklch(0.21 0.006 285.9);
+}
+[data-site-theme="halftone"] {
+  --brand-300: oklch(0.87 0 0); --brand-400: oklch(0.75 0 0); --brand-500: oklch(0.65 0 0);
+  --brand-600: oklch(0.55 0 0); --brand-700: oklch(0.45 0 0); --brand-900: oklch(0.32 0 0);
+  --brand-950: oklch(0.25 0 0);
+  --brand-bg: #000000; --brand-fg: #f3eade; --brand-card: oklch(0.21 0 0);
+}
+[data-site-theme="santana"] {
+  --brand-300: oklch(0.89 0.02 85); --brand-400: oklch(0.78 0.03 85); --brand-500: oklch(0.7 0.05 255);
+  --brand-600: oklch(0.55 0.08 255); --brand-700: oklch(0.42 0.08 255); --brand-900: oklch(0.3 0.06 255);
+  --brand-950: oklch(0.25 0.05 255);
+  --brand-bg: oklch(0.15 0.035 255); --brand-fg: oklch(0.92 0.02 85); --brand-card: oklch(0.2 0.04 255);
+}
+
 @theme inline {
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-card: var(--brand-card);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
