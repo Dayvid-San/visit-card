@@ -23,6 +23,7 @@ import { sortByPosition } from "@/lib/utils";
 import { SITE_THEMES, SITE_THEME_IDS } from "@/lib/site-themes";
 import { PROJECT_CATEGORIES } from "@/lib/project-categories";
 import { useSiteTheme } from "@/components/site-theme-provider";
+import { RecentPostsManager } from "@/components/admin/recent-posts-manager";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -740,6 +741,8 @@ export default function AdminDashboard() {
           )}
         </CardContent>
       </Card>
+
+      <RecentPostsManager />
 
       {/* Lista de projetos existentes */}
       <div className="mt-10 space-y-8">
