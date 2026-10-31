@@ -6,6 +6,7 @@ import { TypewriterStatus } from "@/components/typeWriterStatus";
 import { useContent } from "@/components/content-provider";
 import { Reveal } from "@/components/reveal";
 import { useSiteTheme } from "@/components/site-theme-provider";
+import { RecentPosts } from "@/components/recent-posts";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -58,6 +59,8 @@ const projects = [
   { key: "agora", link: "/portfolio/agora", icon: "🛍️" },
 ];
 
+const achievementKeys = ["home.achievements.item1", "home.achievements.item2", "home.achievements.item3", "home.achievements.item4"];
+
 const skillKeys = ["home.skills.item2", "home.skills.item3", "home.skills.item4", "home.skills.item5"];
 
 const languageKeys = ["home.languages.pt", "home.languages.en", "home.languages.ru", "home.languages.sergipanes", "home.languages.altovaliriano"];
@@ -105,8 +108,32 @@ export default function HomePage() {
             </h1>
             <div className="mx-auto mt-4 max-w-xl border-y border-purple-950/40 py-2">
               <p className="text-xs font-medium uppercase tracking-[0.25em] text-purple-300/60">
-                Software Engineer • AI Researcher • Systems Builder
+                {t("home.tagline")}
               </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <a
+                href="/contato/"
+                className="rounded-lg bg-purple-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-purple-950/40 transition-colors hover:bg-purple-500"
+              >
+                {t("home.cta.contact")}
+              </a>
+              <a
+                href="https://www.linkedin.com/in/dayvid-santana-jr/"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg border border-purple-500/40 px-5 py-2.5 text-sm font-medium text-purple-200 transition-colors hover:bg-purple-950/30"
+              >
+                {t("home.cta.linkedin")}
+              </a>
+              <a
+                href="https://github.com/Dayvid-San"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg border border-purple-500/40 px-5 py-2.5 text-sm font-medium text-purple-200 transition-colors hover:bg-purple-950/30"
+              >
+                {t("home.cta.github")}
+              </a>
             </div>
           </header>
 
@@ -134,6 +161,35 @@ export default function HomePage() {
               <TypewriterStatus />
             </div>
           </section>
+
+          {/* Conquistas */}
+          <Reveal>
+          <section className="grid gap-6 overflow-hidden rounded-2xl border border-purple-950/30 bg-zinc-950/40 md:grid-cols-5">
+            <div className="relative aspect-[4/5] md:col-span-2 md:aspect-auto md:min-h-[320px]">
+              <Image
+                src="/conquistas/vitrine-startups.jpg"
+                alt={t("home.achievements.photoAlt")}
+                fill
+                sizes="(min-width: 768px) 40vw, 100vw"
+                style={{ objectFit: "cover", objectPosition: "center 30%" }}
+              />
+            </div>
+            <div className="flex flex-col justify-center space-y-4 p-6 sm:p-8 md:col-span-3">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.achievements.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-purple-300">{t("home.achievements.heading")}</h2>
+              </div>
+              <ul className="space-y-3">
+                {achievementKeys.map((key) => (
+                  <li key={key} className="flex gap-3 text-sm leading-relaxed text-[#d1c5b6]">
+                    <span aria-hidden className="mt-0.5 text-purple-400">🏆</span>
+                    <span>{t(key)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+          </Reveal>
 
           {/* Projetos */}
           <section className="space-y-6">
@@ -178,6 +234,8 @@ export default function HomePage() {
               ))}
             </div>
           </section>
+
+          <RecentPosts />
 
           {/* Conhecimentos / Skills */}
           <Reveal>
