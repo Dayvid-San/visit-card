@@ -57,6 +57,7 @@ const projects = [
   { key: "tyto", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
   { key: "atenas", link: "/atenas", icon: "📚" },
   { key: "agora", link: "/portfolio/agora", icon: "🛍️" },
+  { key: "twin", link: "/portfolio/digital-twin", icon: "🪞", hasHighlight: true },
 ];
 
 const achievementKeys = ["home.achievements.item1", "home.achievements.item2", "home.achievements.item3", "home.achievements.item4"];
