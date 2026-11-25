@@ -48,4 +48,6 @@ jobs:
           # ou public_html/subpasta/ se o site estiver num subdomínio/subpasta.
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           local-dir: ./out/
+          # Novo nome descarta o estado antigo (que listava uma pasta inexistente).
+          state-name: .ftp-deploy-sync-state-v2.json
           dangerous-clean-slate: false
