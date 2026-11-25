@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+# Um deploy por vez: dois uploads simultaneos corrompem o arquivo de estado do FTP.
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -48,4 +53,6 @@ jobs:
           # ou public_html/subpasta/ se o site estiver num subdomínio/subpasta.
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           local-dir: ./out/
+          # Novo nome descarta o estado antigo (que listava uma pasta inexistente).
+          state-name: .ftp-deploy-sync-state-v2.json
           dangerous-clean-slate: false
