@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+# Um deploy por vez: dois uploads simultaneos corrompem o arquivo de estado do FTP.
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
