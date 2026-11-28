@@ -78,7 +78,7 @@ export default function Maestro() {
       <ProjectHeroImage
         slug="maestro"
         fallbackSrc="/placeholder.svg"
-        alt={`Capa do projeto ${t("maestro.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("maestro.title")}`}
       />
 
       {/* Terminal Hero (sem screenshot: é uma ferramenta de linha de comando) */}
