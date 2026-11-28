@@ -81,7 +81,7 @@ export default function MonitorDePlantas() {
       <ProjectHeroImage
         slug="plantas"
         fallbackSrc="/placeholder.svg"
-        alt={`Capa do projeto ${t("plantas.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("plantas.title")}`}
       />
 
       {/* Dashboard Hero (sem screenshot: não existe nenhuma pronta) */}

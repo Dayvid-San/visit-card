@@ -50,11 +50,14 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 // --- Dados Fixos ---
 
 const projects = [
-  { key: "plantas", link: "/portfolio/plantas", icon: "🌱" },
+  { key: "artemis", link: "/portfolio/artemis", icon: "🏹", hasHighlight: true },
+  { key: "chatminusis", link: "/portfolio/chatminusis", icon: "🔐", hasHighlight: true },
+  { key: "engscan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
+  { key: "edgenode", link: "/portfolio/edge-node", icon: "📷" },
   { key: "hefesto", link: "/portfolio/hefesto", icon: "🔨", hasHighlight: true },
   { key: "maestro", link: "/portfolio/maestro", icon: "🎼" },
-  { key: "engscan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
   { key: "tyto", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
+  { key: "plantas", link: "/portfolio/plantas", icon: "🌱" },
   { key: "atenas", link: "/atenas", icon: "📚" },
   { key: "agora", link: "/portfolio/agora", icon: "🛍️" },
   { key: "twin", link: "/portfolio/digital-twin", icon: "🪞", hasHighlight: true },

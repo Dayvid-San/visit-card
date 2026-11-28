@@ -1,4 +1,5 @@
 import { DEFAULT_EN } from "./content-registry-en";
+import { CASE_KEYS } from "./content-registry-cases";
 
 // Single source of truth for every editable text on the site: the admin dashboard's
 // "Conteudo" editor is generated entirely from this list (grouped by `page`), and
@@ -79,8 +80,8 @@ Minha experiência transita entre pesquisa e desenvolvimento, transformando prob
   { key: "home.projects.hefesto.description", page: "home", label: "Projeto Hefesto: descrição", multiline: true, defaultPt: "Assistente de IA pessoal e local-first que cita arquivo, linha e commit em toda resposta sobre meus repositórios, e coordena agentes de escrita sob aprovação humana." },
   { key: "home.projects.hefesto.highlight", page: "home", label: "Projeto Hefesto: selo", defaultPt: "🎙️ CHAT + VOZ + AGENTES" },
   { key: "home.projects.maestro.description", page: "home", label: "Projeto Maestro: descrição", multiline: true, defaultPt: "Orquestrador local de 26 agentes de IA que planejam, implementam e testam código em worktrees Git isolados, com CLI e API própria." },
-  { key: "home.projects.engscan.description", page: "home", label: "Projeto EngScan: descrição", multiline: true, defaultPt: "Solução que reduz o tempo de vistorias e inspeções de meses para poucas horas." },
-  { key: "home.projects.engscan.highlight", page: "home", label: "Projeto EngScan: selo", defaultPt: "🏆 1º LUGAR EM COMPETIÇÕES" },
+  { key: "home.projects.engscan.description", page: "home", label: "Projeto EngScan: descrição", multiline: true, defaultPt: "Plataforma que analisa imagens de inspeções de construções com IA em dois estágios (YOLO + ResNet) e gera o laudo automaticamente." },
+  { key: "home.projects.engscan.highlight", page: "home", label: "Projeto EngScan: selo", defaultPt: "🏆 1º LUGAR EM COMPETIÇÃO ESTADUAL DE STARTUPS" },
   { key: "home.projects.tyto.description", page: "home", label: "Projeto TYTO: descrição", multiline: true, defaultPt: "Comunidade internacional de computação e ciência. Estudamos, testamos e criamos produtos com base científica usados em diversos países." },
   { key: "home.projects.tyto.highlight", page: "home", label: "Projeto TYTO: selo", defaultPt: "🏆 RECONHECIMENTO EM UNIVERSIDADES" },
   { key: "home.projects.atenas.description", page: "home", label: "Projeto Atenas: descrição", multiline: true, defaultPt: "Assistente de IA para gerenciamento de rotinas, criação de documentos automáticos para reuniões e administração da comunidade TYTO." },
@@ -478,7 +479,7 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "engscan.labels.year", page: "portfolio/engscan", label: "Rótulo: ano", defaultPt: "Ano" },
   { key: "engscan.labels.techStack", page: "portfolio/engscan", label: "Título: stack tecnológica", defaultPt: "Stack Tecnológica" },
   { key: "engscan.overview.heading", page: "portfolio/engscan", label: "Visão Geral: título", defaultPt: "Visão Geral" },
-  { key: "engscan.overview.body", page: "portfolio/engscan", label: "Visão Geral: texto", multiline: true, defaultPt: "EngScan é uma solução baseada em microsserviços para análise de imagens e geração automática de laudos. Interface em Angular, APIs e lógica de negócio em NestJS, biblioteca Python para composição de relatórios e modelos de machine learning (rede neural e CNN) que realizam diagnóstico automatizado a partir dos dados e imagens." },
+  { key: "engscan.overview.body", page: "portfolio/engscan", label: "Visão Geral: texto", multiline: true, defaultPt: "EngScan é uma plataforma para inspeção de construções: o engenheiro envia as imagens da vistoria e recebe um laudo gerado automaticamente. A IA trabalha em dois estágios, primeiro detectando as regiões com possíveis patologias (YOLO) e depois classificando cada uma (ResNet). A interface é em Angular, as APIs e regras de negócio em NestJS, e o processamento pesado (IA e geração do PDF) roda em workers Python. O projeto conquistou o 1º lugar em uma competição estadual de startups." },
   { key: "engscan.challenges.heading", page: "portfolio/engscan", label: "Desafio: título", defaultPt: "O Desafio" },
   { key: "engscan.challenges.item1", page: "portfolio/engscan", label: "Desafio 1", defaultPt: "Processamento de imagens de alta resolução causava gargalos na API principal." },
   { key: "engscan.challenges.item2", page: "portfolio/engscan", label: "Desafio 2", defaultPt: "Necessidade de isolar o ambiente Python (ML) do núcleo da aplicação em Node.js." },
@@ -489,7 +490,6 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "engscan.solutions.item3", page: "portfolio/engscan", label: "Solução 3", defaultPt: "Fila de processamento em background (BullMQ) para geração de relatórios sem travar a interface do usuário." },
   { key: "engscan.architecture.heading", page: "portfolio/engscan", label: "Arquitetura: título", defaultPt: "Arquitetura do Sistema" },
   { key: "engscan.architecture.body", page: "portfolio/engscan", label: "Arquitetura: texto", multiline: true, defaultPt: "O sistema utiliza uma abordagem desacoplada. O Frontend em Angular comunica-se com um Gateway API em NestJS. Processos pesados (IA e Geração de PDF) são delegados a filas (RabbitMQ) e consumidos por workers especializados em Python." },
-  { key: "engscan.architecture.placeholder", page: "portfolio/engscan", label: "Placeholder do diagrama", defaultPt: "[Diagrama de Arquitetura de Microsserviços: Angular → NestJS Gateway → RabbitMQ → Python Workers]" },
   { key: "engscan.links.demo", page: "portfolio/engscan", label: "Botão: acessar demo online", defaultPt: "Acessar Demo Online" },
   { key: "engscan.links.github", page: "portfolio/engscan", label: "Botão: mais sobre", defaultPt: "Mais Sobre" },
 
@@ -660,6 +660,8 @@ Desde então, mantenho uma abordagem de engenharia orientada a problemas: identi
   { key: "portfolio.filter.all", page: "portfolio", label: "Filtro: botão Todos", defaultPt: "Todos" },
   { key: "portfolio.filter.allCategories", page: "portfolio", label: "Filtro: chip Todas as categorias", defaultPt: "Todas as categorias" },
   { key: "portfolio.filter.empty", page: "portfolio", label: "Mensagem: nenhum projeto no filtro atual", defaultPt: "Nenhum projeto encontrado com esse filtro." },
+
+  ...CASE_KEYS.map(({ key, page, label, pt, multiline }) => ({ key, page, label, defaultPt: pt, multiline })),
 ];
 
 export const CONTENT_KEYS_BY_KEY: Record<string, ContentKeyDef> = Object.fromEntries(
