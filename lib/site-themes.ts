@@ -33,7 +33,7 @@ export const SITE_THEMES: Record<SiteThemeId, SiteThemeDef> = {
   },
 }
 
-export const DEFAULT_SITE_THEME: SiteThemeId = "santana"
+export const DEFAULT_SITE_THEME: SiteThemeId = "arcano"
 
 export const SITE_THEME_IDS = Object.keys(SITE_THEMES) as SiteThemeId[]
 
