@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
   ArrowLeft,
-  Github,
   Layers,
   Cpu,
   CheckCircle2,
@@ -33,10 +32,6 @@ const projectData = {
     "Whisper (voz local)",
     "Playwright",
   ],
-  links: {
-    backend: "https://github.com/dayvid-santana/Cortana",
-    frontend: "https://github.com/dayvid-santana/Cortana-Front",
-  },
   challengeKeys: ["hefesto.challenges.item1", "hefesto.challenges.item2", "hefesto.challenges.item3"],
   solutionKeys: ["hefesto.solutions.item1", "hefesto.solutions.item2", "hefesto.solutions.item3"],
 }
@@ -80,7 +75,7 @@ export default function Hefesto() {
       <ProjectHeroImage
         slug="hefesto"
         fallbackSrc="/placeholder.svg"
-        alt={`Capa do projeto ${t("hefesto.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("hefesto.title")}`}
       />
 
       {/* Chat Hero (sem screenshot: mockup do diferencial real, a citação verificável) */}
@@ -239,24 +234,8 @@ export default function Hefesto() {
 
         {/* Coluna Lateral (Metadados) */}
         <aside className="space-y-8">
-          {/* Links de Ação */}
-          <div className="flex flex-col gap-3">
-            {projectData.links.backend && (
-              <Button size="lg" className="w-full font-semibold" asChild>
-                <a href={projectData.links.backend} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" />
-                  {t("hefesto.links.backend")}
-                </a>
-              </Button>
-            )}
-            {projectData.links.frontend && (
-              <Button variant="outline" size="lg" className="w-full" asChild>
-                <a href={projectData.links.frontend} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" />
-                  {t("hefesto.links.frontend")}
-                </a>
-              </Button>
-            )}
+          <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
+            {t("hefesto.noLinkNotice")}
           </div>
 
           {/* Tecnologias */}

@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Regras do Firestore do site (projeto central-6f4dc).
+// Não são publicadas pelo deploy: cole este arquivo em
+// Console do Firebase > Firestore Database > Regras > Publicar.
+// Troque COLE_SEU_UID_AQUI pelo UID da conta admin
+// (Console > Authentication > Usuários > coluna "UID do usuário").
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "COLE_SEU_UID_AQUI";
+    }
+
+    // Conteúdo público do site: qualquer um lê, só o admin escreve.
+    match /programmerProjects/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /researchProjects/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /projectPageImages/{slug} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /recentPosts/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /siteSettings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Qualquer outra coleção fica fechada para o cliente.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

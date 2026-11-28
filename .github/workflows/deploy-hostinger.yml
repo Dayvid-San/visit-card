@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+# Um deploy por vez: dois uploads simultaneos corrompem o arquivo de estado do FTP.
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,6 +28,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Sem esses secrets o build sai sem Firebase e o site publica sem projetos.
+      # Só os nomes faltantes são impressos, nunca os valores.
+      - name: Verify required secrets
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          missing=""
+          for name in NEXT_PUBLIC_FIREBASE_API_KEY NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN \
+            NEXT_PUBLIC_FIREBASE_PROJECT_ID NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET \
+            NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID NEXT_PUBLIC_FIREBASE_APP_ID \
+            FTP_SERVER FTP_USERNAME FTP_PASSWORD; do
+            if [ -z "${!name}" ]; then missing="$missing $name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Secrets vazios ou ausentes:$missing"
+            exit 1
+          fi
+          echo "Todos os secrets obrigatorios estao preenchidos."
+
       - name: Build static export
         run: npm run build
         env:
@@ -37,15 +69,26 @@ jobs:
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
+      # lftp em vez do FTP-Deploy-Action: o action quebrava com ECONNRESET no socket de
+      # dados e com 550 ao limpar pastas que ja nao existiam (runs #38 a #41).
+      # Destino "/": a conta FTP abre numa subpasta (public_html/), mas "/" e a raiz servida
+      # do site. Com FTP_SERVER_DIR os envios caiam em public_html/ e o site nao mudava.
+      # Sem --delete: arquivos antigos de _next/ ficam no servidor, mas nao atrapalham.
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
       - name: Deploy over FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          # hPanel > Websites > [seu site] > Arquivos > Gerenciador de Arquivos
-          # mostra a pasta correta; normalmente é public_html/ na raiz do domínio,
-          # ou public_html/subpasta/ se o site estiver num subdomínio/subpasta.
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          local-dir: ./out/
-          dangerous-clean-slate: false
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow no;
+            set ftp:passive-mode yes;
+            set net:timeout 30;
+            set net:max-retries 5;
+            set net:reconnect-interval-base 5;
+            open --env-password -u '$FTP_USERNAME' '$FTP_SERVER';
+            mirror --reverse --no-perms --parallel=4 --verbose=1 ./out/ /
+          "

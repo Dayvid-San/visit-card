@@ -6,6 +6,7 @@ import { TypewriterStatus } from "@/components/typeWriterStatus";
 import { useContent } from "@/components/content-provider";
 import { Reveal } from "@/components/reveal";
 import { useSiteTheme } from "@/components/site-theme-provider";
+import { RecentPosts } from "@/components/recent-posts";
 
 interface TransparentPhotoProps {
   imageUrl: string;
@@ -49,14 +50,20 @@ const TransparentPhoto: React.FC<TransparentPhotoProps> = ({
 // --- Dados Fixos ---
 
 const projects = [
-  { key: "plantas", link: "/portfolio/plantas", icon: "🌱" },
+  { key: "artemis", link: "/portfolio/artemis", icon: "🏹", hasHighlight: true },
+  { key: "chatminusis", link: "/portfolio/chatminusis", icon: "🔐", hasHighlight: true },
+  { key: "engscan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
+  { key: "edgenode", link: "/portfolio/edge-node", icon: "📷" },
   { key: "hefesto", link: "/portfolio/hefesto", icon: "🔨", hasHighlight: true },
   { key: "maestro", link: "/portfolio/maestro", icon: "🎼" },
-  { key: "engscan", link: "/portfolio/engscan", icon: "⚒️", hasHighlight: true },
   { key: "tyto", link: "/portfolio/tyto", icon: "🏰", hasHighlight: true },
+  { key: "plantas", link: "/portfolio/plantas", icon: "🌱" },
   { key: "atenas", link: "/atenas", icon: "📚" },
   { key: "agora", link: "/portfolio/agora", icon: "🛍️" },
+  { key: "twin", link: "/portfolio/digital-twin", icon: "🪞", hasHighlight: true },
 ];
+
+const achievementKeys = ["home.achievements.item1", "home.achievements.item2", "home.achievements.item3", "home.achievements.item4"];
 
 const skillKeys = ["home.skills.item2", "home.skills.item3", "home.skills.item4", "home.skills.item5"];
 
@@ -105,8 +112,32 @@ export default function HomePage() {
             </h1>
             <div className="mx-auto mt-4 max-w-xl border-y border-brand-950/40 py-2">
               <p className="text-xs font-medium uppercase tracking-[0.25em] text-brand-300/60">
-                Software Engineer • AI Researcher • Systems Builder
+                {t("home.tagline")}
               </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <a
+                href="/contato/"
+                className="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-950/40 transition-colors hover:bg-brand-500"
+              >
+                {t("home.cta.contact")}
+              </a>
+              <a
+                href="https://www.linkedin.com/in/dayvid-santana-jr/"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg border border-brand-500/40 px-5 py-2.5 text-sm font-medium text-brand-200 transition-colors hover:bg-brand-950/30"
+              >
+                {t("home.cta.linkedin")}
+              </a>
+              <a
+                href="https://github.com/Dayvid-San"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg border border-brand-500/40 px-5 py-2.5 text-sm font-medium text-brand-200 transition-colors hover:bg-brand-950/30"
+              >
+                {t("home.cta.github")}
+              </a>
             </div>
           </header>
 
@@ -135,6 +166,35 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* Conquistas */}
+          <Reveal>
+          <section className="grid gap-6 overflow-hidden rounded-2xl border border-brand-950/30 bg-zinc-950/40 md:grid-cols-5">
+            <div className="relative aspect-[4/5] md:col-span-2 md:aspect-auto md:min-h-[320px]">
+              <Image
+                src="/conquistas/vitrine-startups.jpg"
+                alt={t("home.achievements.photoAlt")}
+                fill
+                sizes="(min-width: 768px) 40vw, 100vw"
+                style={{ objectFit: "cover", objectPosition: "center 30%" }}
+              />
+            </div>
+            <div className="flex flex-col justify-center space-y-4 p-6 sm:p-8 md:col-span-3">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.achievements.eyebrow")}</span>
+                <h2 className="text-2xl font-bold text-brand-300">{t("home.achievements.heading")}</h2>
+              </div>
+              <ul className="space-y-3">
+                {achievementKeys.map((key) => (
+                  <li key={key} className="flex gap-3 text-sm leading-relaxed text-[#d1c5b6]">
+                    <span aria-hidden className="mt-0.5 text-brand-400">🏆</span>
+                    <span>{t(key)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+          </Reveal>
+
           {/* Projetos */}
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-950/30 pb-4">
@@ -154,7 +214,7 @@ export default function HomePage() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="space-y-2">
                           <span className="text-[9px] font-mono uppercase tracking-wider text-brand-500">{t("home.projects.label")}</span>
-                          <h3 className="text-base font-bold text-brand-fg group-hover:text-brand-300 transition-colors">
+                          <h3 className="text-base font-bold text-[#f3eade] group-hover:text-brand-300 transition-colors">
                             {t(`home.projects.${project.key}.title`)}
                           </h3>
                         </div>
@@ -178,6 +238,8 @@ export default function HomePage() {
               ))}
             </div>
           </section>
+
+          <RecentPosts />
 
           {/* Conhecimentos / Skills */}
           <Reveal>
@@ -232,13 +294,13 @@ export default function HomePage() {
               {t("home.footer.quip")}
             </p>
             <div className="flex flex-wrap gap-2">
-              <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
+              <a href="https://www.linkedin.com/in/dayvid-santana-jr/" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
                 LinkedIn
               </a>
-              <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
+              <a href="https://github.com/Dayvid-San" target="_blank" rel="noreferrer" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
                 GitHub
               </a>
-              <a href="mailto:santana.dayvid@outlook.com" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-brand-fg">
+              <a href="mailto:santana.dayvid@outlook.com" className="px-3 py-1.5 border border-brand-950/30 rounded-md hover:border-brand-600/50 hover:bg-brand-950/10 transition-all text-[#c4b8aa] hover:text-[#f3eade]">
                 Email
               </a>
             </div>

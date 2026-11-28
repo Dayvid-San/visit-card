@@ -81,7 +81,7 @@ export default function TytoClub() {
       <ProjectHeroImage
         slug="tyto"
         fallbackSrc={projectData.heroImage}
-        alt={`Capa do ${t("tyto.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("tyto.title")}`}
       />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
