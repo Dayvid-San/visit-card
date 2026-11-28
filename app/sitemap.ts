@@ -21,6 +21,7 @@ const routes: { path: string; priority: number }[] = [
   { path: "portfolio/engscan", priority: 0.7 },
   { path: "portfolio/edge-node", priority: 0.7 },
   { path: "portfolio/agora", priority: 0.5 },
+  { path: "portfolio/digital-twin", priority: 0.6 },
   { path: "portfolio/hefesto", priority: 0.6 },
   { path: "portfolio/maestro", priority: 0.6 },
   { path: "portfolio/plantas", priority: 0.6 },

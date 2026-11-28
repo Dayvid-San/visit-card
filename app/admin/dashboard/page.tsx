@@ -1039,6 +1039,7 @@ const PROJECT_PAGE_SLUGS: { slug: string; label: string }[] = [
   { slug: "hefesto", label: "Hefesto" },
   { slug: "maestro", label: "Maestro" },
   { slug: "plantas", label: "Monitor de Plantas" },
+  { slug: "digital-twin", label: "Gêmeo Digital" },
 ];
 
 function ProjectPageImageEditor({ slug, label }: { slug: string; label: string }) {
