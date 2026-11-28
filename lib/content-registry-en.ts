@@ -1,5 +1,7 @@
 // English defaults for every key in CONTENT_KEYS, used by t(key) when the locale is "en" and the
 // backend has no real English override. __tests__/content-registry.test.ts keeps both files in sync.
+import { CASE_KEYS } from "./content-registry-cases";
+
 export const DEFAULT_EN: Record<string, string> = {
   // Header
   "header.nav.home": "Home",
@@ -57,8 +59,8 @@ My experience moves between research and development, turning complex problems i
   "home.projects.hefesto.highlight": "🎙️ CHAT + VOICE + AGENTS",
   "home.projects.maestro.description":
     "Local orchestrator of 26 AI agents that plan, implement and test code in isolated Git worktrees, with its own CLI and API.",
-  "home.projects.engscan.description": "A solution that cuts the time of surveys and inspections from months to a few hours.",
-  "home.projects.engscan.highlight": "🏆 1ST PLACE IN COMPETITIONS",
+  "home.projects.engscan.description": "A platform that analyzes building inspection images with two-stage AI (YOLO + ResNet) and generates the report automatically.",
+  "home.projects.engscan.highlight": "🏆 1ST PLACE IN A STATE STARTUP COMPETITION",
   "home.projects.tyto.description":
     "International computing and science community. We study, test and build science-based products used in several countries.",
   "home.projects.tyto.highlight": "🏆 RECOGNIZED BY UNIVERSITIES",
@@ -539,7 +541,7 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "engscan.labels.techStack": "Tech Stack",
   "engscan.overview.heading": "Overview",
   "engscan.overview.body":
-    "EngScan is a microservices-based solution for image analysis and automatic report generation. An Angular interface, APIs and business logic in NestJS, a Python library for composing reports and machine learning models (a neural network and a CNN) that perform automated diagnosis from the data and images.",
+    "EngScan is a platform for building inspections: the engineer uploads the survey images and gets an automatically generated report back. The AI works in two stages, first detecting regions with possible pathologies (YOLO) and then classifying each one (ResNet). The interface is built in Angular, the APIs and business rules in NestJS, and the heavy processing (AI and PDF generation) runs on Python workers. The project won 1st place in a state startup competition.",
   "engscan.challenges.heading": "The Challenge",
   "engscan.challenges.item1": "Processing high-resolution images caused bottlenecks in the main API.",
   "engscan.challenges.item2": "The Python (ML) environment needed to be isolated from the application's Node.js core.",
@@ -551,7 +553,6 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "engscan.architecture.heading": "System Architecture",
   "engscan.architecture.body":
     "The system uses a decoupled approach. The Angular frontend communicates with a NestJS API Gateway. Heavy processes (AI and PDF generation) are delegated to queues (RabbitMQ) and consumed by specialized Python workers.",
-  "engscan.architecture.placeholder": "[Microservices Architecture Diagram: Angular → NestJS Gateway → RabbitMQ → Python Workers]",
   "engscan.links.demo": "Open Online Demo",
   "engscan.links.github": "Learn More",
 
@@ -636,4 +637,6 @@ Since then, I have kept a problem-driven approach to engineering: identify a nee
   "portfolio.filter.all": "All",
   "portfolio.filter.allCategories": "All categories",
   "portfolio.filter.empty": "No project matches this filter.",
+
+  ...Object.fromEntries(CASE_KEYS.map(({ key, en }) => [key, en])),
 };

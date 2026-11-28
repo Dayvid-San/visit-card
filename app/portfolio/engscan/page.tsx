@@ -12,7 +12,7 @@ import { ProjectHeroImage } from "@/components/project-hero-image"
 // Dados do Projeto (EngScan) - Isso viria de um banco de dados ou CMS em produção
 const projectData = {
   heroImage: "/Captura de tela_2025-08-26_12-17-41.png", // Sua imagem existente
-  tags: ["Nest.js", "Angular", "Python", "TensorFlow", "Tailwind", "PostgreSQL", "RabbitMQ", "Docker"],
+  tags: ["Nest.js", "Angular", "Python", "TensorFlow", "YOLO", "ResNet", "Tailwind", "PostgreSQL", "RabbitMQ", "Docker"],
   links: {
     demo: "https://engscan.com",
     github: "https://github.com/EngScan",
@@ -54,7 +54,7 @@ export default function EngScan() {
       <ProjectHeroImage
         slug="engscan"
         fallbackSrc={projectData.heroImage}
-        alt={`Capa do projeto ${t("engscan.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("engscan.title")}`}
       />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
@@ -113,13 +113,25 @@ export default function EngScan() {
               {t("engscan.architecture.body")}
             </p>
 
-            {/* Placeholder para Diagrama de Arquitetura */}
             <Card className="overflow-hidden border-dashed bg-slate-50 dark:bg-slate-950/50">
-              <CardContent className="flex aspect-[16/9] flex-col items-center justify-center p-6 text-center text-muted-foreground">
-                <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
-                   <span className="text-sm italic">
-                    {t("engscan.architecture.placeholder")}
-                   </span>
+              <CardContent className="p-8">
+                <div className="w-full space-y-4 text-left font-mono text-xs">
+                  <div className="rounded border bg-background p-3">
+                    <span className="font-bold text-blue-500">[Angular]</span> {t("engscan.diagram.front")}
+                  </div>
+                  <div className="text-center text-muted-foreground">{t("engscan.diagram.arrow1")}</div>
+                  <div className="rounded border bg-background p-3">
+                    <span className="font-bold text-purple-500">[NestJS API Gateway]</span> {t("engscan.diagram.gateway")}
+                  </div>
+                  <div className="text-center text-muted-foreground">{t("engscan.diagram.arrow2")}</div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded border bg-background p-3">
+                      <span className="font-bold text-pink-500">[Python + GPU]</span> {t("engscan.diagram.ai")}
+                    </div>
+                    <div className="rounded border bg-background p-3">
+                      <span className="font-bold text-green-500">[Python]</span> {t("engscan.diagram.reports")}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -175,7 +187,12 @@ export default function EngScan() {
                 <span className="font-medium">{t("engscan.date")}</span>
               </div>
               <Separator />
-               <div className="flex justify-between">
+              <div className="flex justify-between gap-4">
+                <span className="text-muted-foreground">{t("engscan.labels.recognition")}</span>
+                <span className="font-medium text-right">{t("engscan.recognition")}</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("projectDetail.status")}</span>
                 <span className="font-medium text-green-600">{t("engscan.status")}</span>
               </div>
