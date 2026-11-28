@@ -90,5 +90,6 @@ jobs:
             set net:max-retries 5;
             set net:reconnect-interval-base 5;
             open --env-password -u '$FTP_USERNAME' '$FTP_SERVER';
-            mirror --reverse --no-perms --parallel=4 --verbose=1 ./out/ '$FTP_SERVER_DIR'
+            pwd; cls -1 --classify; cls -1 --classify ..; cls -1 --classify /;
+            echo diagnostico-sem-upload
           "
