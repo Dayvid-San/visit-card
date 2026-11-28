@@ -44,9 +44,9 @@ export function RecentPosts() {
 
   return (
     <section className="space-y-6">
-      <div className="border-b border-purple-950/30 pb-4">
-        <span className="text-[10px] uppercase tracking-widest text-purple-400/60 font-mono">{t("home.posts.eyebrow")}</span>
-        <h2 className="text-2xl font-bold text-purple-300">{t("home.posts.heading")}</h2>
+      <div className="border-b border-brand-950/30 pb-4">
+        <span className="text-[10px] uppercase tracking-widest text-brand-400/60 font-mono">{t("home.posts.eyebrow")}</span>
+        <h2 className="text-2xl font-bold text-brand-300">{t("home.posts.heading")}</h2>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {posts.map((post) => {
@@ -57,12 +57,12 @@ export function RecentPosts() {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col justify-between gap-4 rounded-xl border border-purple-950/20 bg-zinc-950/40 p-5 transition-all hover:-translate-y-1 hover:border-purple-600/40 hover:bg-zinc-900/60"
+              className="group flex flex-col justify-between gap-4 rounded-xl border border-brand-950/20 bg-zinc-950/40 p-5 transition-all hover:-translate-y-1 hover:border-brand-600/40 hover:bg-zinc-900/60"
             >
               <p className="text-sm leading-relaxed text-[#d1c5b6] font-light whitespace-pre-line line-clamp-6">{post.text}</p>
-              <div className="flex items-center justify-between text-[11px] font-mono text-purple-400/70">
+              <div className="flex items-center justify-between text-[11px] font-mono text-brand-400/70">
                 <span>{formatDate(post.postedAt)}</span>
-                <span className="group-hover:text-purple-300">
+                <span className="group-hover:text-brand-300">
                   {platform === "x" ? t("home.posts.viewOnX") : t("home.posts.viewOnLinkedin")} →
                 </span>
               </div>

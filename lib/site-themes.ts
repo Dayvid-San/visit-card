@@ -28,7 +28,7 @@ export const SITE_THEMES: Record<SiteThemeId, SiteThemeDef> = {
   santana: {
     id: "santana",
     label: "Santana",
-    description: "Azul-noite e osso, o grifo do brasão como marca e a porta como transição.",
+    description: "O mesmo visual do Arcano em azul e branco, com o grifo do brasão como marca e a porta como transição.",
     transition: "door",
   },
 }

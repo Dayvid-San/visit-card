@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <div className="container px-4 py-24">
       <div className="mx-auto max-w-xl text-center">
-        <p className="select-none text-7xl font-extrabold tracking-tight text-purple-300/25 sm:text-8xl">
+        <p className="select-none text-7xl font-extrabold tracking-tight text-brand-300/25 sm:text-8xl">
           404
         </p>
         <h1 className="mb-4 mt-6 text-3xl font-bold tracking-tight text-balance md:text-4xl">{t("notFound.title")}</h1>

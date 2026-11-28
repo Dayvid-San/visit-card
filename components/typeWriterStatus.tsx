@@ -112,11 +112,11 @@ export const TypewriterStatus: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="mt-6 border border-purple-950/50 rounded-xl bg-black/40 p-3 font-mono text-[11px] text-purple-400/80 space-y-1"
+      className="mt-6 border border-brand-950/50 rounded-xl bg-black/40 p-3 font-mono text-[11px] text-brand-400/80 space-y-1"
     >
-      <div className="flex justify-between border-b border-purple-950/30 pb-1">
+      <div className="flex justify-between border-b border-brand-950/30 pb-1">
         <span>{t("home.status.title")}</span>
-        <span className="text-purple-500">{t("home.status.version")}</span>
+        <span className="text-brand-500">{t("home.status.version")}</span>
       </div>
 
       <div className="pt-1 text-[#a69a8a] space-y-0.5 min-h-[80px]">
@@ -134,7 +134,7 @@ export const TypewriterStatus: React.FC = () => {
         {currentLineIndex < statusItems.length && hasStarted && (
           <p key={statusItems[currentLineIndex].id}>
             {currentLineText}
-            <span className="inline-block w-1.5 h-3 ml-0.5 bg-purple-400 animate-pulse align-middle" />
+            <span className="inline-block w-1.5 h-3 ml-0.5 bg-brand-400 animate-pulse align-middle" />
           </p>
         )}
       </div>
