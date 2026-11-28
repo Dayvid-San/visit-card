@@ -95,6 +95,7 @@ interface ImageFieldState {
 
 export default function AdminDashboard() {
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [adminUser, setAdminUser] = useState<{ email: string | null; uid: string } | null>(null);
   const [projectCategory, setProjectCategory] = useState<ProjectCategory>("programmer");
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [statusMessage, setStatusMessage] = useState("");
@@ -136,6 +137,7 @@ export default function AdminDashboard() {
         router.push("/admin");
         return;
       }
+      setAdminUser({ email: user.email, uid: user.uid });
       setCheckingAuth(false);
     });
     return () => unsubscribe();
@@ -502,6 +504,12 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <Button variant="outline" onClick={handleLogout}>Logout</Button>
       </div>
+      {adminUser && (
+        <p className="-mt-6 mb-8 text-xs text-muted-foreground">
+          Logado como {adminUser.email ?? "(sem e-mail)"} · UID:{" "}
+          <code className="select-all rounded bg-muted px-1 py-0.5">{adminUser.uid}</code>
+        </p>
+      )}
 
       <Card className="mb-8">
         <CardHeader>
