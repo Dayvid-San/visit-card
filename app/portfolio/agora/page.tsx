@@ -62,7 +62,7 @@ export default function Agora() {
       <ProjectHeroImage
         slug="agora"
         fallbackSrc="/placeholder.svg"
-        alt={`Capa do projeto ${t("agora.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("agora.title")}`}
       />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">

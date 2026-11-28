@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, ExternalLink, Github, Cpu, CheckCircle2, UserPlus } from "lucide-react"
+import { ArrowLeft, ExternalLink, Cpu, CheckCircle2, UserPlus } from "lucide-react"
 import { useContent } from "@/components/content-provider"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 
@@ -14,7 +14,6 @@ const projectData = {
   tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Zod", "React Hook Form"],
   links: {
     demo: "https://formulario-flugo.vercel.app",
-    github: "https://github.com/Dayvid-San/Formulario-Flugo",
   },
   challengeKeys: ["flugo.challenges.item1", "flugo.challenges.item2", "flugo.challenges.item3"],
   solutionKeys: ["flugo.solutions.item1", "flugo.solutions.item2", "flugo.solutions.item3"],
@@ -53,7 +52,7 @@ export default function FlugoProject() {
       <ProjectHeroImage
         slug="flugo"
         fallbackSrc={projectData.heroImage}
-        alt={`Interface do projeto ${t("flugo.title")}`}
+        alt={`${t("projectDetail.coverAlt")} ${t("flugo.title")}`}
       />
 
       <div className="grid gap-12 md:grid-cols-[1fr_300px] lg:gap-16">
@@ -133,14 +132,6 @@ export default function FlugoProject() {
                 <a href={projectData.links.demo} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="mr-2 h-4 w-4" />
                   {t("flugo.links.demo")}
-                </a>
-              </Button>
-            )}
-            {projectData.links.github && (
-              <Button variant="outline" size="lg" className="w-full" asChild>
-                <a href={projectData.links.github} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" />
-                  {t("flugo.links.github")}
                 </a>
               </Button>
             )}
