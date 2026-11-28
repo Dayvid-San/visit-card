@@ -84,8 +84,8 @@
    that already consumes --primary/--border/etc (buttons, cards, inputs,
    badges...) re-skins automatically. Placed after .dark so they win when
    both match <html> (it always carries the "dark" class). Pages with
-   hardcoded purple-* accents (Home headings, 404, Atenas, project detail
-   pages) are a separate, smaller v1 scope and keep their purple either way. */
+   hardcoded purple-* accents use the brand-* scale below instead, so they
+   follow the theme too (diagram tag colors in project pages stay categorical). */
 [data-site-theme="arcano"] {
   --primary: oklch(0.62 0.22 303);
   --primary-foreground: oklch(0.985 0 0);
@@ -116,26 +116,16 @@
   --ring: oklch(0.8 0 0);
 }
 
-/* Santana: the personal identity (brasão with the griffin). Navy and bone
-   taken from the crest artwork in public/identidade/. */
+/* Santana: same mold as Arcano (neutral dark surfaces from .dark), only the
+   accent hue moves from purple to the blue of the brasão. */
 [data-site-theme="santana"] {
-  --background: oklch(0.15 0.035 255);
-  --foreground: oklch(0.89 0.02 85);
-  --card: oklch(0.19 0.04 255);
-  --card-foreground: oklch(0.89 0.02 85);
-  --popover: oklch(0.19 0.04 255);
-  --popover-foreground: oklch(0.89 0.02 85);
-  --primary: oklch(0.89 0.02 85);
-  --primary-foreground: oklch(0.15 0.035 255);
-  --secondary: oklch(0.25 0.045 255);
-  --secondary-foreground: oklch(0.89 0.02 85);
-  --muted: oklch(0.22 0.04 255);
-  --muted-foreground: oklch(0.7 0.03 255);
-  --accent: oklch(0.27 0.05 255);
-  --accent-foreground: oklch(0.89 0.02 85);
-  --border: oklch(0.89 0.02 85 / 16%);
-  --input: oklch(0.89 0.02 85 / 16%);
-  --ring: oklch(0.89 0.02 85 / 60%);
+  --primary: oklch(0.62 0.2 259);
+  --primary-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.32 0.09 259);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(0.32 0.07 259);
+  --input: oklch(0.32 0.07 259);
+  --ring: oklch(0.62 0.2 259);
 }
 
 /* Subtle dot-grid texture, site-wide, for the Halftone theme — the
@@ -163,10 +153,11 @@
   --brand-bg: #000000; --brand-fg: #f3eade; --brand-card: oklch(0.21 0 0);
 }
 [data-site-theme="santana"] {
-  --brand-200: oklch(0.94 0.015 85); --brand-300: oklch(0.89 0.02 85); --brand-400: oklch(0.78 0.03 85); --brand-500: oklch(0.7 0.05 255);
-  --brand-600: oklch(0.55 0.08 255); --brand-700: oklch(0.42 0.08 255); --brand-900: oklch(0.3 0.06 255);
-  --brand-950: oklch(0.25 0.05 255);
-  --brand-bg: oklch(0.15 0.035 255); --brand-fg: oklch(0.92 0.02 85); --brand-card: oklch(0.2 0.04 255);
+  --brand-200: oklch(0.96 0.02 250); --brand-300: oklch(0.88 0.06 250); --brand-400: oklch(0.707 0.165 254.6);
+  --brand-500: oklch(0.623 0.214 259.8); --brand-600: oklch(0.546 0.245 262.9);
+  --brand-700: oklch(0.488 0.243 264.4); --brand-900: oklch(0.379 0.146 265.5);
+  --brand-950: oklch(0.282 0.091 267.9);
+  --brand-bg: #000000; --brand-fg: #f3f6fb; --brand-card: oklch(0.21 0.006 260);
 }
 
 @theme inline {

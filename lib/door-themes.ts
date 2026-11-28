@@ -13,7 +13,7 @@ const THEMES: Record<string, DoorTheme> = {
   programador: { id: "programador", wash: "from-blue-600/25 via-blue-500/5 to-transparent", emblem: "🛡️" },
   empreendedor: { id: "empreendedor", wash: "from-amber-500/25 via-amber-500/5 to-transparent", emblem: "🏰" },
   universitario: { id: "universitario", wash: "from-emerald-500/25 via-emerald-500/5 to-transparent", emblem: "📚" },
-  portfolio: { id: "portfolio", wash: "from-purple-600/25 via-purple-500/5 to-transparent", emblem: "⚔️" },
+  portfolio: { id: "portfolio", wash: "from-brand-600/25 via-brand-500/5 to-transparent", emblem: "⚔️" },
   contato: { id: "contato", wash: "from-sky-500/25 via-sky-500/5 to-transparent", emblem: "✉️" },
   atenas: { id: "atenas", wash: "from-violet-500/25 via-violet-500/5 to-transparent", emblem: "🦉" },
   admin: { id: "admin", wash: "from-yellow-500/25 via-yellow-500/5 to-transparent", emblem: "👑" },

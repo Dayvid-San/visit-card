@@ -93,11 +93,11 @@ export default function Hefesto() {
             </div>
           </div>
           <div className="flex justify-end">
-            <div className="max-w-lg space-y-2 rounded-2xl rounded-tr-sm border border-purple-900/40 bg-purple-950/40 px-4 py-3 text-sm text-zinc-100">
+            <div className="max-w-lg space-y-2 rounded-2xl rounded-tr-sm border border-brand-900/40 bg-brand-950/40 px-4 py-3 text-sm text-zinc-100">
               <p>
                 {t("hefesto.chatDemo.answer")}
               </p>
-              <div className="flex w-fit items-center gap-1.5 rounded-md border border-purple-500/20 bg-purple-500/10 px-2 py-1 font-mono text-[11px] text-purple-300">
+              <div className="flex w-fit items-center gap-1.5 rounded-md border border-brand-500/20 bg-brand-500/10 px-2 py-1 font-mono text-[11px] text-brand-300">
                 <Quote className="h-3 w-3" />
                 src/devmate/api/chat.py:118-142 · commit 4a7c9e1
               </div>
