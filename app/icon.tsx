@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 // Required by output: 'export' (static export) for this route to build.
 export const dynamic = "force-static";
@@ -6,31 +8,14 @@ export const dynamic = "force-static";
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-// Favicon built from the same shape as components/dayvid-logo.tsx (that
-// component uses currentColor so it can sit on any page background; a
-// favicon has no such background, so it gets its own dark square here).
-export default function Icon() {
+// Favicon: the griffin from public/identidade/grifo.png (the personal mark).
+export default async function Icon() {
+  const grifo = await readFile(join(process.cwd(), "public", "identidade", "grifo.png"));
+  const src = `data:image/png;base64,${grifo.toString("base64")}`;
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0a0a0a",
-          borderRadius: 6,
-        }}
-      >
-        <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
-          <path
-            d="M30 30 L30 70 L50 70 C60 70 70 60 70 50 C70 40 60 30 50 30 Z"
-            fill="#ffffff"
-          />
-          <circle cx="55" cy="50" r="8" fill="#ffffff" opacity="0.35" />
-        </svg>
-      </div>
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} width={32} height={32} alt="" style={{ borderRadius: 6 }} />
     ),
     { ...size }
   );

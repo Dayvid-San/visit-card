@@ -1,4 +1,14 @@
+"use client"
+
+import { useSiteTheme } from "@/components/site-theme-provider"
+
 export function DayvidLogo({ className }: { className?: string }) {
+  const { themeId } = useSiteTheme()
+
+  if (themeId === "santana") {
+    return <img src="/identidade/grifo.png" alt="" aria-hidden="true" className={`${className ?? ""} rounded-md object-cover`} />
+  }
+
   return (
     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
       <rect width="100" height="100" rx="20" fill="currentColor" opacity="0.1" />

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { useAudio } from "@/components/audio-provider"
 import { useDoorTransition } from "@/components/door-transition-provider"
 import { DayvidLogo } from "@/components/dayvid-logo"
+import { useSiteTheme } from "@/components/site-theme-provider"
 import { useContent } from "@/components/content-provider"
 
 const navLinks = [
@@ -32,6 +33,7 @@ export function Header() {
   const { isMuted, toggleMute } = useAudio()
   const { navigateWithDoor, isTransitioning } = useDoorTransition()
   const { locale, setLocale, t } = useContent()
+  const { themeId } = useSiteTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -62,7 +64,7 @@ export function Header() {
           aria-label="Dayvid Home"
         >
           <DayvidLogo className="h-8 w-8" />
-          <span className="text-lg font-bold">Dayvid</span>
+          <span className="text-lg font-bold">{themeId === "santana" ? "Dayvid Santana" : "Dayvid"}</span>
         </Link>
 
         {/* Desktop Navigation */}
